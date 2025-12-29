@@ -1,0 +1,81 @@
+.main-bg {
+    -fx-background-color: #1a1610;
+}
+
+.main-title {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 70;
+    -fx-fill: white;
+}
+
+.sub-header {
+    -fx-text-fill: #888888;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 2;
+}
+
+.menu-card {
+    -fx-background-color: #261f16;
+    -fx-background-radius: 40;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 20, 0, 0, 10);
+}
+
+
+.primary-button {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 18;
+    -fx-text-fill: #333333;
+    -fx-cursor: hand;
+    
+  
+    -fx-background-color: #c78b1d, #f3ae30;
+    
+   
+    -fx-background-insets: 0, 0 0 5 0;
+    
+    -fx-background-radius: 25;
+    -fx-padding: 15 30 20 30; 
+}
+
+.primary-button:hover {
+    -fx-background-color: #c78b1d, #ffc24b;
+    -fx-translate-y: -2;
+}
+
+.primary-button:pressed {
+    -fx-translate-y: 0;
+    -fx-background-insets: 0, 4 0 1 0;
+    -fx-padding: 19 30 16 30; 
+}
+
+.icon-button {
+    -fx-background-color: #332a1e;
+    -fx-background-radius: 50;
+    -fx-min-width: 50;
+    -fx-min-height: 50;
+    -fx-text-fill: #888888;
+    -fx-font-size: 20;
+    -fx-cursor: hand;
+}
+
+.icon-button:hover {
+    -fx-background-color: #443a2e;
+    -fx-text-fill: white;
+}
+
+.icon-label {
+    -fx-text-fill: #777777;
+    -fx-font-size: 10;
+    -fx-font-weight: bold;
+}
+
+.bg-decor-x, .bg-decor-o {
+    -fx-font-size: 150;
+    -fx-text-fill: rgba(255, 255, 255, 0.03);
+    -fx-font-weight: bold;
+}
+
+.version-text {
+    -fx-text-fill: #444444;
+    -fx-font-size: 12;
+}

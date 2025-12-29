@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane fx:id="mainRoot" prefHeight="600.0" prefWidth="800.0" styleClass="main-bg" stylesheets="@menu-style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.xtremeo.client.controller.MainMenuController">
+   <children>
+      <Label styleClass="bg-decor-x" text="X" StackPane.alignment="TOP_LEFT">
+         <StackPane.margin><Insets left="20.0" top="20.0" /></StackPane.margin>
+      </Label>
+      <Label styleClass="bg-decor-o" text="O" StackPane.alignment="BOTTOM_RIGHT">
+         <StackPane.margin><Insets bottom="20.0" right="20.0" /></StackPane.margin>
+      </Label>
+
+      <VBox alignment="CENTER" spacing="40.0">
+         <children>
+            <VBox alignment="CENTER">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-title" text="XtremO" />
+                  <Label styleClass="sub-header" text="READY FOR A CHALLENGE?" />
+               </children>
+            </VBox>
+
+            <VBox alignment="TOP_CENTER" maxHeight="350.0" maxWidth="380.0" spacing="20.0" styleClass="menu-card">
+               <padding>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="40.0" />
+               </padding>
+               <children>
+                  <Button fx:id="btnCpu" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlayCPU" styleClass="primary-button" text="PLAY VS CPU" />
+                  <Button fx:id="btnPlayeWithFreind" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlayWithFreind" styleClass="primary-button" text="Play With Freind" />
+                  <Button fx:id="btnMultiplayer" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleMultiplayer" styleClass="primary-button" text="MULTIPLAYER" />
+
+                  <Region VBox.vgrow="ALWAYS" />
+                  
+                  <HBox alignment="CENTER" spacing="40.0">
+                     <children>
+                        <VBox alignment="CENTER" spacing="5.0" styleClass="icon-btn-container">
+                           <children>
+                              <Button mnemonicParsing="false" styleClass="icon-button" text="↺" />
+                              <Label styleClass="icon-label" text="HISTORY" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="5.0" styleClass="icon-btn-container">
+                           <children>
+                              <Button mnemonicParsing="false" styleClass="icon-button" text="⚙" />
+                              <Label styleClass="icon-label" text="SETTINGS" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="5.0" styleClass="icon-btn-container">
+                           <children>
+                              <Button mnemonicParsing="false" styleClass="icon-button" text="?" />
+                              <Label styleClass="icon-label" text="HELP" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            
+            <Label styleClass="version-text" text="v1.0" />
+         </children>
+      </VBox>
+   </children>
+</StackPane>
