@@ -1,8 +1,7 @@
 .main-background {
-    -fx-background-color: #1a1610; /* Dark brownish-black */
+    -fx-background-color: #1a1610;
 }
 
-/* Icon Styling */
 .icon-container {
     -fx-background-color: rgba(255, 255, 255, 0.05);
     -fx-background-radius: 30;
@@ -30,7 +29,6 @@
     -fx-fill: #cccccc;
 }
 
-/* Text Styling */
 .title-white {
     -fx-font-size: 48;
     -fx-font-family: "Arial Black";
@@ -47,24 +45,20 @@
     -fx-letter-spacing: 2;
 }
 
-/* Progress Bar Container */
 .progress-bar {
     -fx-background-color: transparent;
     -fx-padding: 0;
 }
 
-/* The Background Track */
 .progress-bar > .track {
-    -fx-background-color: #3d3428; /* Dark brown/grey track */
+    -fx-background-color: #3d3428; 
     -fx-background-insets: 0;
     -fx-background-radius: 2;
 }
 
-/* The Filling Bar - This is what turns yellow */
 .progress-bar > .bar {
-    -fx-background-color: #ffcc00; /* Your yellow/gold color */
+    -fx-background-color: #ffcc00; 
     -fx-background-insets: 0;
     -fx-background-radius: 2;
-    /* This removes the "striped" or "glassy" effect of the default theme */
     -fx-background-image: null; 
 }

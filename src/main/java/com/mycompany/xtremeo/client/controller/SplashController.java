@@ -1,5 +1,6 @@
 package com.mycompany.xtremeo.client.controller;
 
+import com.mycompany.xtremeo.client.app.Navigator;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -48,5 +49,6 @@ public class SplashController {
     private void loadMainGame() {
         System.out.println("Loading Main Game...");
         // Switch to Main screen
+        Navigator.setRoot("main-menu.fxml");
     }
 }
