@@ -24,10 +24,17 @@ public class Navigator {
 
     public static void setRoot(String fxml) {
         try {
+            String fxmlPath = "/com/mycompany/xtremeo/client/view/" + fxml;
+            String cssFile = fxml.replace(".fxml", ".css");
+            String cssPath = "/com/mycompany/xtremeo/client/view/styles/" + cssFile;
             Parent root = FXMLLoader.load(
-                Navigator.class.getResource("/com/mycompany/xtremeo/client/view/" + fxml)
+                Navigator.class.getResource(fxmlPath)
             );
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(
+                Navigator.class.getResource(cssPath).toExternalForm()
+            );
+            stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
         }
