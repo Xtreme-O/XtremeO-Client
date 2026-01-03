@@ -5,6 +5,8 @@
 package com.mycompany.xtremeo.client.app;
 
 import java.io.IOException;
+import java.util.Objects;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,10 +33,14 @@ public class Navigator {
                 Navigator.class.getResource(fxmlPath)
             );
             Scene scene = new Scene(root);
+            stage.setWidth(1200);// by mona
+            stage.setHeight(800);// by mona
+            stage.setResizable(true);//by mona
             scene.getStylesheets().add(
                 Navigator.class.getResource(cssPath).toExternalForm()
             );
             stage.setScene(scene);
+            stage.centerOnScreen();
         } catch (Exception e) {
             e.printStackTrace();
         }
