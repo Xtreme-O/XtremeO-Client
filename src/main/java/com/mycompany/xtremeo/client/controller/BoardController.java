@@ -3,6 +3,7 @@ package com.mycompany.xtremeo.client.controller;
 import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.model.GameMode;
 import com.mycompany.xtremeo.client.model.viewmodel.GameViewModel;
+import com.mycompany.xtremeo.client.util.Screen;
 import com.mycompany.xtremeo.client.util.UIUtils;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
@@ -98,7 +99,7 @@ public class BoardController {
 
     @FXML
     void handleBack(ActionEvent event) {
-        Navigator.setRoot("main-menu.fxml");
+        Navigator.setRoot(Screen.MAIN.getName());
     }
 
     @FXML

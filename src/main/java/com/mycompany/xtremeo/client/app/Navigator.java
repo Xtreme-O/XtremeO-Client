@@ -22,11 +22,11 @@ public class Navigator {
         stage = primaryStage;
     }
 
-    public static void setRoot(String fxml) {
+    public static void setRoot(String screen) {
         try {
-            String fxmlPath = "/com/mycompany/xtremeo/client/view/" + fxml;
-            String cssFile = fxml.replace(".fxml", ".css");
-            String cssPath = "/com/mycompany/xtremeo/client/view/styles/" + cssFile;
+            String basePath = "/com/mycompany/xtremeo/client/view/";
+            String fxmlPath = basePath + screen + ".fxml";
+            String cssPath = basePath + "styles/" + screen +".css";
             Parent root = FXMLLoader.load(
                 Navigator.class.getResource(fxmlPath)
             );

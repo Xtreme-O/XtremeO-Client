@@ -8,6 +8,8 @@ import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.model.GameMode;
 import com.mycompany.xtremeo.client.ui.dialog.DifficultyDialog;
+import com.mycompany.xtremeo.client.util.Screen;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -38,7 +40,7 @@ public class MainMenuController {
             System.out.println("Starting Single Player with " + difficulty + " difficulty...");
             selectedDifficulty = difficulty;
             BoardController.selectedMode = GameMode.WITH_CPU;
-            Navigator.setRoot("board.fxml");
+            Navigator.setRoot(Screen.BOARD.getName());
         });
     }
 
@@ -46,7 +48,7 @@ public class MainMenuController {
     void handlePlayWithFreind(ActionEvent event) {
         System.out.println("Starting Play With Freind...");
         BoardController.selectedMode = GameMode.WITH_FRIEND;
-        Navigator.setRoot("board.fxml");
+        Navigator.setRoot(Screen.BOARD.getName());
     }
     
     
