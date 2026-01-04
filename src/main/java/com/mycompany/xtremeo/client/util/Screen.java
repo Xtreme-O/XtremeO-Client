@@ -10,7 +10,8 @@ package com.mycompany.xtremeo.client.util;
  */
 public enum Screen {
     SPLASH("splash"),
-    MAIN("main-menu");
+    MAIN("main-menu"),
+    BOARD("board");
     private final String name;
     Screen(String s){
        name = s;
