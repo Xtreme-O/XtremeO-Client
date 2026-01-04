@@ -4,8 +4,6 @@
  */
 package com.mycompany.xtremeo.client.app;
 
-import java.io.IOException;
-import java.util.Objects;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

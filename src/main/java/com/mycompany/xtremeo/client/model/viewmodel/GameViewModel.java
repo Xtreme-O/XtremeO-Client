@@ -4,10 +4,11 @@
  */
 package com.mycompany.xtremeo.client.model.viewmodel;
 
-import com.mycompany.xtremeo.client.model.logic.GameEngine;
-import com.mycompany.xtremeo.client.model.strategy.CpuOpponent;
-import com.mycompany.xtremeo.client.model.strategy.GameMode;
-import com.mycompany.xtremeo.client.model.strategy.GameOpponent;
+import com.mycompany.xtremeo.client.ai.Difficulty;
+import com.mycompany.xtremeo.client.game.GameEngine;
+import com.mycompany.xtremeo.client.game.GameOpponent;
+import com.mycompany.xtremeo.client.game.TicTacToeCpuOpponent;
+import com.mycompany.xtremeo.client.model.GameMode;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -55,12 +56,16 @@ public class GameViewModel {
         gameLog.add("New Game Started!");
     }
 
-    public  void setGameMode(GameMode mode){
-        this.isGameOver= false;
+    public void setGameMode(GameMode mode) {
+        setGameMode(mode, Difficulty.HARD);
+    }
+
+    public void setGameMode(GameMode mode, Difficulty difficulty) {
+        this.isGameOver = false;
         resetBoard();
         switch (mode) {
             case WITH_CPU:
-                this.opponent = new CpuOpponent();
+                this.opponent = new TicTacToeCpuOpponent(difficulty);
                 break;
             case MULTIPLAYER:
                 // this.opponent = new OnlineOpponent();
@@ -77,7 +82,7 @@ public class GameViewModel {
 
         String currentSymbol = isXTurn ? "X" : "O";
         board[row][col] = currentSymbol;
-        gameLog.add("Player " + currentSymbol + " placed in " + row + "," + col);
+        gameLog.add(0,"Player " + currentSymbol + " placed in " + row + "," + col);
 
         winningLine = engine.getWinningLine(board, row, col);
         if (winningLine != null) {

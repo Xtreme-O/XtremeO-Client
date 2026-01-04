@@ -4,15 +4,16 @@
  */
 package com.mycompany.xtremeo.client.controller;
 
+import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.app.Navigator;
-import com.mycompany.xtremeo.client.model.strategy.GameMode;
+import com.mycompany.xtremeo.client.model.GameMode;
+import com.mycompany.xtremeo.client.ui.dialog.DifficultyDialog;
 import com.mycompany.xtremeo.client.util.Screen;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import javafx.animation.FadeTransition;
-import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -25,21 +26,22 @@ public class MainMenuController {
     @FXML private StackPane mainRoot;
     @FXML private Button btnCpu;
     @FXML private Button btnMultiplayer;
+    
+    public static Difficulty selectedDifficulty = Difficulty.HARD;
 
     @FXML
     public void initialize() {
-        mainRoot.setOpacity(0);
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(800), mainRoot);
-        fadeIn.setFromValue(0);
-        fadeIn.setToValue(1);
-        fadeIn.play();
+        // Ready for any initialization
     }
 
     @FXML
     void handlePlayCPU(ActionEvent event) {
-        System.out.println("Starting Single Player...");
-        BoardController.selectedMode = GameMode.WITH_CPU;
-        Navigator.setRoot(Screen.BOARD.getName());
+        DifficultyDialog.show(mainRoot, difficulty -> {
+            System.out.println("Starting Single Player with " + difficulty + " difficulty...");
+            selectedDifficulty = difficulty;
+            BoardController.selectedMode = GameMode.WITH_CPU;
+            Navigator.setRoot(Screen.BOARD.getName());
+        });
     }
 
     @FXML

@@ -1,4 +1,4 @@
-package com.mycompany.xtremeo.client.model.logic;
+package com.mycompany.xtremeo.client.game;
 
 public class GameEngine {
 
@@ -30,3 +30,4 @@ public class GameEngine {
         return true;
     }
 }
+

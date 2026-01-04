@@ -1,20 +1,18 @@
 package com.mycompany.xtremeo.client.controller;
 
-import com.mycompany.xtremeo.client.model.strategy.GameMode;
+import com.mycompany.xtremeo.client.app.Navigator;
+import com.mycompany.xtremeo.client.model.GameMode;
 import com.mycompany.xtremeo.client.model.viewmodel.GameViewModel;
+import com.mycompany.xtremeo.client.util.Screen;
 import com.mycompany.xtremeo.client.util.UIUtils;
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 
 public class BoardController {
     @FXML private Label scoreX, scoreO;
@@ -24,6 +22,7 @@ public class BoardController {
     @FXML private GridPane gameGrid;
     @FXML private Button btnReset;
     @FXML private Button btnHistory;
+    @FXML private Button btnBack;
 
     private GameViewModel viewModel;
     public static GameMode selectedMode=GameMode.WITH_FRIEND;
@@ -32,7 +31,11 @@ public class BoardController {
     @FXML
     public void initialize() {
         viewModel = new GameViewModel();
-        viewModel.setGameMode(selectedMode);
+        if (selectedMode == GameMode.WITH_CPU) {
+            viewModel.setGameMode(selectedMode, MainMenuController.selectedDifficulty);
+        } else {
+            viewModel.setGameMode(selectedMode);
+        }
 
         viewModel.setOnMoveMadeListener((r, c, symbol) -> {
             Button btn = getButtonAt(r, c);
@@ -92,6 +95,11 @@ public class BoardController {
 
         viewModel.makeMove(row == null ? 0 : row, col == null ? 0 : col);
 
+    }
+
+    @FXML
+    void handleBack(ActionEvent event) {
+        Navigator.setRoot(Screen.MAIN.getName());
     }
 
     @FXML
