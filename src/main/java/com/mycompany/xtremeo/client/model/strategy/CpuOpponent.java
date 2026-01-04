@@ -3,7 +3,7 @@ package com.mycompany.xtremeo.client.model.strategy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+// دي انا بجرب بيها عادي امسحهوها
 public class CpuOpponent implements GameOpponent {
     private Random random = new Random();
 

@@ -4,6 +4,7 @@
  */
 package com.mycompany.xtremeo.client.model.viewmodel;
 
+import com.mycompany.xtremeo.client.model.logic.GameEngine;
 import com.mycompany.xtremeo.client.model.strategy.CpuOpponent;
 import com.mycompany.xtremeo.client.model.strategy.GameMode;
 import com.mycompany.xtremeo.client.model.strategy.GameOpponent;
@@ -15,7 +16,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class GameViewModel {
+
+    public interface OnMoveMadeListener {
+        void onMoveMade(int r, int c, String symbol);
+    }
+    private OnMoveMadeListener moveListener;
+
     private GameOpponent opponent;
+    private final GameEngine engine = new GameEngine();
     private String[][] board = new String[3][3];
     private boolean isXTurn = true;
     private boolean isGameOver = false;
@@ -28,6 +36,10 @@ public class GameViewModel {
     private int[][] winningLine = null;
     public GameViewModel() {
         resetBoard();
+    }
+
+    public void setOnMoveMadeListener(OnMoveMadeListener listener) {
+        this.moveListener = listener;
     }
 
     public void resetBoard() {
@@ -65,14 +77,14 @@ public class GameViewModel {
 
         String currentSymbol = isXTurn ? "X" : "O";
         board[row][col] = currentSymbol;
-
         gameLog.add("Player " + currentSymbol + " placed in " + row + "," + col);
 
-        if (checkWin(row, col)) {
+        winningLine = engine.getWinningLine(board, row, col);
+        if (winningLine != null) {
             isGameOver = true;
             statusMessage.set("Player " + currentSymbol + " Wins!");
             updateScore(currentSymbol);
-        } else if (isBoardFull()) {
+        } else if (engine.isBoardFull(board)) {
             isGameOver = true;
             statusMessage.set("It's a Draw!");
         } else {
@@ -80,42 +92,13 @@ public class GameViewModel {
             statusMessage.set("Player " + (isXTurn ? "X" : "O") + "'s Turn");
         }
 
+        if (moveListener != null) {moveListener.onMoveMade(row, col, currentSymbol);}
         if (!isGameOver && opponent != null && !isXTurn) {
             opponent.requestMove(board, (r, c) -> {
                 javafx.application.Platform.runLater(() -> makeMove(r, c));
             });
         }
-
         return currentSymbol;
-    }
-
-    private boolean checkWin(int r, int c) {
-        String s = board[r][c];
-
-        if (board[r][0].equals(s) && board[r][1].equals(s) && board[r][2].equals(s)) {
-            winningLine = new int[][]{{r, 0}, {r, 1}, {r, 2}};
-            return true;
-        }
-        if (board[0][c].equals(s) && board[1][c].equals(s) && board[2][c].equals(s)) {
-            winningLine = new int[][]{{0, c}, {1, c}, {2, c}};
-            return true;
-        }
-        if (r == c && board[0][0].equals(s) && board[1][1].equals(s) && board[2][2].equals(s)) {
-            winningLine = new int[][]{{0, 0}, {1, 1}, {2, 2}};
-            return true;
-        }
-        if (r + c == 2 && board[0][2].equals(s) && board[1][1].equals(s) && board[2][0].equals(s)) {
-            winningLine = new int[][]{{0, 2}, {1, 1}, {2, 0}};
-            return true;
-        }
-        return false;
-    }
-
-
-    private boolean isBoardFull() {
-        for (String[] row : board)
-            for (String cell : row) if (cell.isEmpty()) return false;
-        return true;
     }
 
     private void updateScore(String winner) {
@@ -142,6 +125,10 @@ public class GameViewModel {
 
     public boolean isGameOver() {
         return isGameOver;
+    }
+
+    public String getSymbolAt(int r, int c) {
+        return board[r][c];
     }
 
 
