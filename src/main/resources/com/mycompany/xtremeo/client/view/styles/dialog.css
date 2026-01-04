@@ -1,0 +1,93 @@
+.dialog-overlay {
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+}
+
+.dialog-card {
+    -fx-background-color: #261f16;
+    -fx-background-radius: 30;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 40, 0, 0, 15);
+    -fx-padding: 40 50;
+    -fx-min-width: 380;
+    -fx-pref-width: 400;
+    -fx-max-width: 450;
+}
+
+.dialog-title {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 24;
+}
+
+.dialog-subtitle {
+    -fx-text-fill: #888888;
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+}
+
+.dialog-cancel-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #444444;
+    -fx-border-radius: 20;
+    -fx-text-fill: #888888;
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
+    -fx-padding: 10 30;
+    -fx-cursor: hand;
+}
+
+.dialog-cancel-button:hover {
+    -fx-border-color: #666666;
+    -fx-text-fill: #aaaaaa;
+}
+
+/* Difficulty Dialog Buttons */
+.difficulty-button {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 16;
+    -fx-text-fill: #333333;
+    -fx-cursor: hand;
+    -fx-background-radius: 20;
+    -fx-padding: 14 40 18 40;
+    -fx-min-width: 280;
+    -fx-pref-width: 300;
+}
+
+.difficulty-easy {
+    -fx-background-color: #2d8a4e, #3cb371;
+    -fx-background-insets: 0, 0 0 4 0;
+}
+.difficulty-easy:hover {
+    -fx-background-color: #2d8a4e, #4fc982;
+    -fx-translate-y: -2;
+}
+.difficulty-easy:pressed {
+    -fx-translate-y: 0;
+    -fx-background-insets: 0, 3 0 1 0;
+}
+
+.difficulty-medium {
+    -fx-background-color: #c78b1d, #f3ae30;
+    -fx-background-insets: 0, 0 0 4 0;
+}
+.difficulty-medium:hover {
+    -fx-background-color: #c78b1d, #ffc24b;
+    -fx-translate-y: -2;
+}
+.difficulty-medium:pressed {
+    -fx-translate-y: 0;
+    -fx-background-insets: 0, 3 0 1 0;
+}
+
+.difficulty-hard {
+    -fx-background-color: #a83232, #e74c3c;
+    -fx-background-insets: 0, 0 0 4 0;
+}
+.difficulty-hard:hover {
+    -fx-background-color: #a83232, #ff6b5b;
+    -fx-translate-y: -2;
+}
+.difficulty-hard:pressed {
+    -fx-translate-y: 0;
+    -fx-background-insets: 0, 3 0 1 0;
+}
+

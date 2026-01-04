@@ -25,6 +25,28 @@
 .logo-icon { -fx-text-fill: -primary; -fx-font-weight: bold; -fx-font-size: 14; }
 .header-title { -fx-text-fill: white; -fx-font-size: 22; -fx-font-weight: bold; }
 
+.btn-back {
+    -fx-background-color: -surface-dark;
+    -fx-text-fill: rgba(255, 255, 255, 0.7);
+    -fx-font-size: 18;
+    -fx-background-radius: 50;
+    -fx-min-width: 44;
+    -fx-min-height: 44;
+    -fx-max-width: 44;
+    -fx-max-height: 44;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-border-color: -surface-highlight;
+    -fx-border-radius: 50;
+    -fx-alignment: center;
+    -fx-content-display: center;
+}
+.btn-back:hover {
+    -fx-background-color: -surface-highlight;
+    -fx-text-fill: -primary;
+    -fx-border-color: -primary;
+}
+
 .score-pill {
     -fx-background-color: -surface-dark;
     -fx-background-radius: 50;

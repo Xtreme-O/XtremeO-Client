@@ -1,4 +1,4 @@
-package com.mycompany.xtremeo.client.model.strategy;
+package com.mycompany.xtremeo.client.game;
 
 public interface GameOpponent {
     void requestMove(String[][] currentBoard, OnMoveDecisionCallback callback);
@@ -7,3 +7,4 @@ public interface GameOpponent {
         void onMoveDecided(int row, int col);
     }
 }
+
