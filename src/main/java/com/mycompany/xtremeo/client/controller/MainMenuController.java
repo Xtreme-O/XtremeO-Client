@@ -5,6 +5,7 @@
 package com.mycompany.xtremeo.client.controller;
 
 import com.mycompany.xtremeo.client.app.Navigator;
+import com.mycompany.xtremeo.client.model.strategy.GameMode;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,13 +38,15 @@ public class MainMenuController {
     @FXML
     void handlePlayCPU(ActionEvent event) {
         System.out.println("Starting Single Player...");
-        // Navigate to game board
+        BoardController.selectedMode = GameMode.WITH_CPU;
+        Navigator.setRoot("board.fxml");
     }
 
     @FXML
     void handlePlayWithFreind(ActionEvent event) {
         System.out.println("Starting Play With Freind...");
-        // Navigate to game board
+        BoardController.selectedMode = GameMode.WITH_FRIEND;
+        Navigator.setRoot("board.fxml");
     }
     
     
