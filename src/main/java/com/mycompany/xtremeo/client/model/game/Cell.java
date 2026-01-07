@@ -1,4 +1,4 @@
-package com.mycompany.xtremeo.client.model;
+package com.mycompany.xtremeo.client.model.game;
 
 public class Cell {
     private final int row;

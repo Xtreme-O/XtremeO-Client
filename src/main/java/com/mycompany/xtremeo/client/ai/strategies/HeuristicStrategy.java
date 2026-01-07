@@ -2,10 +2,10 @@ package com.mycompany.xtremeo.client.ai.strategies;
 
 import com.mycompany.xtremeo.client.ai.AIContext;
 import com.mycompany.xtremeo.client.ai.MoveStrategy;
-import com.mycompany.xtremeo.client.model.Board;
-import com.mycompany.xtremeo.client.model.Cell;
-import com.mycompany.xtremeo.client.model.InGamePlayer;
-import com.mycompany.xtremeo.client.model.Move;
+import com.mycompany.xtremeo.client.model.game.Board;
+import com.mycompany.xtremeo.client.model.game.Cell;
+import com.mycompany.xtremeo.client.model.game.InGamePlayer;
+import com.mycompany.xtremeo.client.model.game.Move;
 
 import java.util.List;
 import java.util.Random;

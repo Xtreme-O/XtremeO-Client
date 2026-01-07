@@ -6,9 +6,9 @@ import com.mycompany.xtremeo.client.ai.evaluator.TicTacToeHeuristicProvider;
 import com.mycompany.xtremeo.client.ai.strategies.BoardEvaluator;
 import com.mycompany.xtremeo.client.ai.strategies.HeuristicProvider;
 import com.mycompany.xtremeo.client.ai.evaluator.TicTacToeEvaluator;
-import com.mycompany.xtremeo.client.model.Board;
-import com.mycompany.xtremeo.client.model.InGamePlayer;
-import com.mycompany.xtremeo.client.model.Move;
+import com.mycompany.xtremeo.client.model.game.Board;
+import com.mycompany.xtremeo.client.model.game.InGamePlayer;
+import com.mycompany.xtremeo.client.model.game.Move;
 
 public class TicTacToeCpuOpponent implements GameOpponent {
 

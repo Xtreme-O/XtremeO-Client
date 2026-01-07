@@ -1,8 +1,8 @@
 package com.mycompany.xtremeo.client.ai.evaluator;
 
-import com.mycompany.xtremeo.client.model.Board;
-import com.mycompany.xtremeo.client.model.Cell;
-import com.mycompany.xtremeo.client.model.InGamePlayer;
+import com.mycompany.xtremeo.client.model.game.Board;
+import com.mycompany.xtremeo.client.model.game.Cell;
+import com.mycompany.xtremeo.client.model.game.InGamePlayer;
 import com.mycompany.xtremeo.client.ai.strategies.HeuristicProvider;
 
 import java.util.ArrayList;

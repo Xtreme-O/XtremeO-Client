@@ -3,7 +3,6 @@ module com.mycompany.xtremeo.client {
     requires javafx.fxml;
     requires java.base;
     requires com.google.gson;
-    opens com.mycompany.xtremeo.client.model to com.google.gson;
     opens com.mycompany.xtremeo.client.model.auth to com.google.gson;
     opens com.mycompany.xtremeo.client.model.game to com.google.gson;
     opens com.mycompany.xtremeo.client.model.common to com.google.gson;
