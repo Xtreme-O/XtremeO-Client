@@ -40,7 +40,7 @@
     -fx-text-fill: #aaaaaa;
 }
 
-/* Difficulty Dialog Buttons */
+/* Difficulty Dialog */
 .difficulty-button {
     -fx-font-family: "Arial Black";
     -fx-font-size: 16;
@@ -90,4 +90,3 @@
     -fx-translate-y: 0;
     -fx-background-insets: 0, 3 0 1 0;
 }
-

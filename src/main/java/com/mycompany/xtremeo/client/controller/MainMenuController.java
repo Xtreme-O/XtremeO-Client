@@ -8,6 +8,7 @@ import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.model.GameMode;
 import com.mycompany.xtremeo.client.ui.dialog.DifficultyDialog;
+import com.mycompany.xtremeo.client.ui.dialog.HistoryDialog;
 import com.mycompany.xtremeo.client.util.Screen;
 
 import javafx.event.ActionEvent;
@@ -26,6 +27,7 @@ public class MainMenuController {
     @FXML private StackPane mainRoot;
     @FXML private Button btnCpu;
     @FXML private Button btnMultiplayer;
+    @FXML private Button btnHistory;
     
     public static Difficulty selectedDifficulty = Difficulty.HARD;
 
@@ -56,5 +58,10 @@ public class MainMenuController {
     void handleMultiplayer(ActionEvent event) {
         System.out.println("Starting Multiplayer...");
         // Navigate to Login/Register screen
+    }
+
+    @FXML
+    void handleHistory(ActionEvent event) {
+        HistoryDialog.show(mainRoot);
     }
 }

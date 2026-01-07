@@ -1,0 +1,152 @@
+.history-dialog-container {
+    -fx-min-width: 420;
+    -fx-pref-width: 450;
+}
+
+.history-header-icon {
+    -fx-icon-color: #f4af25;
+    -fx-icon-size: 22;
+}
+
+.history-dialog-title {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 16;
+}
+
+.history-close-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50;
+    -fx-min-width: 32;
+    -fx-min-height: 32;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+.history-close-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+.history-close-icon {
+    -fx-icon-color: #666666;
+    -fx-icon-size: 18;
+}
+.history-close-button:hover .history-close-icon {
+    -fx-icon-color: white;
+}
+
+/* ListView */
+.history-list-view {
+    -fx-background-color: transparent;
+    -fx-padding: 0 16 0 0;
+    -fx-max-height: 340;
+}
+.history-list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 4 12 4 0;
+}
+.history-list-view .list-cell:filled:selected,
+.history-list-view .list-cell:filled:selected:hover {
+    -fx-background-color: transparent;
+}
+.history-list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 6;
+}
+.history-list-view .scroll-bar:vertical .track {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-radius: 3;
+}
+.history-list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 3;
+}
+.history-list-view .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(244, 175, 37, 0.5);
+}
+.history-list-view .scroll-bar:vertical .increment-button,
+.history-list-view .scroll-bar:vertical .decrement-button {
+    -fx-padding: 0;
+    -fx-pref-height: 0;
+}
+.history-list-view .scroll-bar:vertical .increment-arrow,
+.history-list-view .scroll-bar:vertical .decrement-arrow {
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+.history-placeholder {
+    -fx-text-fill: #555555;
+    -fx-font-size: 13;
+}
+
+/* History Item */
+.history-item {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-background-radius: 16;
+    -fx-padding: 14 16;
+}
+.history-item:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.07);
+}
+
+.history-item-icon {
+    -fx-background-radius: 12;
+}
+.history-icon-win {
+    -fx-background-color: rgba(244, 175, 37, 0.15);
+}
+.history-icon-win .history-result-icon {
+    -fx-icon-color: #f4af25;
+}
+.history-icon-lose {
+    -fx-background-color: rgba(231, 76, 60, 0.15);
+}
+.history-icon-lose .history-result-icon {
+    -fx-icon-color: #e74c3c;
+}
+.history-icon-draw {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+}
+.history-icon-draw .history-result-icon {
+    -fx-icon-color: #777777;
+}
+.history-result-icon {
+    -fx-icon-size: 24;
+}
+
+.history-result-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+.history-opponent-label {
+    -fx-text-fill: #888888;
+    -fx-font-size: 12;
+}
+.history-dot {
+    -fx-text-fill: #555555;
+    -fx-font-size: 11;
+}
+.history-time-label {
+    -fx-text-fill: #555555;
+    -fx-font-size: 11;
+}
+
+.history-play-button {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+    -fx-background-radius: 50;
+    -fx-min-width: 40;
+    -fx-min-height: 40;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+.history-play-button:hover {
+    -fx-background-color: #f4af25;
+}
+.history-play-icon {
+    -fx-icon-color: #888888;
+    -fx-icon-size: 22;
+}
+.history-play-button:hover .history-play-icon {
+    -fx-icon-color: #221c10;
+}
+
