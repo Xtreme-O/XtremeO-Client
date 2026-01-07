@@ -1,11 +1,11 @@
-package com.mycompany.xtremeo.client.service.auth.model;
+package com.mycompany.xtremeo.client.model.auth;
 
-public class RegisterBody {
+public class RegisterRequestBody {
     private String username;
     private String password;
     private String avatar;
 
-    public RegisterBody(String username, String password,String avatar) {
+    public RegisterRequestBody(String username, String password, String avatar) {
         this.username = username;
         this.password = password;
         this.avatar = avatar;

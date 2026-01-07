@@ -1,8 +1,8 @@
-package com.mycompany.xtremeo.client.service.auth.service;
+package com.mycompany.xtremeo.client.service.auth;
 
 import com.google.gson.Gson;
 import com.mycompany.xtremeo.client.network.ClientConnection;
-import com.mycompany.xtremeo.client.service.auth.model.RequestEnvelope;
+import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 
 public class AuthServiceImpl implements AuthService {
 

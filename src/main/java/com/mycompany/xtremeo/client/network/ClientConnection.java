@@ -8,7 +8,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.InetAddress;
 
 /**
  *
@@ -18,56 +17,61 @@ public class ClientConnection {
     private Socket socket;
     private DataInputStream dis;
     private DataOutputStream dos;
-    private boolean running = false;
+    private volatile boolean running = false;
 
-    public void connect() {
+    public void connect(String host, int port) {
         try {
-            socket = new Socket(InetAddress.getLocalHost(), 4242);
+            socket = new Socket(host, port);
+            System.out.println("Connected to server");
             dis = new DataInputStream(socket.getInputStream());
             dos = new DataOutputStream(socket.getOutputStream());
             running = true;
         } catch (IOException e) {
-            throw new RuntimeException("Unable to connect to server", e);
+            throw new RuntimeException("Unable to connect", e);
         }
     }
 
 
     public void startListening(MessageListener listener) {
-        new Thread(() -> {
+        Thread listenerThread = new Thread(() -> {
             try {
                 while (running) {
+                    System.out.println("Waiting for message...");
                     String msg = dis.readUTF();
+                    System.out.println("Received: " + msg);
                     listener.onMessage(msg);
                 }
-            } catch (Exception e) {
-                listener.onDisconnect();
+            } catch (IOException e) {
+                if (running) {
+                    listener.onDisconnect(e);
+                }
+            } finally {
+                disconnect();
             }
-        }).start();
+        }, "client-listener-thread");
+        listenerThread.start();
     }
 
 
-    public void send(String msg) {
+    public synchronized void send(String msg) {
         try {
             dos.writeUTF(msg);
             dos.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to send message", e);
         }
     }
 
     public void disconnect() {
+        running = false;
         try {
-            running = false;
-            socket.close();
-            System.out.println("Disconnected");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            if (socket != null) socket.close();
+        } catch (IOException ignored) {}
     }
 }
 
 interface MessageListener {
     void onMessage(String msg);
-    void onDisconnect();
+    void onDisconnect(Exception e);
 }
 

@@ -1,10 +1,10 @@
-package com.mycompany.xtremeo.client.service.auth.model;
+package com.mycompany.xtremeo.client.model.auth;
 
-public class LoginBody {
+public class LoginRequestBody {
     private String username;
     private String password;
 
-    public LoginBody(String username, String password) {
+    public LoginRequestBody(String username, String password) {
         this.username = username;
         this.password = password;
     }

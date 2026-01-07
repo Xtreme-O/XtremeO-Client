@@ -1,15 +1,15 @@
-package com.mycompany.xtremeo.client.service.auth.model;
+package com.mycompany.xtremeo.client.protocol.envelope;
 
 public class RequestEnvelope<T> {
-    private RequestHeader header;
+    private Header header;
     private T body;
 
-    public RequestEnvelope(RequestHeader header, T body) {
+    public RequestEnvelope(Header header, T body) {
         this.header = header;
         this.body = body;
     }
 
-    public RequestHeader getHeader() {
+    public Header getHeader() {
         return header;
     }
 

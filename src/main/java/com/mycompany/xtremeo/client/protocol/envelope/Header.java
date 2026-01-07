@@ -1,10 +1,10 @@
-package com.mycompany.xtremeo.client.service.auth.model;
+package com.mycompany.xtremeo.client.protocol.envelope;
 
-public class RequestHeader {
+public class Header {
     private String protocol;
     private String action;
 
-    public RequestHeader(String protocol, String action) {
+    public Header(String protocol, String action) {
         this.protocol = protocol;
         this.action = action;
     }

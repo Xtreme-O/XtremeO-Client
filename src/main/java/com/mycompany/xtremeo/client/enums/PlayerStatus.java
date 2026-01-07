@@ -2,12 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.xtremeo.client.network.protocol;
+package com.mycompany.xtremeo.client.enums;
 
 /**
  *
- * @author Elsobky
+ * @author Abdelrahman
  */
-public class Message {
-    
+public enum PlayerStatus {
+    ONLINE,
+    OFFLINE,
+    INGAME
 }
