@@ -1,6 +1,6 @@
 package com.mycompany.xtremeo.client.controller;
 
-import com.mycompany.xtremeo.client.model.GameHistoryEntry;
+import com.mycompany.xtremeo.client.model.game.GameHistoryEntry;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -11,6 +11,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.*;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 
 public class GameHistoryCellController extends ListCell<GameHistoryEntry> {
 
@@ -38,7 +39,7 @@ public class GameHistoryCellController extends ListCell<GameHistoryEntry> {
     @FXML
     void handlePlay() {
         if (currentItem != null) {
-            System.out.println("Replay: " + currentItem.opponent());
+            System.out.println("Replay: " + currentItem.player2());
         }
     }
 
@@ -75,8 +76,9 @@ public class GameHistoryCellController extends ListCell<GameHistoryEntry> {
             }
         }
 
-        opponentLabel.setText(item.opponent());
-        timeLabel.setText(item.time());
+        opponentLabel.setText(item.player2().name());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        timeLabel.setText(item.time().format(formatter));
         setGraphic(root);
     }
 }

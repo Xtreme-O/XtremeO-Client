@@ -1,7 +1,8 @@
 package com.mycompany.xtremeo.client.controller;
 
-import com.mycompany.xtremeo.client.model.GameHistoryEntry;
-import com.mycompany.xtremeo.client.model.GameResult;
+import com.mycompany.xtremeo.client.model.game.GameHistoryEntry;
+import com.mycompany.xtremeo.client.service.recording.GameFileService;
+import com.mycompany.xtremeo.client.service.recording.JsonFileHandler;
 import com.mycompany.xtremeo.client.ui.dialog.ModalDialog;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -15,6 +16,8 @@ public class HistoryDialogController {
     @FXML private VBox dialogRoot;
     @FXML private Button closeBtn;
     @FXML private ListView<GameHistoryEntry> historyListView;
+    GameFileService fileService;
+
 
     private ModalDialog dialog;
 
@@ -22,7 +25,9 @@ public class HistoryDialogController {
     public void initialize() {
         historyListView.setCellFactory(list -> new GameHistoryCellController());
         historyListView.setFocusTraversable(false);
-        
+        fileService = new GameFileService(new JsonFileHandler());
+
+
         Platform.runLater(this::loadSampleData);
     }
 
@@ -38,12 +43,8 @@ public class HistoryDialogController {
     }
 
     private void loadSampleData() {
-        historyListView.getItems().addAll(
-            new GameHistoryEntry(GameResult.WIN, "vs CPU (Hard)", "2m ago"),
-            new GameHistoryEntry(GameResult.LOSE, "vs Player Two", "1h ago"),
-            new GameHistoryEntry(GameResult.DRAW, "vs CPU (Medium)", "Yesterday"),
-            new GameHistoryEntry(GameResult.WIN, "vs CPU (Medium)", "2d ago"),
-            new GameHistoryEntry(GameResult.LOSE, "vs CPU (Expert)", "1w ago")
-        );
+        var history = fileService.loadGames();
+        historyListView.getItems().clear();
+        historyListView.getItems().addAll(history);
     }
 }
