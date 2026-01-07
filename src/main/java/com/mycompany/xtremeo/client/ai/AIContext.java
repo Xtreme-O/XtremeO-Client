@@ -1,8 +1,8 @@
 package com.mycompany.xtremeo.client.ai;
 
 import com.mycompany.xtremeo.client.ai.strategies.BoardEvaluator;
-import com.mycompany.xtremeo.client.model.Board;
-import com.mycompany.xtremeo.client.model.InGamePlayer;
+import com.mycompany.xtremeo.client.model.game.Board;
+import com.mycompany.xtremeo.client.model.game.InGamePlayer;
 
 public class AIContext {
     private Board board;

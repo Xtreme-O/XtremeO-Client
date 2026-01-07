@@ -8,7 +8,7 @@ import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.game.GameEngine;
 import com.mycompany.xtremeo.client.game.GameOpponent;
 import com.mycompany.xtremeo.client.game.TicTacToeCpuOpponent;
-import com.mycompany.xtremeo.client.model.GameMode;
+import com.mycompany.xtremeo.client.model.game.GameMode;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;

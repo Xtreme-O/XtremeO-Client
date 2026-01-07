@@ -6,7 +6,7 @@ package com.mycompany.xtremeo.client.controller;
 
 import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.app.Navigator;
-import com.mycompany.xtremeo.client.model.GameMode;
+import com.mycompany.xtremeo.client.model.game.GameMode;
 import com.mycompany.xtremeo.client.ui.dialog.DifficultyDialog;
 import com.mycompany.xtremeo.client.ui.dialog.HistoryDialog;
 import com.mycompany.xtremeo.client.util.Screen;
