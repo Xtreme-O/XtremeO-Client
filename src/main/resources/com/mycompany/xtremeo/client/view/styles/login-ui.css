@@ -1,0 +1,120 @@
+/* Root container */
+.root-pane {
+    -fx-background-color: linear-gradient(to bottom, #1a1814, #0d0c0a);
+}
+
+/* Background glow placeholder */
+.background-glow {
+    -fx-background-color: rgba(244,175,37,0.05);
+}
+
+/* Main wrapper */
+.main-wrapper {
+    -fx-alignment: center;
+}
+
+/* Login card */
+.login-card {
+    -fx-background-color: rgba(43,38,27,0.95);
+    -fx-background-radius: 20;
+    -fx-padding: 30;
+    -fx-spacing: 20;
+}
+
+/* Logo styles */
+.logo-x {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(244,175,37,0.2);
+}
+.logo-o {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(244,175,37,0.2);
+}
+.logo-container {
+    -fx-alignment: center;
+}
+
+/* Titles */
+.title {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 96px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+.subtitle {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 14px;
+    -fx-text-fill: #bab09c;
+}
+
+/* Labels */
+.label {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+/* Inputs */
+.input {
+    -fx-font-family: "Arial Black";
+    -fx-background-color: #393328;
+    -fx-background-radius: 20;
+    -fx-padding: 8 12 8 12;
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255,255,255,0.3);
+}
+.input:focused {
+    -fx-background-color: #4a4335;
+    -fx-border-color: #f4af25;
+    -fx-border-width: 2;
+}
+
+/* Links */
+.forgot-link, .create-link {
+    -fx-font-family: "Arial Black";
+    -fx-text-fill: #f4af25;
+    -fx-font-weight: bold;
+}
+.forgot-link:hover, .create-link:hover {
+    -fx-underline: true;
+}
+
+/* Submit button */
+.submit-btn {
+    -fx-background-color: #f4af25;
+    -fx-background-radius: 20;
+    -fx-text-fill: #181611;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial Black";
+    -fx-padding: 10 20 10 20;
+}
+.submit-btn:hover {
+    -fx-effect: dropshadow(gaussian, #f4af25, 20, 0, 0, 0);
+}
+
+/* Footer */
+.footer-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #bab09c;
+}
+.online-status {
+    -fx-background-color: #221c10;
+    -fx-background-radius: 15;
+    -fx-padding: 5;
+}
+.online-dot {
+    -fx-fill: #4caf50;
+}
+.online-label {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 10px;
+    -fx-text-fill: #bab09c;
+    -fx-font-weight: bold;
+}
