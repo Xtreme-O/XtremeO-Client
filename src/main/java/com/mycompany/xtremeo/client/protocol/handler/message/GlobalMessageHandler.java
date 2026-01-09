@@ -19,8 +19,6 @@ public class GlobalMessageHandler implements ResponseHandler<MessageBody> {
 
         MessageBody body = envelope.getBody();
         System.out.println("Created at: "+ body.getMessage());
-        Platform.runLater(() -> {
-            // update ui
-        });
+
     }
 }

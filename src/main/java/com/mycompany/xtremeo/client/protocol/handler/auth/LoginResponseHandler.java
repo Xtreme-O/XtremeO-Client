@@ -18,8 +18,6 @@ public class LoginResponseHandler implements ResponseHandler<Player> {
                 );
         Player player = envelope.getBody();
         System.out.println("Created at: "+ player.getCreatedAt());
-//        Platform.runLater(() -> {
-//            // update ui
-//        });
+
     }
 }
