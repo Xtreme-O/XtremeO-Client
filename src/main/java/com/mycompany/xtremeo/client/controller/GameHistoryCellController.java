@@ -1,6 +1,10 @@
 package com.mycompany.xtremeo.client.controller;
 
+import com.mycompany.xtremeo.client.ai.Difficulty;
+import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.model.game.GameHistoryEntry;
+import com.mycompany.xtremeo.client.util.Screen;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -22,6 +26,8 @@ public class GameHistoryCellController extends ListCell<GameHistoryEntry> {
     @FXML private FontIcon resultIcon;
     @FXML private Label resultLabel;
     @FXML private Label opponentLabel;
+    @FXML private Label difficultyLabel;
+    @FXML private Label difficultyDot;
     @FXML private Label timeLabel;
 
     private GameHistoryEntry currentItem;
@@ -39,7 +45,10 @@ public class GameHistoryCellController extends ListCell<GameHistoryEntry> {
     @FXML
     void handlePlay() {
         if (currentItem != null) {
-            System.out.println("Replay: " + currentItem.player2());
+            BoardController controller = Navigator.setRoot(Screen.BOARD.getName());
+            if (controller != null) {
+                controller.initReplay(currentItem);
+            }
         }
     }
 
@@ -77,9 +86,33 @@ public class GameHistoryCellController extends ListCell<GameHistoryEntry> {
         }
 
         opponentLabel.setText(item.player2().name());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        if (item.difficulty() != null && item.difficulty() != Difficulty.NONE) {
+            difficultyLabel.setText(formatDifficulty(item.difficulty()));
+            setNodeVisibility(difficultyLabel, true);
+            setNodeVisibility(difficultyDot, true);
+        } else {
+            setNodeVisibility(difficultyLabel, false);
+            setNodeVisibility(difficultyDot, false);
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm a");
         timeLabel.setText(item.time().format(formatter));
         setGraphic(root);
+    }
+
+    private void setNodeVisibility(javafx.scene.Node node, boolean visible) {
+        node.setVisible(visible);
+        node.setManaged(visible);
+    }
+
+    private String formatDifficulty(Difficulty difficulty) {
+        return switch (difficulty) {
+            case EASY -> "Easy";
+            case MEDIUM -> "Medium";
+            case HARD -> "Hard";
+            default -> "";
+        };
     }
 }
 

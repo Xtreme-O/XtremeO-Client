@@ -4,11 +4,11 @@
  */
 package com.mycompany.xtremeo.client.controller;
 
-import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.model.game.GameMode;
 import com.mycompany.xtremeo.client.ui.dialog.DifficultyDialog;
 import com.mycompany.xtremeo.client.ui.dialog.HistoryDialog;
+import com.mycompany.xtremeo.client.ui.dialog.RecordGameDialog;
 import com.mycompany.xtremeo.client.util.Screen;
 
 import javafx.event.ActionEvent;
@@ -29,8 +29,6 @@ public class MainMenuController {
     @FXML private Button btnMultiplayer;
     @FXML private Button btnHistory;
     
-    public static Difficulty selectedDifficulty = Difficulty.HARD;
-
     @FXML
     public void initialize() {
         // Ready for any initialization
@@ -39,18 +37,23 @@ public class MainMenuController {
     @FXML
     void handlePlayCPU(ActionEvent event) {
         DifficultyDialog.show(mainRoot, difficulty -> {
-            System.out.println("Starting Single Player with " + difficulty + " difficulty...");
-            selectedDifficulty = difficulty;
-            BoardController.selectedMode = GameMode.WITH_CPU;
-            Navigator.setRoot(Screen.BOARD.getName());
+            RecordGameDialog.show(mainRoot, record -> {
+                BoardController controller = Navigator.setRoot(Screen.BOARD.getName());
+                if (controller != null) {
+                    controller.init(GameMode.WITH_CPU, difficulty, record);
+                }
+            });
         });
     }
 
     @FXML
     void handlePlayWithFreind(ActionEvent event) {
-        System.out.println("Starting Play With Freind...");
-        BoardController.selectedMode = GameMode.WITH_FRIEND;
-        Navigator.setRoot(Screen.BOARD.getName());
+        RecordGameDialog.show(mainRoot, record -> {
+            BoardController controller = Navigator.setRoot(Screen.BOARD.getName());
+            if (controller != null) {
+                controller.init(GameMode.WITH_FRIEND, record);
+            }
+        });
     }
     
     

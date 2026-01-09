@@ -19,13 +19,13 @@
                 <padding><Insets left="32.0" right="32.0" /></padding>
                 <HBox alignment="CENTER" spacing="12.0">
                     <Label styleClass="player-x-symbol" text="X" />
-                    <Label styleClass="player-name-label" text="PLAYER 1" />
+                    <Label styleClass="player-name-label"/>
                     <Label fx:id="scoreX" styleClass="score-value" text="2" />
                 </HBox>
                 <Separator orientation="VERTICAL" styleClass="score-separator" />
                 <HBox alignment="CENTER" spacing="12.0">
                     <Label fx:id="scoreO" styleClass="score-value" text="1" />
-                    <Label styleClass="player-name-label" text="PLAYER 2" />
+                    <Label styleClass="player-name-label"/>
                     <Label styleClass="player-o-symbol" text="O" />
                 </HBox>
             </HBox>
@@ -76,7 +76,6 @@
             <HBox alignment="CENTER_LEFT">
                 <Label styleClass="sidebar-title" text="Game Log" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Label styleClass="round-tag" text="Round 3" />
             </HBox>
             <ScrollPane fitToWidth="true" styleClass="log-scroll-pane" VBox.vgrow="ALWAYS">
                 <VBox fx:id="logContainer" spacing="12.0" styleClass="log-vbox" />

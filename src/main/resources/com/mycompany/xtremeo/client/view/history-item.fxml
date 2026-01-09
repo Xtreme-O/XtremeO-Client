@@ -9,7 +9,7 @@
       xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     
      <padding>
-        <Insets right="12" left="12" />
+        <Insets right="8" left="8" />
     </padding>
 
 
@@ -19,8 +19,10 @@
     
     <VBox alignment="CENTER_LEFT" spacing="4" HBox.hgrow="ALWAYS">
         <Label fx:id="resultLabel" styleClass="history-result-label"/>
-        <HBox alignment="CENTER_LEFT" spacing="8">
+        <HBox alignment="CENTER_LEFT" spacing="6">
             <Label fx:id="opponentLabel" styleClass="history-opponent-label"/>
+            <Label fx:id="difficultyDot" styleClass="history-dot" text="•"/>
+            <Label fx:id="difficultyLabel" styleClass="history-difficulty-label"/>
             <Label styleClass="history-dot" text="•"/>
             <Label fx:id="timeLabel" styleClass="history-time-label"/>
         </HBox>

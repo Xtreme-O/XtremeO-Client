@@ -5,6 +5,7 @@ import com.mycompany.xtremeo.client.model.game.GameHistoryEntry;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class GameFileService {
@@ -66,7 +67,9 @@ public class GameFileService {
             }
         }
 
-        return games;
+        return games.stream()
+                .sorted(Comparator.comparing(GameHistoryEntry::time).reversed())
+                .toList();
     }
 
     private String generateFilename(GameHistoryEntry entry) {
