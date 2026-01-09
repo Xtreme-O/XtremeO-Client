@@ -2,6 +2,7 @@ package com.mycompany.xtremeo.client.controller;
 
 import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.model.game.GameMode;
+import com.mycompany.xtremeo.client.model.game.Move;
 import com.mycompany.xtremeo.client.model.viewmodel.GameViewModel;
 import com.mycompany.xtremeo.client.util.Screen;
 import com.mycompany.xtremeo.client.util.UIUtils;
@@ -37,11 +38,11 @@ public class BoardController {
             viewModel.setGameMode(selectedMode);
         }
 
-        viewModel.setOnMoveMadeListener((r, c, symbol) -> {
-            Button btn = getButtonAt(r, c);
+        viewModel.setOnMoveMadeListener((move) -> {
+            Button btn = getButtonAt(move.row(), move.col());
             if (btn != null) {
-                btn.setText(symbol);
-                btn.getStyleClass().add(symbol.equals("X") ? "filled-x" : "filled-o");
+                btn.setText(move.player().symbol());
+                btn.getStyleClass().add(move.player().symbol().equals("X") ? "filled-x" : "filled-o");
                 btn.setDisable(true);
 
                 if (viewModel.isGameOver()) {
@@ -52,6 +53,17 @@ public class BoardController {
                     }
                 }
             }
+        });
+
+        viewModel.setOnGameOverListener((p1, p2, winner) -> {
+            if (winner == null) {
+                System.out.println("The game ended in a draw between " + p1.name() + " and " + p2.name());
+                // we can show a "Draw" dialog here or something else
+            } else {
+                System.out.println("The winner is: " + winner.name());
+                // here we will start the video
+            }
+            disableEntireBoard();
         });
 
         scoreX.textProperty().bind(viewModel.playerXScoreProperty().asString());
@@ -93,7 +105,8 @@ public class BoardController {
         Integer row = GridPane.getRowIndex(clickedBtn);
         Integer col = GridPane.getColumnIndex(clickedBtn);
 
-        viewModel.makeMove(row == null ? 0 : row, col == null ? 0 : col);
+        Move userMove = new Move(viewModel.getCurrentPlayer(), row, col);
+        viewModel.makeMove(userMove);
 
     }
 
