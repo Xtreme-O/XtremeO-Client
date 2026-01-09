@@ -21,20 +21,24 @@ public class ResponseDispatcher {
     private final Gson gson;
     private final Map<ActionType, ResponseHandler<?>> handlers;
     // TODO create all listeners
-//    LoginUIListener loginListener;
-//    RegisterUIListener registerListener;
+    LoginUIListener loginListener;
+    RegisterUIListener registerListener;
 //    GlobalMessageUIListener globalMessageListener;
     MoveUIListener moveListener;
-    public ResponseDispatcher(Gson gson, MoveUIListener moveListener) {
+    public ResponseDispatcher(Gson gson, MoveUIListener moveListener,
+                              LoginUIListener loginListener,
+                              RegisterUIListener registerListener) {
         this.gson = gson;
         this.handlers = new EnumMap<>(ActionType.class);
+        this.loginListener = loginListener;
+        this.registerListener = registerListener;
         this.moveListener = moveListener;
         registerHandlers();
     }
 
     private void registerHandlers() {
-        handlers.put(ActionType.LOGIN, new LoginResponseHandler());
-        handlers.put(ActionType.REGISTER, new RegisterResponseHandler());
+        handlers.put(ActionType.LOGIN, new LoginResponseHandler(loginListener));
+        handlers.put(ActionType.REGISTER, new RegisterResponseHandler(registerListener));
         handlers.put(ActionType.MOVE, new MoveResponseHandler(moveListener));
         handlers.put(ActionType.GLOBAL_MESSAGE, new GlobalMessageHandler());
     }
