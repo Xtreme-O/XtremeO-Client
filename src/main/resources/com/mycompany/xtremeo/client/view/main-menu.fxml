@@ -29,7 +29,7 @@
                </padding>
                <children>
                   <Button fx:id="btnCpu" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlayCPU" styleClass="primary-button" text="PLAY VS CPU" />
-                  <Button fx:id="btnPlayeWithFreind" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlayWithFreind" styleClass="primary-button" text="Play With Freind" />
+                  <Button fx:id="btnPlayeWithFreind" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlayWithFriend" styleClass="primary-button" text="Play With Freind" />
                   <Button fx:id="btnMultiplayer" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleMultiplayer" styleClass="primary-button" text="MULTIPLAYER" />
 
                   <Region VBox.vgrow="ALWAYS" />

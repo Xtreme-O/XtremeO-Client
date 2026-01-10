@@ -11,5 +11,9 @@ module com.mycompany.xtremeo.client {
     opens com.mycompany.xtremeo.client.protocol.envelope to com.google.gson;
     opens com.mycompany.xtremeo.client.enums to com.google.gson;
     opens com.mycompany.xtremeo.client.controller to javafx.fxml;
+    opens com.mycompany.xtremeo.client.controller.lobby to javafx.fxml;
+    opens com.mycompany.xtremeo.client.service to javafx.fxml;
+    opens com.mycompany.xtremeo.client.service.lobby to javafx.fxml;
+    opens com.mycompany.xtremeo.client.data to javafx.fxml;
     exports com.mycompany.xtremeo.client.app;
 }

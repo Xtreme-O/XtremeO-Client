@@ -1,0 +1,107 @@
+package com.mycompany.xtremeo.client.service.lobby;
+
+import com.mycompany.xtremeo.client.data.DataProvider;
+import com.mycompany.xtremeo.client.model.common.Player;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
+
+public class MatchmakingService {
+
+    private static MatchmakingService instance;
+    private Consumer<Player> onChallengeReceived;
+    private Consumer<List<Player>> onPendingChallengesChanged;
+
+    private final List<Player> pendingChallenges  = new ArrayList<>();
+    private Runnable onMatchFound;
+
+    private MatchmakingService() {}
+
+    public static MatchmakingService getInstance() {
+        if (instance == null) {
+            instance = new MatchmakingService();
+        }
+        return instance;
+    }
+
+
+    public void setOnChallengeReceived(Consumer<Player> callback) {
+        this.onChallengeReceived = callback;
+    }
+
+
+
+    public void setOnMatchFound(Runnable callback) {
+        this.onMatchFound = callback;
+    }
+
+    public void setOnPendingChallengesChanged(Consumer<List<Player>> callback) {
+        this.onPendingChallengesChanged = callback;
+    }
+
+    public void receiveChallenge(Player from) {
+        pendingChallenges.add(from);
+
+        if (onChallengeReceived != null) {
+            onChallengeReceived.accept(from);
+        }
+    }
+
+
+    public void simulateDemoChallenge() {
+        receiveChallenge(DataProvider.getDemoChallenger());
+    }
+
+    public void acceptChallenge(Player player) {
+        System.out.println("Challenge accepted from: " + player.getUsername());
+        pendingChallenges.remove(player);
+        if(onPendingChallengesChanged != null){
+            onPendingChallengesChanged.accept(pendingChallenges);
+        }
+
+    }
+
+
+    public void declineChallenge(Player player) {
+        System.out.println("Challenge declined from: " + player.getUsername());
+        pendingChallenges.remove(player);
+        if(onPendingChallengesChanged != null){
+            onPendingChallengesChanged.accept(pendingChallenges);
+        }
+    }
+
+
+    public void challengePlayer(Player player) {
+        System.out.println("Challenging: " + player.getUsername());
+        // TODO: Send challenge via Socket
+    }
+
+
+    public void startMatchmaking() {
+        System.out.println("Starting matchmaking...");
+        // TODO: Connect to matchmaking service
+
+        if (onMatchFound != null) {
+            // TODO: Call the callback to notify the controller that a match has been found
+            onMatchFound.run();
+        }
+    }
+
+
+    public void cancelMatchmaking() {
+        System.out.println("Matchmaking cancelled");
+    }
+
+    public void clear() {
+        onChallengeReceived = null;
+        onPendingChallengesChanged = null;
+        onMatchFound = null;
+        pendingChallenges.clear();
+    }
+}

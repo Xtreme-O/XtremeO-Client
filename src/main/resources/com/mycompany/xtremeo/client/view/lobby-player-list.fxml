@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox fx:id="playerListRoot" spacing="16" styleClass="player-list-container"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mycompany.xtremeo.client.controller.lobby.LobbyPlayerListController">
+    
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <VBox spacing="3" HBox.hgrow="ALWAYS">
+            <Label styleClass="lobby-title" text="Multiplayer Lobby" />
+            <HBox alignment="CENTER_LEFT" spacing="5">
+                <Region styleClass="online-indicator-dot" />
+                <Label fx:id="lblOnlineCount" styleClass="online-count" text="124 Players Online" />
+            </HBox>
+        </VBox>
+        
+        <HBox styleClass="search-container" alignment="CENTER" spacing="4" maxHeight="28">
+            <FontIcon iconLiteral="mdi2m-magnify" styleClass="search-icon"/>
+            <TextField fx:id="txtSearch" styleClass="search-input" promptText="Search..." prefHeight="24" maxHeight="24"/>
+        </HBox>
+    </HBox>
+    
+    <fx:include source="lobby-banner-container.fxml"/>
+    
+    <ScrollPane fx:id="playersScroll" styleClass="players-scroll" fitToWidth="true" VBox.vgrow="ALWAYS">
+        <GridPane fx:id="playersGrid" hgap="12" vgap="12">
+            <padding><Insets bottom="12" right="4" /></padding>
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+            </columnConstraints>
+        </GridPane>
+    </ScrollPane>
+</VBox>
