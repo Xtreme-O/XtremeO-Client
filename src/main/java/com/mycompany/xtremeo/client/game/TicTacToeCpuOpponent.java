@@ -15,10 +15,7 @@ public class TicTacToeCpuOpponent implements GameOpponent {
     private final AIContext context;
     private static final int MAX_DEPTH = 9;
 
-    public TicTacToeCpuOpponent(Difficulty difficulty) {
-        InGamePlayer aiPlayer = new InGamePlayer("CPU", "O", true);
-        InGamePlayer humanPlayer = new InGamePlayer("Player", "X", false);
-
+    public TicTacToeCpuOpponent(Difficulty difficulty, InGamePlayer humanPlayer, InGamePlayer aiPlayer) {
         HeuristicProvider heuristicProvider = new TicTacToeHeuristicProvider();
 
         MoveStrategy strategy = AIStrategyFactory.createStrategy(difficulty, heuristicProvider);
@@ -31,7 +28,6 @@ public class TicTacToeCpuOpponent implements GameOpponent {
         this.moveProvider = new AIPlayerMoveProvider(context, strategy);
     }
 
-
     @Override
     public void requestMove(String[][] currentBoard, OnMoveDecisionCallback callback) {
         Board board = new TicTacToeBoardAdapter(currentBoard);
@@ -39,7 +35,6 @@ public class TicTacToeCpuOpponent implements GameOpponent {
         Move move = moveProvider.makeMove(board);
 
         if (move != null) {
-            //callback.onMoveDecided(move.row(), move.col());
             callback.onMoveDecided(move);// by mona
             return;
         }

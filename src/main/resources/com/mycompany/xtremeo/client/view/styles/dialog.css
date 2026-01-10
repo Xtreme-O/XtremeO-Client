@@ -40,7 +40,7 @@
     -fx-text-fill: #aaaaaa;
 }
 
-/* Difficulty Dialog Buttons */
+/* Difficulty Dialog */
 .difficulty-button {
     -fx-font-family: "Arial Black";
     -fx-font-size: 16;
@@ -91,3 +91,39 @@
     -fx-background-insets: 0, 3 0 1 0;
 }
 
+/* Record Game Dialog */
+.record-button {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 16;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-background-radius: 20;
+    -fx-padding: 14 50 18 50;
+    -fx-min-width: 120;
+}
+
+.record-yes {
+    -fx-background-color: #1a6b3a, #27ae60;
+    -fx-background-insets: 0, 0 0 4 0;
+}
+.record-yes:hover {
+    -fx-background-color: #1a6b3a, #2ecc71;
+    -fx-translate-y: -2;
+}
+.record-yes:pressed {
+    -fx-translate-y: 0;
+    -fx-background-insets: 0, 3 0 1 0;
+}
+
+.record-no {
+    -fx-background-color: #7f3b3b, #c0392b;
+    -fx-background-insets: 0, 0 0 4 0;
+}
+.record-no:hover {
+    -fx-background-color: #7f3b3b, #e74c3c;
+    -fx-translate-y: -2;
+}
+.record-no:pressed {
+    -fx-translate-y: 0;
+    -fx-background-insets: 0, 3 0 1 0;
+}

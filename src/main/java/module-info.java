@@ -2,6 +2,8 @@ module com.mycompany.xtremeo.client {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.base;
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.materialdesign2;
     requires com.google.gson;
     opens com.mycompany.xtremeo.client.model.auth to com.google.gson;
     opens com.mycompany.xtremeo.client.model.game to com.google.gson;

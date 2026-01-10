@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 /**
  *
  * @author Elsobky
@@ -22,25 +23,28 @@ public class Navigator {
         stage = primaryStage;
     }
 
-    public static void setRoot(String screen) {
+    public static <T> T setRoot(String screen) {
         try {
             String basePath = "/com/mycompany/xtremeo/client/view/";
             String fxmlPath = basePath + screen + ".fxml";
-            String cssPath = basePath + "styles/" + screen +".css";
-            Parent root = FXMLLoader.load(
-                Navigator.class.getResource(fxmlPath)
+            String cssPath = basePath + "styles/" + screen + ".css";
+            FXMLLoader loader = new FXMLLoader(
+                    Navigator.class.getResource(fxmlPath)
             );
+            Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setWidth(1200);// by mona
             stage.setHeight(800);// by mona
             stage.setResizable(true);//by mona
             scene.getStylesheets().add(
-                Navigator.class.getResource(cssPath).toExternalForm()
+                    Navigator.class.getResource(cssPath).toExternalForm()
             );
             stage.setScene(scene);
             stage.centerOnScreen();
+            return loader.getController();
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("Couldn't show the screen");
         }
     }
 }

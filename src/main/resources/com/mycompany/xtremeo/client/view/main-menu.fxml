@@ -38,7 +38,7 @@
                      <children>
                         <VBox alignment="CENTER" spacing="5.0" styleClass="icon-btn-container">
                            <children>
-                              <Button mnemonicParsing="false" styleClass="icon-button" text="↺" />
+                              <Button fx:id="btnHistory" mnemonicParsing="false" onAction="#handleHistory" styleClass="icon-button" text="↺" />
                               <Label styleClass="icon-label" text="HISTORY" />
                            </children>
                         </VBox>
