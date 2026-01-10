@@ -154,7 +154,7 @@ public class GameViewModel {
                 gameOverListener.onGameOver(localPlayer, secondPlayer, null);
             }
         } else {
-            currentPlayer = (playerWhoMoved == localPlayer) ? secondPlayer : localPlayer;
+            currentPlayer = (playerWhoMoved.equals(localPlayer)) ? secondPlayer : localPlayer;
             statusMessage.set(isReplayMode 
                 ? "Move " + gameLog.size() + " - " + currentPlayer.name() + "'s Turn"
                 : currentPlayer.name() + "'s Turn");
@@ -169,7 +169,7 @@ public class GameViewModel {
 
     public void requestMove() {
         if (!isReplayMode && !isGameOver && opponent != null) {
-            if(!Objects.equals(currentPlayer.symbol(), localPlayer.symbol())) {
+            if(!isCurrentPlayer()) {
                 new Thread(() -> {
                     opponent.requestMove(board, (movement) -> {
                         javafx.application.Platform.runLater(() -> makeMove(movement));
@@ -184,6 +184,10 @@ public class GameViewModel {
             playerXScore.set(playerXScore.get() + 1);
         else
             playerOScore.set(playerOScore.get() + 1);
+    }
+
+    public boolean isCurrentPlayer() {
+        return Objects.equals(currentPlayer.symbol(), localPlayer.symbol());
     }
 
     public StringProperty statusMessageProperty() {

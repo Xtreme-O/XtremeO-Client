@@ -118,6 +118,7 @@ public class BoardController {
         if (btn == null)
             return;
 
+        btn.getStyleClass().remove("preview-symbol");
         btn.setText(move.player().symbol());
         btn.getStyleClass().add(move.player().symbol().equals("X") ? "filled-x" : "filled-o");
         btn.setDisable(true);
@@ -147,7 +148,7 @@ public class BoardController {
             return;
         }
 
-        if (selectedMode != GameMode.WITH_FRIEND && viewModel.getCurrentPlayerSymbol().equals("O")) {
+        if (selectedMode != GameMode.WITH_FRIEND && !viewModel.isCurrentPlayer()) {
             return;
         }
         Button clickedBtn = (Button) event.getSource();
