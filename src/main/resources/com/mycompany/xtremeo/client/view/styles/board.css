@@ -107,8 +107,6 @@
     -fx-max-height: 20;
 }
 
-
-
 .btn-reset {
     -fx-background-color: -primary;
     -fx-text-fill: #221c10;
@@ -118,17 +116,6 @@
     -fx-cursor: hand;
 }
 
-/*.btn-reset:pressed {*/
-/*    -fx-scale-x: 0.95;*/
-/*    -fx-scale-y: 0.95;*/
-/*    -fx-translate-y: 2;*/
-/*}*/
-/*.btn-history:pressed {*/
-/*    -fx-scale-x: 0.98;*/
-/*    -fx-scale-y: 0.98;*/
-/*    -fx-translate-y: 1;*/
-/*    -fx-background-color: -surface-highlight;*/
-/*}*/
 .btn-reset:hover {
     -fx-effect: dropshadow(three-pass-box, rgba(244, 175, 37, 0.4), 15, 0, 0, 0);
     -fx-cursor: hand;
@@ -234,4 +221,3 @@
 .status-win {
     -fx-text-fill: #2ecc71 !important;
 }
-

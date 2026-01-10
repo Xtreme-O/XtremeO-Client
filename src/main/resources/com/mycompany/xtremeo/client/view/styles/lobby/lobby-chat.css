@@ -1,0 +1,116 @@
+.chat-sidebar {
+    -fx-background-color: #2d261a;
+    -fx-border-color: #3a3222;
+    -fx-border-width: 0 0 0 1;
+    -fx-pref-width: 280;
+}
+
+.chat-header {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-padding: 12 16;
+}
+
+.chat-title { -fx-text-fill: white; -fx-font-size: 13; -fx-font-weight: bold; }
+
+.live-dot {
+    -fx-background-color: #2ecc71;
+    -fx-background-radius: 50;
+    -fx-min-width: 6;
+    -fx-min-height: 6;
+    -fx-max-width: 6;
+    -fx-max-height: 6;
+}
+
+.live-text { -fx-text-fill: #2ecc71; -fx-font-size: 10; }
+
+.chat-messages { -fx-padding: 12 16; }
+
+.chat-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.chat-scroll .viewport { -fx-background-color: transparent; }
+
+.message-avatar {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+    -fx-background-radius: 50;
+    -fx-min-width: 30;
+    -fx-min-height: 30;
+    -fx-max-width: 30;
+    -fx-max-height: 30;
+}
+
+.message-sender { -fx-text-fill: white; -fx-font-size: 10; -fx-font-weight: bold; }
+.message-time { -fx-text-fill: #555555; -fx-font-size: 9; }
+
+.message-bubble {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-background-radius: 3 10 10 10;
+    -fx-padding: 7 10;
+}
+
+.message-text { -fx-text-fill: rgba(255, 255, 255, 0.75); -fx-font-size: 11; }
+
+.message-bubble-self {
+    -fx-background-color: rgba(244, 175, 37, 0.1);
+    -fx-background-radius: 10 3 10 10;
+    -fx-padding: 7 10;
+}
+
+.message-text-self { -fx-text-fill: #f4af25; -fx-font-size: 11; }
+
+.quick-chat-container {
+    -fx-padding: 8 16;
+    -fx-background-color: rgba(0, 0, 0, 0.12);
+}
+
+.quick-chat-btn {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-radius: 6;
+    -fx-text-fill: #888888;
+    -fx-font-size: 9;
+    -fx-padding: 5 8;
+    -fx-cursor: hand;
+}
+
+.quick-chat-btn:hover {
+    -fx-background-color: rgba(244, 175, 37, 0.1);
+    -fx-background-radius: 6;
+    -fx-text-fill: #f4af25;
+}
+
+.chat-input-container {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-padding: 12 16;
+}
+
+.chat-input-wrapper {
+    -fx-background-color: #221c10;
+    -fx-background-radius: 8;
+    -fx-padding: 3 5 3 12;
+}
+
+.chat-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(136, 136, 136, 0.3);
+    -fx-font-size: 11;
+    -fx-padding: 6 0;
+}
+
+.send-btn {
+    -fx-background-color: #f4af25;
+    -fx-background-radius: 6;
+    -fx-min-width: 28;
+    -fx-min-height: 28;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.send-btn:hover {
+    -fx-background-color: #ffbe3b;
+    -fx-background-radius: 6;
+}
+
+.send-icon { -fx-icon-color: #181611; -fx-icon-size: 12; }

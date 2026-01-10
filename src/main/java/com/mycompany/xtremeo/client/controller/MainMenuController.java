@@ -11,10 +11,14 @@ import com.mycompany.xtremeo.client.ui.dialog.HistoryDialog;
 import com.mycompany.xtremeo.client.ui.dialog.RecordGameDialog;
 import com.mycompany.xtremeo.client.util.Screen;
 
+import com.mycompany.xtremeo.client.ui.ComponentFactory;
+import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
 
 /**
  * FXML Controller class
@@ -47,7 +51,7 @@ public class MainMenuController {
     }
 
     @FXML
-    void handlePlayWithFreind(ActionEvent event) {
+    void handlePlayWithFriend(ActionEvent event) {
         RecordGameDialog.show(mainRoot, record -> {
             BoardController controller = Navigator.setRoot(Screen.BOARD.getName());
             if (controller != null) {
@@ -59,8 +63,29 @@ public class MainMenuController {
     
     @FXML
     void handleMultiplayer(ActionEvent event) {
-        System.out.println("Starting Multiplayer...");
-        // Navigate to Login/Register screen
+        RotateTransition animation = showLoading();
+        Navigator.setRootAsync(Screen.LOBBY.getName(), e -> hideLoading(animation));
+    }
+
+    private RotateTransition showLoading() {
+        btnMultiplayer.setDisable(true);
+        btnMultiplayer.getStyleClass().add("loading");
+        btnMultiplayer.setText("CONNECTING...");
+
+        Arc spinner = ComponentFactory.createSpinner(16, Color.web("#333333"));
+        btnMultiplayer.setGraphic(spinner);
+
+        RotateTransition rotate = ComponentFactory.createSpinAnimation(spinner);
+        rotate.play();
+        return rotate;
+    }
+
+    private void hideLoading(RotateTransition animation) {
+        animation.stop();
+        btnMultiplayer.setGraphic(null);
+        btnMultiplayer.setText("MULTIPLAYER");
+        btnMultiplayer.getStyleClass().remove("loading");
+        btnMultiplayer.setDisable(false);
     }
 
     @FXML

@@ -10,8 +10,10 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
+    private static final String APP_NAME = "XtremO";
     @Override
     public void start(Stage stage) throws IOException {
+        stage.setTitle(APP_NAME);
         Navigator.init(stage);
         Navigator.setRoot(Screen.SPLASH.getName());
         stage.show();
