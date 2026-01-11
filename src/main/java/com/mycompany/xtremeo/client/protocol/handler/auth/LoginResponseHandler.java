@@ -2,17 +2,18 @@ package com.mycompany.xtremeo.client.protocol.handler.auth;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mycompany.xtremeo.client.listener.auth.LoginUIListener;
 import com.mycompany.xtremeo.client.protocol.handler.ResponseHandler;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 import com.mycompany.xtremeo.client.model.common.Player;
 
+import java.util.function.Consumer;
+
 public class LoginResponseHandler implements ResponseHandler<Player> {
 
-    private final LoginUIListener loginListener;
+    private static Consumer<Player> onLoginResponse;
 
-    public LoginResponseHandler(LoginUIListener loginListener) {
-        this.loginListener = loginListener;
+    public static void setOnLoginResponseConsumer(Consumer<Player> consumer){
+        onLoginResponse = consumer;
     }
 
     @Override
@@ -23,6 +24,6 @@ public class LoginResponseHandler implements ResponseHandler<Player> {
                         new TypeToken<RequestEnvelope<Player>>(){}.getType()
                 );
         Player player = envelope.getBody();
-        loginListener.onLoginResponse(player);
+        onLoginResponse.accept(player);
     }
 }

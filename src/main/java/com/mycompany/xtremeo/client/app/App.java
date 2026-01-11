@@ -3,9 +3,6 @@ package com.mycompany.xtremeo.client.app;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mycompany.xtremeo.client.adapter.LocalDateTimeAdapter;
-import com.mycompany.xtremeo.client.listener.auth.LoginUIListener;
-import com.mycompany.xtremeo.client.listener.auth.RegisterUIListener;
-import com.mycompany.xtremeo.client.model.common.Player;
 import com.mycompany.xtremeo.client.network.ClientConnection;
 import com.mycompany.xtremeo.client.network.DispatcherMessageListener;
 import com.mycompany.xtremeo.client.network.NetworkConfig;
@@ -30,34 +27,10 @@ public class App extends Application {
     }
 
     void test(){
-        LoginUIListener loginListener = new LoginUIListener() {
-            @Override
-            public void onLoginResponse(Player player) {
-                System.out.println("Login Successfully from UI: " + player.toString());
-            }
-
-            @Override
-            public void onLoginError(String errorMessage) {
-                LoginUIListener.super.onLoginError(errorMessage);
-            }
-        };
-        RegisterUIListener registerListener = new RegisterUIListener() {
-
-            @Override
-            public void onRegisterResponse(Player player) {
-                System.out.println("Register Successfully from UI: " + player.toString());
-            }
-
-            @Override
-            public void onRegisterError(String errorMessage) {
-                RegisterUIListener.super.onRegisterError(errorMessage);
-            }
-        };
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .create();
-        ResponseDispatcher dispatcher = new ResponseDispatcher(gson,
-                loginListener, registerListener);
+        ResponseDispatcher dispatcher = new ResponseDispatcher(gson);
         ClientConnection connection = new ClientConnection();
         connection.connect(NetworkConfig.SERVER_HOST, NetworkConfig.SERVER_PORT);
         connection.startListening(

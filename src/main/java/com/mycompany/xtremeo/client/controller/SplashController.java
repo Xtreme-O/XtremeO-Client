@@ -1,6 +1,7 @@
 package com.mycompany.xtremeo.client.controller;
 
 import com.mycompany.xtremeo.client.app.Navigator;
+import com.mycompany.xtremeo.client.protocol.handler.auth.LoginResponseHandler;
 import com.mycompany.xtremeo.client.util.Screen;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,7 +18,6 @@ public class SplashController {
     
     @FXML
     public void initialize() {
-        
         new Thread(() -> {
             try {
                 String[] stages = {"Initializing game engine...", "Loading assets...", "Ready!"};

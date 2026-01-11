@@ -1,9 +1,7 @@
 package com.mycompany.xtremeo.client.controller;
 
 import com.mycompany.xtremeo.client.app.Navigator;
-import com.mycompany.xtremeo.client.listener.game.MoveUIListener;
 import com.mycompany.xtremeo.client.model.game.GameMode;
-import com.mycompany.xtremeo.client.model.game.Move;
 import com.mycompany.xtremeo.client.model.viewmodel.GameViewModel;
 import com.mycompany.xtremeo.client.util.Screen;
 import com.mycompany.xtremeo.client.util.UIUtils;
@@ -16,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class BoardController implements MoveUIListener {
+public class BoardController {
     @FXML private Label scoreX, scoreO;
     @FXML private Label turnLabel;
     @FXML private HBox turnIndicatorContainer;
@@ -158,12 +156,5 @@ public class BoardController implements MoveUIListener {
     }
     private Button getButtonAt(int row, int col) {
         return buttons[row][col];
-    }
-
-
-    @Override
-    public void onMoveReceived(Move move) {
-        System.out.println("Hello From UI with : "+move.toString());
-        //TODO handle ui in runlater()
     }
 }

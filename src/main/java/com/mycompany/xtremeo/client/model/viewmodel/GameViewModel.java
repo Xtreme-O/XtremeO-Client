@@ -7,6 +7,7 @@ package com.mycompany.xtremeo.client.model.viewmodel;
 import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.game.GameEngine;
 import com.mycompany.xtremeo.client.game.GameOpponent;
+import com.mycompany.xtremeo.client.game.OnlineOpponent;
 import com.mycompany.xtremeo.client.game.TicTacToeCpuOpponent;
 import com.mycompany.xtremeo.client.model.game.GameMode;
 import javafx.beans.property.IntegerProperty;
@@ -65,9 +66,9 @@ public class GameViewModel {
         resetBoard();
         switch (mode) {
             case WITH_CPU:
-                this.opponent = new TicTacToeCpuOpponent(difficulty);
+//                this.opponent = new TicTacToeCpuOpponent(difficulty);
                 // test online move response
-//                this.opponent = OnlineOpponent.getInstance();
+                this.opponent = OnlineOpponent.getInstance();
                 break;
             case MULTIPLAYER:
                 // this.opponent = new OnlineOpponent();
