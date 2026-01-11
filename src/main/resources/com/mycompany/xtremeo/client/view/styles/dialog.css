@@ -167,3 +167,61 @@
     -fx-translate-y: 0;
     -fx-background-insets: 0, 3 0 1 0;
 }
+
+.help-title {
+    -fx-text-fill: #f4af25;
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 28;
+}
+
+.help-version {
+    -fx-text-fill: #888888;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+}
+
+.help-separator {
+    -fx-background-color: #443a2e;
+    -fx-pref-width: 350;
+    -fx-pref-height: 1;
+}
+
+.help-section-title {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 18;
+}
+
+.help-text {
+    -fx-fill: #aaaaaa;
+    -fx-font-size: 14;
+    -fx-line-spacing: 4;
+}
+
+.help-feature-item {
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 13;
+    -fx-padding: 0 0 0 10;
+}
+
+.help-button {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 16;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-background-color: #c78b1d, #f3ae30;
+    -fx-background-insets: 0, 0 0 4 0;
+    -fx-background-radius: 20;
+    -fx-padding: 14 60 18 60;
+    -fx-min-width: 150;
+}
+
+.help-button:hover {
+    -fx-background-color: #c78b1d, #ffc24b;
+    -fx-translate-y: -2;
+}
+
+.help-button:pressed {
+    -fx-translate-y: 0;
+    -fx-background-insets: 0, 3 0 1 0;
+}

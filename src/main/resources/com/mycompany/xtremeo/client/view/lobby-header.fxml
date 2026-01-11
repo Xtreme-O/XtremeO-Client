@@ -29,6 +29,8 @@
             <graphic><FontIcon iconLiteral="mdi2h-history" styleClass="header-icon"/></graphic>
         </Button>
         
+        <Button fx:id="btnAudioToggle" styleClass="header-icon-btn" />
+        
         <Button fx:id="btnLogout" onAction="#handleLogout" styleClass="logout-btn">
             <graphic>
                 <HBox alignment="CENTER" spacing="6">

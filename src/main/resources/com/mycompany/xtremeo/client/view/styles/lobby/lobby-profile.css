@@ -99,14 +99,97 @@
     -fx-font-weight: bold;
 }
 
-.top-player-row {
-    -fx-spacing: 12;
-    -fx-padding: 10 12;
+.top-players-list {
+    -fx-background-color: transparent !important;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+    -fx-focus-traversable: false;
+    -fx-control-inner-background: transparent;
+}
+
+.top-players-list .viewport {
+    -fx-background-color: transparent !important;
+    -fx-background: transparent;
+    -fx-padding: 0;
+}
+
+.top-players-list .virtual-flow {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.top-players-list .virtual-flow .clipped-container {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.top-players-list .virtual-flow .clipped-container .sheet {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.top-players-list .virtual-flow .clipped-container .sheet .list-cell {
+    -fx-background-color: transparent;
+}
+
+.top-players-list .scroll-bar:horizontal {
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+    -fx-min-height: 0;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+    visibility: hidden;
+}
+
+.top-players-list .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.top-players-list .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.top-players-list .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-radius: 5;
+}
+
+.top-players-list .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}
+
+.top-players-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+
+.top-players-list .list-cell:filled {
+    -fx-padding: 0 2 10 2;
+}
+
+.top-players-list .list-cell:selected {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.top-players-list .list-cell:empty {
+    -fx-padding: 0;
+    -fx-pref-height: 0;
+}
+
+.top-players-list .list-cell:filled .top-player-row {
+    -fx-padding: 12 0 12 0;
     -fx-background-color: rgba(255, 255, 255, 0.03);
     -fx-background-radius: 10;
 }
 
-.top-player-row:hover {
+.top-players-list .list-cell:filled:hover .top-player-row {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+}
+
+.top-players-list .list-cell:filled:selected .top-player-row {
     -fx-background-color: rgba(255, 255, 255, 0.06);
 }
 
@@ -133,6 +216,7 @@
     -fx-text-fill: white; 
     -fx-font-size: 13; 
     -fx-font-weight: bold;
+    -fx-text-overrun: ellipsis;
 }
 
 .top-player-xp { 

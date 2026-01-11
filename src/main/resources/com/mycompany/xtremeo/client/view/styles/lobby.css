@@ -12,7 +12,7 @@
 .lobby-container { -fx-background-color: -bg-dark; }
 
 .lobby-header {
-    -fx-background-color: #181611;
+    -fx-background-color: -bg-dark;
     -fx-border-color: -surface-highlight;
     -fx-border-width: 0 0 1 0;
     -fx-padding: 14 36;
@@ -116,6 +116,19 @@
 .play-now-btn:hover { -fx-background-color: #ffbe3b; -fx-background-radius: 12; }
 .play-now-icon { -fx-icon-color: #181611; -fx-icon-size: 16; }
 .play-now-label { -fx-text-fill: #181611; -fx-font-size: 14; -fx-font-weight: bold; }
+
+.play-now-btn-matchmaking {
+    -fx-background-color: -surface-highlight;
+    -fx-background-radius: 12;
+    -fx-padding: 12 20; -fx-cursor: hand;
+    -fx-border-color: -primary;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+.play-now-btn-matchmaking:hover {
+    -fx-background-color: #443a2e;
+    -fx-border-color: #ffbe3b;
+}
 
 .top-players-section {
     -fx-background-color: rgba(0, 0, 0, 0.2);

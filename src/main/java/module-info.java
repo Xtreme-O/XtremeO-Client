@@ -1,6 +1,7 @@
 module com.mycompany.xtremeo.client {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.media;
     requires java.base;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.materialdesign2;

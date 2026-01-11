@@ -6,7 +6,9 @@ package com.mycompany.xtremeo.client.controller;
 
 import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.model.game.GameMode;
+import com.mycompany.xtremeo.client.service.audio.AudioService;
 import com.mycompany.xtremeo.client.ui.dialog.DifficultyDialog;
+import com.mycompany.xtremeo.client.ui.dialog.HelpDialog;
 import com.mycompany.xtremeo.client.ui.dialog.HistoryDialog;
 import com.mycompany.xtremeo.client.ui.dialog.RecordGameDialog;
 import com.mycompany.xtremeo.client.util.Screen;
@@ -32,10 +34,13 @@ public class MainMenuController {
     @FXML private Button btnCpu;
     @FXML private Button btnMultiplayer;
     @FXML private Button btnHistory;
-    
+    @FXML private Button btnSoundToggle;
+    private final AudioService audioService = AudioService.getInstance();
+        
     @FXML
     public void initialize() {
-        // Ready for any initialization
+        audioService.startDefaultBackgroundMusic();   
+        ComponentFactory.configureAudioToggleButton(btnSoundToggle, "icon-button-icon");
     }
 
     @FXML
@@ -72,7 +77,7 @@ public class MainMenuController {
         btnMultiplayer.getStyleClass().add("loading");
         btnMultiplayer.setText("CONNECTING...");
 
-        Arc spinner = ComponentFactory.createSpinner(16, Color.web("#333333"));
+        Arc spinner = ComponentFactory.createSpinner(16, Color.BLACK);
         btnMultiplayer.setGraphic(spinner);
 
         RotateTransition rotate = ComponentFactory.createSpinAnimation(spinner);
@@ -83,7 +88,7 @@ public class MainMenuController {
     private void hideLoading(RotateTransition animation) {
         animation.stop();
         btnMultiplayer.setGraphic(null);
-        btnMultiplayer.setText("MULTIPLAYER");
+        btnMultiplayer.setText("Multiplayer");
         btnMultiplayer.getStyleClass().remove("loading");
         btnMultiplayer.setDisable(false);
     }
@@ -92,4 +97,10 @@ public class MainMenuController {
     void handleHistory(ActionEvent event) {
         HistoryDialog.show(mainRoot);
     }
+    
+    @FXML
+    void handleHelp(ActionEvent event) {
+        HelpDialog.show(mainRoot);
+    }
+    
 }

@@ -57,6 +57,15 @@
     -fx-text-fill: white;
 }
 
+.icon-button-icon {
+    -fx-icon-color: #888888;
+    -fx-icon-size: 20;
+}
+
+.icon-button:hover .icon-button-icon {
+    -fx-icon-color: white;
+}
+
 .icon-label {
     -fx-text-fill: #777777;
     -fx-font-size: 10;
