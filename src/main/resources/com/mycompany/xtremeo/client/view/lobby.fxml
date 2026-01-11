@@ -13,7 +13,7 @@
         </top>
         
         <left>
-            <VBox prefWidth="260" styleClass="profile-sidebar">
+            <VBox prefWidth="280" styleClass="profile-sidebar">
                 <fx:include fx:id="profileCard" source="lobby-profile-card.fxml" VBox.vgrow="ALWAYS" />
             </VBox>
         </left>

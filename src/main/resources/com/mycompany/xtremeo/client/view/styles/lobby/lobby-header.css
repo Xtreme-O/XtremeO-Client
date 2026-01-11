@@ -3,8 +3,8 @@
    ======================================== */
 
 .lobby-header {
-    -fx-background-color: #181611;
-    -fx-border-color: #3a3222;
+    -fx-background-color: -bg-dark;
+    -fx-border-color: -surface-highlight;
     -fx-border-width: 0 0 1 0;
     -fx-padding: 10 28;
 }

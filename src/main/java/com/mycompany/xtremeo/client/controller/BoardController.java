@@ -8,6 +8,8 @@ import com.mycompany.xtremeo.client.model.game.InGamePlayer;
 import com.mycompany.xtremeo.client.model.game.Move;
 import com.mycompany.xtremeo.client.model.viewmodel.GameReplayDriver;
 import com.mycompany.xtremeo.client.model.viewmodel.GameViewModel;
+import com.mycompany.xtremeo.client.service.audio.AudioService;
+import com.mycompany.xtremeo.client.util.AudioFiles;
 import com.mycompany.xtremeo.client.util.Screen;
 import com.mycompany.xtremeo.client.util.UIUtils;
 import javafx.collections.ListChangeListener;
@@ -133,9 +135,11 @@ public class BoardController {
     }
 
     private void onGameOver(InGamePlayer p1, InGamePlayer p2, InGamePlayer winner) {
+        AudioService audioService = AudioService.getInstance();
         if (winner == null) {
             System.out.println("The game ended in a draw between " + p1.name() + " and " + p2.name());
         } else {
+            audioService.playSoundEffect(AudioFiles.WIN_SOUND);
             System.out.println("The winner is: " + winner.name());
         }
         disableEntireBoard();

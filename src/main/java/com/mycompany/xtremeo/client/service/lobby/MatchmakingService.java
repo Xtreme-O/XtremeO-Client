@@ -2,10 +2,6 @@ package com.mycompany.xtremeo.client.service.lobby;
 
 import com.mycompany.xtremeo.client.data.DataProvider;
 import com.mycompany.xtremeo.client.model.common.Player;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +13,6 @@ public class MatchmakingService {
     private static MatchmakingService instance;
     private Consumer<Player> onChallengeReceived;
     private Consumer<List<Player>> onPendingChallengesChanged;
-
     private final List<Player> pendingChallenges  = new ArrayList<>();
     private Runnable onMatchFound;
 

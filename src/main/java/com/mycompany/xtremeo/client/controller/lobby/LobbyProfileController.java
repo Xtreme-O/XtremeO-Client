@@ -4,10 +4,17 @@ import com.mycompany.xtremeo.client.model.lobby.TopPlayerData;
 import com.mycompany.xtremeo.client.service.lobby.MatchmakingService;
 import com.mycompany.xtremeo.client.service.lobby.PlayerService;
 import com.mycompany.xtremeo.client.ui.AvatarFactory;
+import com.mycompany.xtremeo.client.ui.PlayButtonStateManager;
+import com.mycompany.xtremeo.client.ui.TopPlayerListCell;
+
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 public class LobbyProfileController {
 
@@ -18,21 +25,22 @@ public class LobbyProfileController {
     @FXML private Label lblLosses;
     @FXML private Label lblWinRate;
 
-    @FXML private ImageView imgTop1;
-    @FXML private Label lblTop1Name;
-    @FXML private Label lblTop1Xp;
-    @FXML private ImageView imgTop2;
-    @FXML private Label lblTop2Name;
-    @FXML private Label lblTop2Xp;
-    @FXML private ImageView imgTop3;
-    @FXML private Label lblTop3Name;
-    @FXML private Label lblTop3Xp;
+    @FXML private ListView<TopPlayerData> listTopPlayers;
+    @FXML private Button btnPlayNow;
+    @FXML private HBox btnPlayNowContent;
+    @FXML private FontIcon iconPlayNow;
+    @FXML private Label lblPlayNow;
 
     private final PlayerService playerService = PlayerService.getInstance();
     private final MatchmakingService matchmakingService = MatchmakingService.getInstance();
+    
+    private PlayButtonStateManager buttonStateManager;
+    private boolean isMatchmaking = false;
+
 
     @FXML
     public void initialize() {
+        buttonStateManager = new PlayButtonStateManager(btnPlayNowContent, iconPlayNow, lblPlayNow);
         bindProfile();
         bindTopPlayers();
     }
@@ -69,22 +77,31 @@ public class LobbyProfileController {
     }
 
     private void bindTopPlayers() {
-        var topPlayers = playerService.getTopPlayers();
-        if (topPlayers.size() >= 3) {
-            setupTopPlayer(imgTop1, lblTop1Name, lblTop1Xp, topPlayers.get(0));
-            setupTopPlayer(imgTop2, lblTop2Name, lblTop2Xp, topPlayers.get(1));
-            setupTopPlayer(imgTop3, lblTop3Name, lblTop3Xp, topPlayers.get(2));
-        }
-    }
-
-    private void setupTopPlayer(ImageView img, Label name, Label xp, TopPlayerData player) {
-        AvatarFactory.setup(img, player.avatarUrl(), 24);
-        name.setText(player.name());
-        xp.setText(String.valueOf(player.score()));
+        listTopPlayers.setCellFactory(lv -> new TopPlayerListCell());
+        listTopPlayers.setItems(playerService.getTopPlayers());
+        listTopPlayers.setFocusTraversable(false);
+        listTopPlayers.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.SINGLE);
+        listTopPlayers.setStyle("-fx-background-color: transparent;");
     }
 
     @FXML
     private void handlePlayNow() {
+        if(isMatchmaking) {
+            cancelMatchmaking();
+        } else {
+            startMatchmaking();
+        }
+    }
+
+    private void cancelMatchmaking() {
+        matchmakingService.cancelMatchmaking();
+        buttonStateManager.setPlayNowState();
+        isMatchmaking = false;
+    }
+
+    private void startMatchmaking() {
+        buttonStateManager.setMatchmakingState();
         matchmakingService.startMatchmaking();
+        isMatchmaking = true;
     }
 }

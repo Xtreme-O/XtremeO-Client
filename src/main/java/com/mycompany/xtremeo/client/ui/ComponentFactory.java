@@ -1,10 +1,13 @@
 package com.mycompany.xtremeo.client.ui;
 
+import com.mycompany.xtremeo.client.service.audio.AudioService;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.StrokeLineCap;
+import org.kordamp.ikonli.javafx.FontIcon;
 import javafx.util.Duration;
 
 public final class ComponentFactory {
@@ -28,4 +31,29 @@ public final class ComponentFactory {
         rotate.setInterpolator(Interpolator.LINEAR);
         return rotate;
     }
+    
+    public static void configureAudioToggleButton(Button button, String iconStyleClass) {
+        AudioService audioService = AudioService.getInstance();
+        FontIcon soundIcon = new FontIcon();
+        soundIcon.getStyleClass().add(iconStyleClass);
+        
+        button.setGraphic(soundIcon);
+        button.setMnemonicParsing(false);
+        
+        updateAudioIcon(soundIcon, audioService.isBackgroundMusicEnabled());
+        
+        button.setOnAction(e -> {
+            audioService.setBackgroundMusicEnabled(!audioService.isBackgroundMusicEnabled());
+            updateAudioIcon(soundIcon, audioService.isBackgroundMusicEnabled());
+        });
+    }
+    
+    private static void updateAudioIcon(FontIcon icon, boolean enabled) {
+        if (enabled) {
+            icon.setIconLiteral("mdi2v-volume-high");
+        } else {
+            icon.setIconLiteral("mdi2v-volume-off");
+        }
+    }
+    
 }
