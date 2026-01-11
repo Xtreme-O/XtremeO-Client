@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+      alignment="CENTER"
+      spacing="40"
+      styleClass="root"
+      stylesheets="@styles/register.css"
+      fx:controller="com.mycompany.xtremeo.client.controller.RegisterController">
+
+    <padding>
+        <Insets top="40" right="40" bottom="40" left="40"/>
+    </padding>
+
+    <VBox maxWidth="500" spacing="24" alignment="TOP_CENTER" styleClass="card">
+
+        <!-- Header -->
+        <VBox spacing="12" alignment="CENTER" styleClass="header">
+            <padding>
+                <Insets top="32" right="32" bottom="16" left="32"/>
+            </padding>
+
+            <HBox alignment="CENTER" spacing="12">
+                <Circle radius="28" styleClass="logo-circle"/>
+                <Label text="XtremO" styleClass="logo-text"/>
+            </HBox>
+
+            <VBox spacing="8" alignment="CENTER">
+                <Label text="Join the Arena" styleClass="title"/>
+                <Label text="Create your profile to challenge friends and climb the leaderboard."
+                       styleClass="subtitle"/>
+            </VBox>
+        </VBox>
+
+        <!-- Form -->
+        <VBox spacing="20" styleClass="form">
+            <padding>
+                <Insets top="0" right="32" bottom="32" left="32"/>
+            </padding>
+
+            <!-- Avatar Selector -->
+            <VBox spacing="8">
+                <Label text="Choose your Avatar" styleClass="section-label"/>
+
+                <HBox spacing="12" alignment="CENTER_LEFT">
+
+                    <!-- Avatar 1 -->
+                    <StackPane styleClass="avatar">
+                        <ImageView fitWidth="40" fitHeight="40" preserveRatio="true" onMouseClicked="#onAvatarSelect">
+                            <image>
+                                <Image url="@assets/avatar1.png"/>
+                            </image>
+                            <clip>
+                                <Circle radius="20" centerX="20" centerY="20"/>
+                            </clip>
+                        </ImageView>
+                    </StackPane>
+
+                    <!-- Avatar 2 -->
+                    <StackPane styleClass="avatar">
+                        <ImageView fitWidth="40" fitHeight="40" preserveRatio="true" onMouseClicked="#onAvatarSelect">
+                            <image>
+                                <Image url="@assets/avatar2.png"/>
+                            </image>
+                            <clip>
+                                <Circle radius="20" centerX="20" centerY="20"/>
+                            </clip>
+                        </ImageView>
+                    </StackPane>
+
+                    <!-- Avatar 3 -->
+                    <StackPane styleClass="avatar">
+                        <ImageView fitWidth="40" fitHeight="40" preserveRatio="true" onMouseClicked="#onAvatarSelect">
+                            <image>
+                                <Image url="@assets/avatar3.png"/>
+                            </image>
+                            <clip>
+                                <Circle radius="20" centerX="20" centerY="20"/>
+                            </clip>
+                        </ImageView>
+                    </StackPane>
+
+                    <!-- Avatar 4 -->
+                    <StackPane styleClass="avatar">
+                        <ImageView fitWidth="40" fitHeight="40" preserveRatio="true" onMouseClicked="#onAvatarSelect">
+                            <image>
+                                <Image url="@assets/avatar4.png"/>
+                            </image>
+                            <clip>
+                                <Circle radius="20" centerX="20" centerY="20"/>
+                            </clip>
+                        </ImageView>
+                    </StackPane>
+
+                </HBox>
+            </VBox>
+
+            <!-- Inputs -->
+            <VBox spacing="16">
+                <TextField promptText="Username" styleClass="input"/>
+                <TextField promptText="Email Address" styleClass="input"/>
+
+                <GridPane hgap="16">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+
+                    <PasswordField promptText="Password" GridPane.columnIndex="0" styleClass="input"/>
+                    <PasswordField promptText="Confirm password" GridPane.columnIndex="1" styleClass="input"/>
+                </GridPane>
+            </VBox>
+
+            <!-- Button -->
+            <Button text="START GAME" styleClass="primary-button" onAction="#onRegister"/>
+        </VBox>
+
+        <!-- Footer -->
+        <VBox styleClass="footer">
+            <Label text="Already a player?" styleClass="footer-text">
+                <graphic>
+                    <Hyperlink text="Log In" styleClass="link"/>
+                </graphic>
+            </Label>
+        </VBox>
+
+    </VBox>
+</VBox>

@@ -56,5 +56,10 @@ public class MainMenuController {
     void handleMultiplayer(ActionEvent event) {
         System.out.println("Starting Multiplayer...");
         // Navigate to Login/Register screen
+        
+        
+        Navigator.setRoot(Screen.REGISTER.getName());
+        Navigator.setRoot(Screen.LOGIN.getName());
+        
     }
 }

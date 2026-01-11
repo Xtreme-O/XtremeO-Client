@@ -10,11 +10,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<StackPane fx:id="rootPane" prefHeight="800" prefWidth="600" styleClass="root-pane" stylesheets="@styles/login-ui.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.xtremeo.client.controller.LoginUIController">
+<StackPane fx:id="rootPane" prefHeight="800" prefWidth="600" 
+           styleClass="root-pane" stylesheets="@styles/login-ui.css" 
+           xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="com.mycompany.xtremeo.client.controller.LoginUIController">
 
     <!-- Ambient Background Glow -->
     <Pane styleClass="background-glow" />
@@ -26,11 +29,12 @@
             
             <!-- Logo + Title -->
             <VBox alignment="CENTER" spacing="10">
-                <StackPane styleClass="logo-container">
+<!--                <StackPane styleClass="logo-container">
                     <Label styleClass="logo-x" text="X" />
                     <Label styleClass="logo-o" text="O" />
-                </StackPane>
-                <Label styleClass="title" text="Arena Login"/>
+                </StackPane>-->
+                <javafx.scene.shape.SVGPath content="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24Z                    M12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="#f4af25" /> 
+                <Label styleClass="title" text="Arena Login" />
                 <Label styleClass="subtitle" text="Welcome back, challenger." />
             </VBox>
 
@@ -52,7 +56,7 @@
                 </VBox>
 
                 <!-- Submit -->
-                <Button fx:id="submitBtn" alignment="CENTER" styleClass="submit-btn" text="ENTER ARENA" />
+                <Button fx:id="submitBtn" alignment="CENTER" styleClass="submit-btn" text="ENTER ARENA" onAction="#onClick"/>
             </VBox>
 
             <!-- Footer -->
