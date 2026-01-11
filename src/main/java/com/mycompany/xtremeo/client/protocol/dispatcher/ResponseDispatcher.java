@@ -1,10 +1,9 @@
 package com.mycompany.xtremeo.client.protocol.dispatcher;
 
 import com.google.gson.Gson;
+import com.mycompany.xtremeo.client.game.OnlineOpponent;
 import com.mycompany.xtremeo.client.listener.auth.LoginUIListener;
 import com.mycompany.xtremeo.client.listener.auth.RegisterUIListener;
-import com.mycompany.xtremeo.client.listener.game.MoveUIListener;
-import com.mycompany.xtremeo.client.listener.global.GlobalMessageUIListener;
 import com.mycompany.xtremeo.client.protocol.handler.*;
 import com.mycompany.xtremeo.client.protocol.handler.auth.LoginResponseHandler;
 import com.mycompany.xtremeo.client.protocol.handler.auth.RegisterResponseHandler;
@@ -24,22 +23,20 @@ public class ResponseDispatcher {
     LoginUIListener loginListener;
     RegisterUIListener registerListener;
 //    GlobalMessageUIListener globalMessageListener;
-    MoveUIListener moveListener;
-    public ResponseDispatcher(Gson gson, MoveUIListener moveListener,
+    public ResponseDispatcher(Gson gson,
                               LoginUIListener loginListener,
                               RegisterUIListener registerListener) {
         this.gson = gson;
         this.handlers = new EnumMap<>(ActionType.class);
         this.loginListener = loginListener;
         this.registerListener = registerListener;
-        this.moveListener = moveListener;
         registerHandlers();
     }
 
     private void registerHandlers() {
         handlers.put(ActionType.LOGIN, new LoginResponseHandler(loginListener));
         handlers.put(ActionType.REGISTER, new RegisterResponseHandler(registerListener));
-        handlers.put(ActionType.MOVE, new MoveResponseHandler(moveListener));
+        handlers.put(ActionType.MOVE, new MoveResponseHandler());
         handlers.put(ActionType.GLOBAL_MESSAGE, new GlobalMessageHandler());
     }
 

@@ -66,6 +66,8 @@ public class GameViewModel {
         switch (mode) {
             case WITH_CPU:
                 this.opponent = new TicTacToeCpuOpponent(difficulty);
+                // test online move response
+//                this.opponent = OnlineOpponent.getInstance();
                 break;
             case MULTIPLAYER:
                 // this.opponent = new OnlineOpponent();
