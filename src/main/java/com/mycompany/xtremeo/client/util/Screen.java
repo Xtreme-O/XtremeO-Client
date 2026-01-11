@@ -11,7 +11,8 @@ package com.mycompany.xtremeo.client.util;
 public enum Screen {
     SPLASH("splash"),
     MAIN("main-menu"),
-    BOARD("board");
+    BOARD("board"),
+    LOBBY("lobby");
     private final String name;
     Screen(String s){
        name = s;
