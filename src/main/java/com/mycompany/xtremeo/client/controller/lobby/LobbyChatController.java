@@ -2,6 +2,7 @@ package com.mycompany.xtremeo.client.controller.lobby;
 
 import com.mycompany.xtremeo.client.data.DataProvider;
 import com.mycompany.xtremeo.client.model.lobby.ChatMessageData;
+import com.mycompany.xtremeo.client.protocol.handler.message.GlobalMessageHandler;
 import com.mycompany.xtremeo.client.service.lobby.ChatService;
 import com.mycompany.xtremeo.client.ui.AvatarFactory;
 import javafx.application.Platform;
@@ -29,8 +30,8 @@ public class LobbyChatController {
     @FXML
     public void initialize() {
         loadMessages();
+        GlobalMessageHandler.setOnMessageResponse(chatService::receiveMessage);
         chatService.setMessageListener(this::addMessageToUI);
-
         messagesContainer.heightProperty().addListener((obs, old, val) -> {
             chatScroll.setVvalue(1.0);
         });

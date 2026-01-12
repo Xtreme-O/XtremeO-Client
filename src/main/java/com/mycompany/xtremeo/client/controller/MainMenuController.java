@@ -71,7 +71,7 @@ public class MainMenuController {
             System.out.println("Invite rejected by " + declined.receiverId());
         });
         GlobalMessageHandler.setOnMessageResponse(message -> {
-            System.out.println("Global Message : " + message.getMessage());
+            System.out.println("Global Message : " + message.message());
         });
         InGameMessageHandler.setOnMessageResponse(message -> {
             System.out.println("In Game Message : " + message.getMessage());

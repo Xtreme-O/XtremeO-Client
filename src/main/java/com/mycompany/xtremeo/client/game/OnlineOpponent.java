@@ -25,7 +25,7 @@ public class OnlineOpponent implements GameOpponent {
     public synchronized void onMoveReceived(Move move) {
         System.out.println("Received move from server: " + move);
         if (pendingCallback != null) {
-            pendingCallback.onMoveDecided(move.row(), move.col());
+            pendingCallback.onMoveDecided(move);
             pendingCallback = null;
         }
     }

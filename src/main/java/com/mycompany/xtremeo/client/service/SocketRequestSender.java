@@ -1,22 +1,21 @@
-package com.mycompany.xtremeo.client.service.auth;
+package com.mycompany.xtremeo.client.service;
 
 import com.google.gson.Gson;
 import com.mycompany.xtremeo.client.network.ClientConnection;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 
-public class AuthServiceImpl implements AuthService {
-
-    private final Gson gson = new Gson();
+public class SocketRequestSender implements RequestSender{
+    private final Gson gson;
     private final ClientConnection connection;
 
-    public AuthServiceImpl(ClientConnection connection) {
+    public SocketRequestSender(Gson gson, ClientConnection connection) {
+        this.gson = gson;
         this.connection = connection;
     }
 
     @Override
-    public <T> void send(RequestEnvelope<T> request) {
+    public void send(RequestEnvelope<?> request) {
         String json = gson.toJson(request);
-        System.out.println("Request: " + json);
         connection.send(json);
     }
 }

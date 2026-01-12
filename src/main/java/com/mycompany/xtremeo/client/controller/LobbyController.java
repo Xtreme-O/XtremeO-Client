@@ -4,6 +4,7 @@ import com.mycompany.xtremeo.client.controller.lobby.LobbyChatController;
 import com.mycompany.xtremeo.client.controller.lobby.LobbyHeaderController;
 import com.mycompany.xtremeo.client.controller.lobby.LobbyPlayerListController;
 import com.mycompany.xtremeo.client.controller.lobby.LobbyProfileController;
+import com.mycompany.xtremeo.client.protocol.handler.message.GlobalMessageHandler;
 import com.mycompany.xtremeo.client.ui.dialog.HistoryDialog;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;

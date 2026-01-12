@@ -51,13 +51,10 @@ public class ChatService {
         System.out.println("Chat: " + message);
     }
 
-    public void receiveMessage(Player sender, String message) {
-        String time = DataProvider.formatCurrentTime();
-        ChatMessageData msg = new ChatMessageData(sender, message, time);
-        messages.add(msg);
-
+    public void receiveMessage(ChatMessageData message) {
+        messages.add(message);
         if (messageListener != null) {
-            messageListener.accept(msg);
+            messageListener.accept(message);
         }
     }
 
