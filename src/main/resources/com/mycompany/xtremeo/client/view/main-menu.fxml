@@ -6,7 +6,12 @@
 <?import javafx.geometry.Insets?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<StackPane fx:id="mainRoot" prefHeight="600.0" prefWidth="800.0" styleClass="main-bg" stylesheets="@menu-style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.xtremeo.client.controller.MainMenuController">
+<StackPane fx:id="mainRoot" styleClass="main-bg" 
+           stylesheets="@styles/main-menu.css" 
+           xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="com.mycompany.xtremeo.client.controller.MainMenuController"
+           prefHeight="600.0" prefWidth="800.0" 
+>
    <children>
       <Label styleClass="bg-decor-x" text="X" StackPane.alignment="TOP_LEFT">
          <StackPane.margin><Insets left="20.0" top="20.0" /></StackPane.margin>
