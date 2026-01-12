@@ -1,75 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<StackPane fx:id="rootPane" prefHeight="800" prefWidth="600" 
-           styleClass="root-pane" stylesheets="@styles/login-ui.css" 
-           xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" 
+<StackPane fx:id="rootPane" prefHeight="800" prefWidth="600"
+           styleClass="root-pane" stylesheets="@styles/login-ui.css"
+           xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.mycompany.xtremeo.client.controller.LoginUIController">
 
-    <!-- Ambient Background Glow -->
-    <Pane styleClass="background-glow" />
+    <Label styleClass="bg-decor-x" text="X" StackPane.alignment="TOP_LEFT" mouseTransparent="true">
+        <StackPane.margin><Insets left="20" top="20" /></StackPane.margin>
+    </Label>
 
-    <!-- Main Content -->
-    <VBox alignment="CENTER" spacing="30" styleClass="main-wrapper">
-        <!-- Login Card -->
+    <Label styleClass="bg-decor-o" text="O" StackPane.alignment="BOTTOM_RIGHT" mouseTransparent="true">
+        <StackPane.margin><Insets bottom="20" right="20" /></StackPane.margin>
+    </Label>
+
+    <Button fx:id="btnBack" mnemonicParsing="false" onAction="#onBack"
+            styleClass="btn-back" StackPane.alignment="TOP_LEFT">
+        <StackPane.margin><Insets left="20" top="20" /></StackPane.margin>
+        <graphic>
+            <FontIcon iconLiteral="mdi2a-arrow-left" styleClass="btn-back-icon"/>
+        </graphic>
+    </Button>
+
+    <VBox alignment="CENTER" spacing="30" styleClass="main-wrapper" pickOnBounds="false">
         <VBox alignment="CENTER" spacing="25" styleClass="login-card">
-            
-            <!-- Logo + Title -->
-            <VBox alignment="CENTER" spacing="10">
-<!--                <StackPane styleClass="logo-container">
-                    <Label styleClass="logo-x" text="X" />
-                    <Label styleClass="logo-o" text="O" />
-                </StackPane>-->
-                <javafx.scene.shape.SVGPath content="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24Z                    M12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="#f4af25" /> 
-                <Label styleClass="title" text="Arena Login" />
-                <Label styleClass="subtitle" text="Welcome back, challenger." />
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40" />
+            </padding>
+
+            <VBox alignment="CENTER" spacing="16">
+                <StackPane styleClass="logo-circle">
+                    <SVGPath content="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z"
+                             styleClass="logo-svg" />
+                </StackPane>
+
+                <VBox alignment="CENTER" spacing="4">
+                    <Label styleClass="title" text="Arena Login" />
+                    <Label styleClass="subtitle" text="Welcome back, challenger." />
+                </VBox>
             </VBox>
 
-            <!-- Form -->
-            <VBox alignment="CENTER" spacing="15" styleClass="form">
-                <!-- Username -->
-                <VBox spacing="5">
-                    <Label styleClass="label" text="Gamertag" />
-                    <TextField fx:id="usernameField" promptText="Enter your gamertag" styleClass="input" />
+            <VBox alignment="CENTER" spacing="20" styleClass="form">
+                <VBox spacing="8">
+                    <Label styleClass="input-label" text="Username" />
+                    <StackPane styleClass="input-container">
+                        <TextField fx:id="usernameField" promptText="Enter your username" styleClass="input" />
+                        <FontIcon iconLiteral="mdi2a-account" styleClass="input-icon" StackPane.alignment="CENTER_LEFT" mouseTransparent="true">
+                            <StackPane.margin><Insets left="16" /></StackPane.margin>
+                        </FontIcon>
+                    </StackPane>
                 </VBox>
 
-                <!-- Password -->
-                <VBox spacing="5">
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <Label styleClass="label" text="Password" />
-                        <Hyperlink fx:id="forgotLink" styleClass="forgot-link" text="Forgot password?" />
-                    </HBox>
-                    <PasswordField fx:id="passwordField" promptText="••••••••••••" styleClass="input" />
+                <VBox spacing="8">
+                    <Label styleClass="input-label" text="Password" />
+                    <StackPane styleClass="input-container">
+                        <PasswordField fx:id="passwordField" promptText="••••••••••••" styleClass="input" />
+                        <FontIcon iconLiteral="mdi2l-lock" styleClass="input-icon" StackPane.alignment="CENTER_LEFT" mouseTransparent="true">
+                            <StackPane.margin><Insets left="16" /></StackPane.margin>
+                        </FontIcon>
+                    </StackPane>
                 </VBox>
 
-                <!-- Submit -->
-                <Button fx:id="submitBtn" alignment="CENTER" styleClass="submit-btn" text="ENTER ARENA" onAction="#onClick"/>
+                <Button fx:id="submitBtn" styleClass="primary-button" text="ENTER ARENA" onAction="#onClick" />
             </VBox>
 
-            <!-- Footer -->
+            <Region styleClass="footer-separator" />
+
             <VBox alignment="CENTER" spacing="10">
-                <TextFlow textAlignment="CENTER">
+                <TextFlow styleClass="footer-text-flow" textAlignment="CENTER">
                     <Text styleClass="footer-text" text="New to the game? " />
-                    <Hyperlink fx:id="createLink" styleClass="create-link" text="Create Account" />
+                    <Hyperlink fx:id="createLink" onAction="#onCreateAccount" styleClass="create-link" text="Create Account" />
                 </TextFlow>
-
-                <HBox alignment="CENTER" spacing="5" styleClass="online-status">
-                    <Circle radius="5" styleClass="online-dot" />
-                    <Label styleClass="online-label" text="1,240 PLAYERS ONLINE" />
-                </HBox>
             </VBox>
         </VBox>
     </VBox>

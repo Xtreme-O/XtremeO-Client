@@ -8,6 +8,7 @@ import com.mycompany.xtremeo.client.protocol.handler.game.MoveResponseHandler;
 import com.mycompany.xtremeo.client.protocol.handler.message.GlobalMessageHandler;
 import com.mycompany.xtremeo.client.enums.ActionType;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
+//import com.mycompany.xtremeo.client.protocol.handler.ingamechat.InGameChatResponseHandler;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ public class ResponseDispatcher {
         handlers.put(ActionType.REGISTER, new RegisterResponseHandler());
         handlers.put(ActionType.MOVE, new MoveResponseHandler());
         handlers.put(ActionType.GLOBAL_MESSAGE, new GlobalMessageHandler());
+//        handlers.put(ActionType.IN_GAME_MESSAGE, new InGameChatResponseHandler());
     }
 
     public void dispatch(String json) {

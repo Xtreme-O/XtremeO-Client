@@ -4,12 +4,14 @@
  */
 package com.mycompany.xtremeo.client.controller;
 
+import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.model.auth.LoginRequestBody;
 import com.mycompany.xtremeo.client.network.ClientConnection;
 import com.mycompany.xtremeo.client.protocol.envelope.Header;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 import com.mycompany.xtremeo.client.service.auth.AuthService;
 import com.mycompany.xtremeo.client.service.auth.AuthServiceImpl;
+import com.mycompany.xtremeo.client.util.Screen;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -39,6 +41,16 @@ public class LoginUIController {
 
         AuthService authservice = new AuthServiceImpl(new ClientConnection());
         authservice.send(req);
+    }
+
+    @FXML
+    void onBack(ActionEvent e) {
+        Navigator.setRoot(Screen.MAIN.getName());
+    }
+
+    @FXML
+    void onCreateAccount(ActionEvent e) {
+        Navigator.setRoot(Screen.REGISTER.getName());
     }
 
 }
