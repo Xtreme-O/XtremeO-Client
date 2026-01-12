@@ -2,21 +2,25 @@ package com.mycompany.xtremeo.client.service.lobby;
 
 import com.mycompany.xtremeo.client.data.DataProvider;
 import com.mycompany.xtremeo.client.model.common.Player;
+import com.mycompany.xtremeo.client.network.ClientConnection;
+import com.mycompany.xtremeo.client.service.SocketRequestSender;
+import com.mycompany.xtremeo.client.service.game.InviteService;
+import com.mycompany.xtremeo.client.util.GsonProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
 
 public class MatchmakingService {
 
     private static MatchmakingService instance;
     private Consumer<Player> onChallengeReceived;
     private Consumer<List<Player>> onPendingChallengesChanged;
-    private final List<Player> pendingChallenges  = new ArrayList<>();
+    private final List<Player> pendingChallenges = new ArrayList<>();
     private Runnable onMatchFound;
 
-    private MatchmakingService() {}
+    private MatchmakingService() {
+    }
 
     public static MatchmakingService getInstance() {
         if (instance == null) {
@@ -25,12 +29,9 @@ public class MatchmakingService {
         return instance;
     }
 
-
     public void setOnChallengeReceived(Consumer<Player> callback) {
         this.onChallengeReceived = callback;
     }
-
-
 
     public void setOnMatchFound(Runnable callback) {
         this.onMatchFound = callback;
@@ -48,7 +49,6 @@ public class MatchmakingService {
         }
     }
 
-
     public void simulateDemoChallenge() {
         receiveChallenge(DataProvider.getDemoChallenger());
     }
@@ -56,27 +56,34 @@ public class MatchmakingService {
     public void acceptChallenge(Player player) {
         System.out.println("Challenge accepted from: " + player.getUsername());
         pendingChallenges.remove(player);
-        if(onPendingChallengesChanged != null){
+        if (onPendingChallengesChanged != null) {
             onPendingChallengesChanged.accept(pendingChallenges);
         }
+        PlayerService service = PlayerService.getInstance();
+        Player currentPlayer = service.getCurrentPlayer();
+        InviteService inviteService = new InviteService(new SocketRequestSender(GsonProvider.getGsonProvider(), ClientConnection.getInstance()));
+        inviteService.sendInvite(currentPlayer, player);
 
     }
-
 
     public void declineChallenge(Player player) {
         System.out.println("Challenge declined from: " + player.getUsername());
         pendingChallenges.remove(player);
-        if(onPendingChallengesChanged != null){
+        if (onPendingChallengesChanged != null) {
             onPendingChallengesChanged.accept(pendingChallenges);
         }
     }
 
-
     public void challengePlayer(Player player) {
         System.out.println("Challenging: " + player.getUsername());
         // TODO: Send challenge via Socket
-    }
+        PlayerService service = PlayerService.getInstance();
 
+        Player currentPlayer = service.getCurrentPlayer();
+        InviteService inviteService = new InviteService(new SocketRequestSender(GsonProvider.getGsonProvider(), ClientConnection.getInstance()));
+        inviteService.sendInvite(currentPlayer, player);
+        
+    }
 
     public void startMatchmaking() {
         System.out.println("Starting matchmaking...");
@@ -87,7 +94,6 @@ public class MatchmakingService {
             onMatchFound.run();
         }
     }
-
 
     public void cancelMatchmaking() {
         System.out.println("Matchmaking cancelled");
