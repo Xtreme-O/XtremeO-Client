@@ -8,25 +8,32 @@ import com.mycompany.xtremeo.client.model.game.SessionMessageBody;
 import com.mycompany.xtremeo.client.protocol.envelope.Header;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 import com.mycompany.xtremeo.client.service.RequestSender;
+import com.mycompany.xtremeo.client.service.SocketRequestSender;
 
 public class SessionMessageService {
-    private final RequestSender sender;
 
-    public SessionMessageService(RequestSender request) {
-        this.sender = request;
+    private SessionMessageService() {
+    }
+
+    private static SessionMessageService sessionMessageService;
+
+    public static SessionMessageService getInstance() {
+        if (sessionMessageService == null)
+            sessionMessageService = new SessionMessageService();
+        return sessionMessageService;
     }
 
     public void sendMove(Move move, GameState state) {
         Header header = new Header("JSON", ActionType.SESSION_MESSAGE.name());
         SessionMessageBody body = new SessionMessageBody(move, state);
-        RequestEnvelope<SessionMessageBody> request = new RequestEnvelope<>(header,body);
-        sender.send(request);
+        RequestEnvelope<SessionMessageBody> request = new RequestEnvelope<>(header, body);
+        SocketRequestSender.getInstance().send(request);
     }
 
-    public void sendInGameMessage(String msg){
+    public void sendInGameMessage(String msg) {
         Header header = new Header("JSON", ActionType.IN_GAME_MESSAGE.name());
         MessageBody body = new MessageBody(msg);
-        RequestEnvelope<MessageBody> request = new RequestEnvelope<>(header,body);
-        sender.send(request);
+        RequestEnvelope<MessageBody> request = new RequestEnvelope<>(header, body);
+        SocketRequestSender.getInstance().send(request);
     }
 }

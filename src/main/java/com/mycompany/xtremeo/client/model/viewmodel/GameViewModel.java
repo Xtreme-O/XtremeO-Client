@@ -107,12 +107,11 @@ public class GameViewModel {
         switch (mode) {
             case WITH_CPU:
                 this.secondPlayer = new InGamePlayer("CPU", "O");
-//                this.opponent = new TicTacToeCpuOpponent(difficulty, localPlayer, secondPlayer);
-                this.opponent = OnlineOpponent.getInstance();
+                this.opponent = new TicTacToeCpuOpponent(difficulty, localPlayer, secondPlayer);
                 break;
             case ONLINE_PLAYER:
                 this.secondPlayer = new InGamePlayer("Player 2", "O");
-                // this.opponent = new OnlineOpponent();
+                 this.opponent = OnlineOpponent.getInstance();
                 break;
             case WITH_FRIEND:
             default:

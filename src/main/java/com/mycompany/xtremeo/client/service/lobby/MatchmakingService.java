@@ -18,6 +18,8 @@ public class MatchmakingService {
     private Consumer<List<Player>> onPendingChallengesChanged;
     private final List<Player> pendingChallenges = new ArrayList<>();
     private Runnable onMatchFound;
+    private InviteService inviteService = InviteService.getInstance();
+
 
     private MatchmakingService() {
     }
@@ -61,7 +63,7 @@ public class MatchmakingService {
         }
         PlayerService service = PlayerService.getInstance();
         Player currentPlayer = service.getCurrentPlayer();
-        InviteService inviteService = new InviteService(new SocketRequestSender(GsonProvider.getGsonProvider(), ClientConnection.getInstance()));
+//        InviteService inviteService = InviteService.getInstance();
         inviteService.sendInvite(currentPlayer, player);
 
     }
@@ -80,7 +82,7 @@ public class MatchmakingService {
         PlayerService service = PlayerService.getInstance();
 
         Player currentPlayer = service.getCurrentPlayer();
-        InviteService inviteService = new InviteService(new SocketRequestSender(GsonProvider.getGsonProvider(), ClientConnection.getInstance()));
+//        InviteService inviteService = new InviteService(new SocketRequestSender(GsonProvider.getGsonProvider(), ClientConnection.getInstance()));
         inviteService.sendInvite(currentPlayer, player);
         
     }

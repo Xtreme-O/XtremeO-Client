@@ -1,7 +1,7 @@
 package com.mycompany.xtremeo.client.controller.lobby;
 
 import com.mycompany.xtremeo.client.app.Navigator;
-import com.mycompany.xtremeo.client.service.LobbyService;
+import com.mycompany.xtremeo.client.service.lobby.LobbyService;
 import com.mycompany.xtremeo.client.ui.ComponentFactory;
 import com.mycompany.xtremeo.client.util.Screen;
 import javafx.fxml.FXML;

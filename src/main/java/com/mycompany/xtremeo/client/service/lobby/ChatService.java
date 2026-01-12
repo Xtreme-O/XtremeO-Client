@@ -4,6 +4,7 @@ import com.mycompany.xtremeo.client.data.DataProvider;
 import com.mycompany.xtremeo.client.model.common.Player;
 
 import com.mycompany.xtremeo.client.model.lobby.ChatMessageData;
+import com.mycompany.xtremeo.client.service.game.LobbyMessageService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -47,7 +48,7 @@ public class ChatService {
         // TODO: MUST BE SENT AND THE LISTENER WILL BE CALLED AFTER IT BROADCASTED
         // TODO: DELETE THE FOLLOWING LINE OR HANDLE NOT TO BE ADDED TWICE
         messageListener.accept(msg);
-
+        LobbyMessageService.getInstance().send(msg);
         System.out.println("Chat: " + message);
     }
 
