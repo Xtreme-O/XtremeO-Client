@@ -31,6 +31,7 @@ public class LobbyPlayerListController {
         Platform.runLater(() -> refreshPlayerList(""));
     }
 
+
     private void refreshPlayerList(String searchText) {
         playersGrid.getChildren().clear();
 

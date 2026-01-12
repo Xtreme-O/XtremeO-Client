@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mycompany.xtremeo.client.protocol.handler.ResponseHandler;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 import com.mycompany.xtremeo.client.model.common.Player;
+import com.mycompany.xtremeo.client.service.lobby.PlayerService;
 
 public class LoginResponseHandler implements ResponseHandler<Player> {
 
