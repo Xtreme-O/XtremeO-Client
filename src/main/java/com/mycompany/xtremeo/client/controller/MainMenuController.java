@@ -43,10 +43,10 @@ public class MainMenuController {
     @FXML private Button btnHistory;
     @FXML private Button btnSoundToggle;
     private final AudioService audioService = AudioService.getInstance();
-
+        
     @FXML
     public void initialize() {
-        audioService.startDefaultBackgroundMusic();
+        audioService.startDefaultBackgroundMusic();   
         ComponentFactory.configureAudioToggleButton(btnSoundToggle, "icon-button-icon");
         // test all responses
         LoginResponseHandler.setOnLoginResponseConsumer((player) -> {
@@ -109,8 +109,15 @@ public class MainMenuController {
     
     @FXML
     void handleMultiplayer(ActionEvent event) {
-        RotateTransition animation = showLoading();
-        Navigator.setRootAsync(Screen.LOBBY.getName(), e -> hideLoading(animation));
+        System.out.println("Starting Multiplayer...");
+        // Navigate to Login/Register screen
+
+
+        //Navigator.setRoot(Screen.REGISTER.getName());
+        Navigator.setRoot(Screen.LOGIN.getName());
+
+//        RotateTransition animation = showLoading();
+//        Navigator.setRootAsync(Screen.LOBBY.getName(), e -> hideLoading(animation));
     }
 
     private RotateTransition showLoading() {
@@ -138,10 +145,10 @@ public class MainMenuController {
     void handleHistory(ActionEvent event) {
         HistoryDialog.show(mainRoot);
     }
-
+    
     @FXML
     void handleHelp(ActionEvent event) {
         HelpDialog.show(mainRoot);
     }
-
+    
 }
