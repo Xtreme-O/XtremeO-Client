@@ -4,16 +4,23 @@
  */
 package com.mycompany.xtremeo.client.controller;
 
-import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.app.Navigator;
-import com.mycompany.xtremeo.client.model.GameMode;
+import com.mycompany.xtremeo.client.model.game.GameMode;
+import com.mycompany.xtremeo.client.service.audio.AudioService;
 import com.mycompany.xtremeo.client.ui.dialog.DifficultyDialog;
+import com.mycompany.xtremeo.client.ui.dialog.HelpDialog;
+import com.mycompany.xtremeo.client.ui.dialog.HistoryDialog;
+import com.mycompany.xtremeo.client.ui.dialog.RecordGameDialog;
 import com.mycompany.xtremeo.client.util.Screen;
 
+import com.mycompany.xtremeo.client.ui.ComponentFactory;
+import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
 
 /**
  * FXML Controller class
@@ -26,29 +33,36 @@ public class MainMenuController {
     @FXML private StackPane mainRoot;
     @FXML private Button btnCpu;
     @FXML private Button btnMultiplayer;
-    
-    public static Difficulty selectedDifficulty = Difficulty.HARD;
+    @FXML private Button btnHistory;
+    @FXML private Button btnSoundToggle;
+    private final AudioService audioService = AudioService.getInstance();
 
     @FXML
     public void initialize() {
-        // Ready for any initialization
+        audioService.startDefaultBackgroundMusic();
+        ComponentFactory.configureAudioToggleButton(btnSoundToggle, "icon-button-icon");
     }
 
     @FXML
     void handlePlayCPU(ActionEvent event) {
         DifficultyDialog.show(mainRoot, difficulty -> {
-            System.out.println("Starting Single Player with " + difficulty + " difficulty...");
-            selectedDifficulty = difficulty;
-            BoardController.selectedMode = GameMode.WITH_CPU;
-            Navigator.setRoot(Screen.BOARD.getName());
+            RecordGameDialog.show(mainRoot, record -> {
+                BoardController controller = Navigator.setRoot(Screen.BOARD.getName());
+                if (controller != null) {
+                    controller.init(GameMode.WITH_CPU, difficulty, record);
+                }
+            });
         });
     }
 
     @FXML
-    void handlePlayWithFreind(ActionEvent event) {
-        System.out.println("Starting Play With Freind...");
-        BoardController.selectedMode = GameMode.WITH_FRIEND;
-        Navigator.setRoot(Screen.BOARD.getName());
+    void handlePlayWithFriend(ActionEvent event) {
+        RecordGameDialog.show(mainRoot, record -> {
+            BoardController controller = Navigator.setRoot(Screen.BOARD.getName());
+            if (controller != null) {
+                controller.init(GameMode.WITH_FRIEND, record);
+            }
+        });
     }
     
     
@@ -56,10 +70,44 @@ public class MainMenuController {
     void handleMultiplayer(ActionEvent event) {
         System.out.println("Starting Multiplayer...");
         // Navigate to Login/Register screen
-        
-        
+
+
         Navigator.setRoot(Screen.REGISTER.getName());
         Navigator.setRoot(Screen.LOGIN.getName());
-        
+
+        RotateTransition animation = showLoading();
+        Navigator.setRootAsync(Screen.LOBBY.getName(), e -> hideLoading(animation));
     }
+
+    private RotateTransition showLoading() {
+        btnMultiplayer.setDisable(true);
+        btnMultiplayer.getStyleClass().add("loading");
+        btnMultiplayer.setText("CONNECTING...");
+
+        Arc spinner = ComponentFactory.createSpinner(16, Color.BLACK);
+        btnMultiplayer.setGraphic(spinner);
+
+        RotateTransition rotate = ComponentFactory.createSpinAnimation(spinner);
+        rotate.play();
+        return rotate;
+    }
+
+    private void hideLoading(RotateTransition animation) {
+        animation.stop();
+        btnMultiplayer.setGraphic(null);
+        btnMultiplayer.setText("Multiplayer");
+        btnMultiplayer.getStyleClass().remove("loading");
+        btnMultiplayer.setDisable(false);
+    }
+
+    @FXML
+    void handleHistory(ActionEvent event) {
+        HistoryDialog.show(mainRoot);
+    }
+
+    @FXML
+    void handleHelp(ActionEvent event) {
+        HelpDialog.show(mainRoot);
+    }
+
 }

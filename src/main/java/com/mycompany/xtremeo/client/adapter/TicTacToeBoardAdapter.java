@@ -3,8 +3,8 @@ package com.mycompany.xtremeo.client.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mycompany.xtremeo.client.model.Board;
-import com.mycompany.xtremeo.client.model.Cell;
+import com.mycompany.xtremeo.client.model.game.Board;
+import com.mycompany.xtremeo.client.model.game.Cell;
 
 public class TicTacToeBoardAdapter implements Board {
 

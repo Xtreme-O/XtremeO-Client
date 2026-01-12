@@ -1,0 +1,117 @@
+.player-list-container {
+    -fx-padding: 20 24;
+}
+
+.lobby-title {
+    -fx-text-fill: white;
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
+
+.online-indicator-dot {
+    -fx-background-color: #2ecc71;
+    -fx-background-radius: 50;
+    -fx-min-width: 7;
+    -fx-min-height: 7;
+    -fx-max-width: 7;
+    -fx-max-height: 7;
+}
+
+.online-count {
+    -fx-text-fill: #888888;
+    -fx-font-size: 12;
+}
+
+.search-container {
+    -fx-background-color: #2d261a;
+    -fx-background-radius: 8;
+    -fx-padding: 0 10;
+    -fx-max-width: 140;
+}
+
+.search-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(136, 136, 136, 0.4);
+    -fx-font-size: 11;
+    -fx-padding: 6 0;
+    -fx-pref-width: 80;
+}
+
+.search-icon { -fx-icon-color: #555555; -fx-icon-size: 14; }
+
+.players-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.players-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+.player-card {
+    -fx-background-color: #2d261a;
+    -fx-background-radius: 12;
+    -fx-border-color: transparent;
+    -fx-border-radius: 12;
+    -fx-padding: 12;
+}
+
+.player-card:hover {
+    -fx-background-color: #352e1f;
+    -fx-border-color: rgba(244, 175, 37, 0.15);
+}
+
+.player-avatar {
+    -fx-background-radius: 50;
+    -fx-min-width: 40;
+    -fx-min-height: 40;
+    -fx-max-width: 40;
+    -fx-max-height: 40;
+}
+
+.player-name { -fx-text-fill: white; -fx-font-size: 13; -fx-font-weight: bold; }
+.player-tier { -fx-text-fill: #555555; -fx-font-size: 10; }
+.player-wins { -fx-text-fill: #2ecc71; -fx-font-size: 11; -fx-font-weight: bold; }
+.player-losses { -fx-text-fill: #e74c3c; -fx-font-size: 10; }
+
+.challenge-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(244, 175, 37, 0.35);
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-text-fill: #f4af25;
+    -fx-font-weight: bold;
+    -fx-font-size: 11;
+    -fx-padding: 7 0;
+    -fx-cursor: hand;
+}
+
+.challenge-btn:hover {
+    -fx-background-color: #f4af25;
+    -fx-background-radius: 8;
+    -fx-border-color: #f4af25;
+    -fx-text-fill: #181611;
+}
+
+.player-card-ingame { -fx-opacity: 0.5; }
+
+.ingame-badge {
+    -fx-background-color: rgba(241, 196, 15, 0.12);
+    -fx-background-radius: 5;
+    -fx-padding: 2 6;
+}
+
+.ingame-text { -fx-text-fill: #f1c40f; -fx-font-size: 9; -fx-font-weight: bold; }
+
+.spectate-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-radius: 8;
+    -fx-text-fill: rgba(255, 255, 255, 0.25);
+    -fx-font-weight: bold;
+    -fx-font-size: 11;
+    -fx-padding: 7 0;
+}

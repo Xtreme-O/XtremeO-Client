@@ -12,8 +12,7 @@ public enum Screen {
     SPLASH("splash"),
     MAIN("main-menu"),
     BOARD("board"),
-    REGISTER("register"),
-    LOGIN("login-ui");
+    LOBBY("lobby");
     private final String name;
     Screen(String s){
        name = s;

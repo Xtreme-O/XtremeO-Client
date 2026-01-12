@@ -1,7 +1,7 @@
 package com.mycompany.xtremeo.client.ai.evaluator;
 
-import com.mycompany.xtremeo.client.model.Board;
-import com.mycompany.xtremeo.client.model.InGamePlayer;
+import com.mycompany.xtremeo.client.model.game.Board;
+import com.mycompany.xtremeo.client.model.game.InGamePlayer;
 import com.mycompany.xtremeo.client.ai.strategies.BoardEvaluator;
 
 public class TicTacToeEvaluator implements BoardEvaluator {

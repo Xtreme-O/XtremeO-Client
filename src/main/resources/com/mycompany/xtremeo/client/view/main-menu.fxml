@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <StackPane fx:id="mainRoot" styleClass="main-bg" 
            stylesheets="@styles/main-menu.css" 
@@ -34,8 +35,8 @@
                </padding>
                <children>
                   <Button fx:id="btnCpu" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlayCPU" styleClass="primary-button" text="PLAY VS CPU" />
-                  <Button fx:id="btnPlayeWithFreind" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlayWithFreind" styleClass="primary-button" text="Play With Freind" />
-                  <Button fx:id="btnMultiplayer" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleMultiplayer" styleClass="primary-button" text="MULTIPLAYER" />
+                  <Button fx:id="btnPlayeWithFreind" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlayWithFriend" styleClass="primary-button" text="Play With Freind" />
+                  <Button fx:id="btnMultiplayer" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleMultiplayer" styleClass="primary-button" text="Multiplayer" />
 
                   <Region VBox.vgrow="ALWAYS" />
                   
@@ -43,19 +44,19 @@
                      <children>
                         <VBox alignment="CENTER" spacing="5.0" styleClass="icon-btn-container">
                            <children>
-                              <Button mnemonicParsing="false" styleClass="icon-button" text="↺" />
+                              <Button fx:id="btnHistory" mnemonicParsing="false" onAction="#handleHistory" styleClass="icon-button" text="↺" />
                               <Label styleClass="icon-label" text="HISTORY" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" spacing="5.0" styleClass="icon-btn-container">
                            <children>
-                              <Button mnemonicParsing="false" styleClass="icon-button" text="⚙" />
-                              <Label styleClass="icon-label" text="SETTINGS" />
+                              <Button fx:id="btnSoundToggle" mnemonicParsing="false" styleClass="icon-button" />
+                              <Label styleClass="icon-label" text="AUDIO" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" spacing="5.0" styleClass="icon-btn-container">
                            <children>
-                              <Button mnemonicParsing="false" styleClass="icon-button" text="?" />
+                              <Button fx:id="btnHelp" mnemonicParsing="false" onAction="#handleHelp" styleClass="icon-button" text="?" />
                               <Label styleClass="icon-label" text="HELP" />
                            </children>
                         </VBox>

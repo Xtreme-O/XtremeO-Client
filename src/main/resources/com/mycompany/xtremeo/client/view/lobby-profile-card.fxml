@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox fx:id="profileCardRoot" alignment="TOP_CENTER" spacing="16" styleClass="profile-card"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mycompany.xtremeo.client.controller.lobby.LobbyProfileController">
+    
+    <StackPane fx:id="avatarContainer" maxWidth="72" maxHeight="72">
+        <Region styleClass="profile-avatar" />
+        <Region styleClass="online-indicator" StackPane.alignment="BOTTOM_RIGHT">
+            <StackPane.margin><Insets bottom="2" right="2" /></StackPane.margin>
+        </Region>
+    </StackPane>
+    
+    <VBox alignment="CENTER" spacing="6">
+        <Label fx:id="lblUsername" styleClass="profile-username" text="NeonPlayerOne" />
+        <HBox alignment="CENTER" styleClass="profile-tier-box" spacing="4">
+            <FontIcon iconLiteral="mdi2t-trophy" styleClass="tier-icon"/>
+            <Label fx:id="lblTier" styleClass="profile-tier" text="Gold Tier • #42" />
+        </HBox>
+    </VBox>
+    
+    <HBox styleClass="stats-row" alignment="CENTER">
+        <VBox styleClass="stat-item">
+            <Label fx:id="lblWins" styleClass="stat-value" text="24" />
+            <Label styleClass="stat-label" text="WINS" />
+        </VBox>
+        <VBox styleClass="stat-item">
+            <Label fx:id="lblLosses" styleClass="stat-value" text="8" />
+            <Label styleClass="stat-label" text="LOSSES" />
+        </VBox>
+        <VBox styleClass="stat-item">
+            <Label fx:id="lblWinRate" styleClass="stat-value-accent" text="75%" />
+            <Label styleClass="stat-label" text="RATE" />
+        </VBox>
+    </HBox>
+    
+    <Button fx:id="btnPlayNow" onAction="#handlePlayNow" maxWidth="Infinity" styleClass="play-now-btn">
+        <graphic>
+            <HBox fx:id="btnPlayNowContent" alignment="CENTER" spacing="6">
+                <FontIcon fx:id="iconPlayNow" iconLiteral="mdi2s-sword-cross" styleClass="play-now-icon"/>
+                <Label fx:id="lblPlayNow" styleClass="play-now-label" text="PLAY NOW" />
+            </HBox>
+        </graphic>
+    </Button>
+    
+    <VBox styleClass="top-players-section" spacing="8" VBox.vgrow="ALWAYS">
+        <Label styleClass="section-title" text="TOP PLAYERS" />
+        
+        <ListView fx:id="listTopPlayers" styleClass="top-players-list" VBox.vgrow="ALWAYS" />
+    </VBox>
+</VBox>

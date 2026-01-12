@@ -5,8 +5,8 @@ import java.util.Random;
 
 import com.mycompany.xtremeo.client.ai.AIContext;
 import com.mycompany.xtremeo.client.ai.MoveStrategy;
-import com.mycompany.xtremeo.client.model.Cell;
-import com.mycompany.xtremeo.client.model.Move;
+import com.mycompany.xtremeo.client.model.game.Cell;
+import com.mycompany.xtremeo.client.model.game.Move;
 
 public class RandomMoveStrategy implements MoveStrategy {
 

@@ -5,7 +5,6 @@ import com.google.gson.reflect.TypeToken;
 import com.mycompany.xtremeo.client.protocol.handler.ResponseHandler;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 import com.mycompany.xtremeo.client.model.common.Player;
-import javafx.application.Platform;
 
 public class LoginResponseHandler implements ResponseHandler<Player> {
 
@@ -18,8 +17,6 @@ public class LoginResponseHandler implements ResponseHandler<Player> {
                 );
         Player player = envelope.getBody();
         System.out.println("Created at: "+ player.getCreatedAt());
-//        Platform.runLater(() -> {
-//            // update ui
-//        });
+
     }
 }

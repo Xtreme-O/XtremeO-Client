@@ -1,0 +1,226 @@
+.profile-sidebar {
+    -fx-background-color: #2d261a;
+    -fx-border-color: #3a3222;
+    -fx-border-width: 0 1 0 0;
+}
+
+.profile-card {
+    -fx-padding: 24 18;
+}
+
+.profile-avatar {
+    -fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2);
+    -fx-background-radius: 50;
+    -fx-min-width: 80;
+    -fx-min-height: 80;
+    -fx-max-width: 80;
+    -fx-max-height: 80;
+}
+
+.online-indicator {
+    -fx-background-color: #2ecc71;
+    -fx-background-radius: 50;
+    -fx-border-color: #2d261a;
+    -fx-border-width: 3;
+    -fx-border-radius: 50;
+    -fx-min-width: 16;
+    -fx-min-height: 16;
+    -fx-max-width: 16;
+    -fx-max-height: 16;
+}
+
+.profile-username {
+    -fx-text-fill: white;
+    -fx-font-size: 17;
+    -fx-font-weight: bold;
+}
+
+.profile-tier-box {
+    -fx-background-color: rgba(244, 175, 37, 0.1);
+    -fx-background-radius: 16;
+    -fx-padding: 4 10;
+}
+
+.profile-tier { -fx-text-fill: #f4af25; -fx-font-size: 11; -fx-font-weight: bold; }
+.tier-icon { -fx-icon-color: #f4af25; -fx-icon-size: 11; }
+
+.stats-row {
+    -fx-spacing: 20;
+}
+
+.stat-item {
+    -fx-alignment: center;
+    -fx-spacing: 2;
+}
+
+.stat-value {
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
+
+.stat-value-accent {
+    -fx-text-fill: #f4af25;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
+
+.stat-label {
+    -fx-text-fill: #555555;
+    -fx-font-size: 9;
+}
+
+.play-now-btn {
+    -fx-background-color: #f4af25;
+    -fx-background-radius: 10;
+    -fx-padding: 12 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(244, 175, 37, 0.25), 12, 0, 0, 0);
+}
+
+.play-now-btn:hover {
+    -fx-background-color: #ffbe3b;
+    -fx-background-radius: 10;
+}
+
+.play-now-icon { -fx-icon-color: #181611; -fx-icon-size: 16; }
+.play-now-label { -fx-text-fill: #181611; -fx-font-size: 13; -fx-font-weight: bold; }
+
+.top-players-section {
+    -fx-background-color: rgba(0, 0, 0, 0.25);
+    -fx-background-radius: 14;
+    -fx-padding: 18;
+    -fx-spacing: 14;
+}
+
+.section-title {
+    -fx-text-fill: #888888;
+    -fx-font-size: 11;
+    -fx-font-weight: bold;
+}
+
+.top-players-list {
+    -fx-background-color: transparent !important;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+    -fx-focus-traversable: false;
+    -fx-control-inner-background: transparent;
+}
+
+.top-players-list .viewport {
+    -fx-background-color: transparent !important;
+    -fx-background: transparent;
+    -fx-padding: 0;
+}
+
+.top-players-list .virtual-flow {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.top-players-list .virtual-flow .clipped-container {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.top-players-list .virtual-flow .clipped-container .sheet {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.top-players-list .virtual-flow .clipped-container .sheet .list-cell {
+    -fx-background-color: transparent;
+}
+
+.top-players-list .scroll-bar:horizontal {
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+    -fx-min-height: 0;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+    visibility: hidden;
+}
+
+.top-players-list .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.top-players-list .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.top-players-list .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-radius: 5;
+}
+
+.top-players-list .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}
+
+.top-players-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+
+.top-players-list .list-cell:filled {
+    -fx-padding: 0 2 10 2;
+}
+
+.top-players-list .list-cell:selected {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.top-players-list .list-cell:empty {
+    -fx-padding: 0;
+    -fx-pref-height: 0;
+}
+
+.top-players-list .list-cell:filled .top-player-row {
+    -fx-padding: 12 0 12 0;
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-radius: 10;
+}
+
+.top-players-list .list-cell:filled:hover .top-player-row {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+}
+
+.top-players-list .list-cell:filled:selected .top-player-row {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+}
+
+.rank-number {
+    -fx-text-fill: #f4af25;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-min-width: 18;
+}
+
+.rank-number-silver { -fx-text-fill: #c0c0c0; }
+.rank-number-bronze { -fx-text-fill: #cd7f32; }
+
+.top-player-avatar {
+    -fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2);
+    -fx-background-radius: 50;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+    -fx-max-width: 36;
+    -fx-max-height: 36;
+}
+
+.top-player-name { 
+    -fx-text-fill: white; 
+    -fx-font-size: 13; 
+    -fx-font-weight: bold;
+    -fx-text-overrun: ellipsis;
+}
+
+.top-player-xp { 
+    -fx-text-fill: #f4af25; 
+    -fx-font-size: 11; 
+    -fx-font-weight: bold; 
+}

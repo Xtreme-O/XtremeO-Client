@@ -1,6 +1,6 @@
 package com.mycompany.xtremeo.client.adapter;
 
-import com.mycompany.xtremeo.client.model.Cell;
+import com.mycompany.xtremeo.client.model.game.Cell;
 
 public class BoardConverter {
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="bannerContainerRoot" spacing="10" styleClass="banner-container"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mycompany.xtremeo.client.controller.lobby.LobbyBannerContainerController">
+        
+</VBox>
+

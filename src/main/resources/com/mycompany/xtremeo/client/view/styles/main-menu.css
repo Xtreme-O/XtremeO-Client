@@ -20,19 +20,13 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 20, 0, 0, 10);
 }
 
-
 .primary-button {
     -fx-font-family: "Arial Black";
     -fx-font-size: 18;
     -fx-text-fill: #333333;
     -fx-cursor: hand;
-    
-  
     -fx-background-color: #c78b1d, #f3ae30;
-    
-   
     -fx-background-insets: 0, 0 0 5 0;
-    
     -fx-background-radius: 25;
     -fx-padding: 15 30 20 30; 
 }
@@ -63,6 +57,15 @@
     -fx-text-fill: white;
 }
 
+.icon-button-icon {
+    -fx-icon-color: #888888;
+    -fx-icon-size: 20;
+}
+
+.icon-button:hover .icon-button-icon {
+    -fx-icon-color: white;
+}
+
 .icon-label {
     -fx-text-fill: #777777;
     -fx-font-size: 10;
@@ -78,4 +81,21 @@
 .version-text {
     -fx-text-fill: #444444;
     -fx-font-size: 12;
+}
+
+.primary-button.loading {
+    -fx-opacity: 0.85;
+}
+
+.primary-button:disabled {
+    -fx-background-color: #c78b1d, #f3ae30;
+    -fx-opacity: 0.9;
+}
+
+.loading-spinner {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #333333 #333333;
+    -fx-border-width: 2.5;
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
 }
