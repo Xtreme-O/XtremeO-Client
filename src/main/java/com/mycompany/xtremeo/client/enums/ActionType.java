@@ -7,5 +7,6 @@ public enum ActionType {
     MOVE,
     GLOBAL_MESSAGE,
     INVITE,
-    START_MATCH
+    START_MATCH,
+    IN_GAME_MESSAGE
 }
