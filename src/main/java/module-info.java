@@ -6,7 +6,7 @@ module com.mycompany.xtremeo.client {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.materialdesign2;
     requires com.google.gson;
-    opens com.mycompany.xtremeo.client.model.auth to com.google.gson;
+
     opens com.mycompany.xtremeo.client.model.lobby to com.google.gson;
     opens com.mycompany.xtremeo.client.model.game to com.google.gson;
     opens com.mycompany.xtremeo.client.model.common to com.google.gson;
@@ -18,4 +18,6 @@ module com.mycompany.xtremeo.client {
     opens com.mycompany.xtremeo.client.service.lobby to javafx.fxml;
     opens com.mycompany.xtremeo.client.data to javafx.fxml;
     exports com.mycompany.xtremeo.client.app;
+    opens com.mycompany.xtremeo.client.model.auth.request to com.google.gson;
+    opens com.mycompany.xtremeo.client.model.auth.response to com.google.gson;
 }

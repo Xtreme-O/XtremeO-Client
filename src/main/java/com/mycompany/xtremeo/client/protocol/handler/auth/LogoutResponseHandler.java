@@ -2,8 +2,7 @@ package com.mycompany.xtremeo.client.protocol.handler.auth;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mycompany.xtremeo.client.model.auth.LogoutResponseBody;
-import com.mycompany.xtremeo.client.model.common.Player;
+import com.mycompany.xtremeo.client.model.auth.response.LogoutResponseBody;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 import com.mycompany.xtremeo.client.protocol.handler.ResponseHandler;
 

@@ -4,8 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mycompany.xtremeo.client.adapter.LocalDateTimeAdapter;
 import com.mycompany.xtremeo.client.enums.ActionType;
-import com.mycompany.xtremeo.client.model.auth.LoginRequestBody;
-import com.mycompany.xtremeo.client.model.auth.RegisterRequestBody;
+import com.mycompany.xtremeo.client.model.auth.request.LoginRequestBody;
+import com.mycompany.xtremeo.client.model.auth.request.LogoutRequestBody;
+import com.mycompany.xtremeo.client.model.auth.request.RegisterRequestBody;
 import com.mycompany.xtremeo.client.network.ClientConnection;
 import com.mycompany.xtremeo.client.network.DispatcherMessageListener;
 import com.mycompany.xtremeo.client.network.NetworkConfig;
@@ -13,6 +14,7 @@ import com.mycompany.xtremeo.client.protocol.dispatcher.ResponseDispatcher;
 import com.mycompany.xtremeo.client.protocol.envelope.Header;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 import com.mycompany.xtremeo.client.service.auth.LoginService;
+import com.mycompany.xtremeo.client.service.auth.LogoutService;
 import com.mycompany.xtremeo.client.service.auth.RegisterService;
 
 import java.time.LocalDateTime;
@@ -34,26 +36,16 @@ public class ServicesIntegrationTest {
         this.sender = new SocketRequestSender(gson, connection);
     }
 
-    public LoginService loginService() {
-        return new LoginService(sender);
-    }
-
     public RegisterService registerService() {
         return new RegisterService(sender);
     }
 
-    public void testLogin() {
-        LoginRequestBody body = new LoginRequestBody(
-                "elsobky",
-                "1234"
-        );
+    public LoginService loginService() {
+        return new LoginService(sender);
+    }
 
-        Header header = new Header("JSON", ActionType.LOGIN.name());
-        RequestEnvelope<LoginRequestBody> request =
-                new RequestEnvelope<>(header, body);
-
-        System.out.println("Sending LOGIN request...");
-        loginService().send(request);
+    public LogoutService logoutService(){
+        return new LogoutService(sender);
     }
 
     public void testRegister() {
@@ -71,15 +63,45 @@ public class ServicesIntegrationTest {
         System.out.println("Sending REGISTER request...");
         registerService().send(request);
     }
+
+    public void testLogin() {
+        LoginRequestBody body = new LoginRequestBody(
+                "elsobky",
+                "1234"
+        );
+
+        Header header = new Header("JSON", ActionType.LOGIN.name());
+        RequestEnvelope<LoginRequestBody> request =
+                new RequestEnvelope<>(header, body);
+
+        System.out.println("Sending LOGIN request...");
+        loginService().send(request);
+    }
+
+    public void testLogout() {
+        LogoutRequestBody body = new LogoutRequestBody(
+                "elsobky"
+        );
+
+        Header header = new Header("JSON", ActionType.LOGOUT.name());
+        RequestEnvelope<LogoutRequestBody> request =
+                new RequestEnvelope<>(header, body);
+
+        System.out.println("Sending LOGOUT request...");
+        logoutService().send(request);
+    }
+
 }
 
 
 class testo{
     public static void main(String[] args) throws InterruptedException {
         ServicesIntegrationTest test = new ServicesIntegrationTest();
+        test.testRegister();
+        Thread.sleep(3000);
         test.testLogin();
         Thread.sleep(3000);
-        test.testRegister();
+        test.testLogout();
     }
 }
 

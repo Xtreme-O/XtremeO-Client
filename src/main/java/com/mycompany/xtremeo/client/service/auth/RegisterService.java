@@ -1,6 +1,6 @@
 package com.mycompany.xtremeo.client.service.auth;
 
-import com.mycompany.xtremeo.client.model.auth.RegisterRequestBody;
+import com.mycompany.xtremeo.client.model.auth.request.RegisterRequestBody;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 import com.mycompany.xtremeo.client.service.RequestSender;
 
