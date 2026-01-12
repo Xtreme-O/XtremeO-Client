@@ -33,7 +33,7 @@ public class App extends Application {
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .create();
         ResponseDispatcher dispatcher = new ResponseDispatcher(gson);
-        ClientConnection connection = new ClientConnection();
+        ClientConnection connection = ClientConnection.getInstance();
         connection.connect(NetworkConfig.SERVER_HOST, NetworkConfig.SERVER_PORT);
         connection.startListening(
                 new DispatcherMessageListener(dispatcher)
