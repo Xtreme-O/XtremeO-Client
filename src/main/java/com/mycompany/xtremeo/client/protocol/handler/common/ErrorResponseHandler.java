@@ -1,10 +1,10 @@
 package com.mycompany.xtremeo.client.protocol.handler.common;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mycompany.xtremeo.client.model.common.ErrorBody;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 import com.mycompany.xtremeo.client.protocol.handler.ResponseHandler;
+import com.mycompany.xtremeo.client.util.GsonProvider;
 
 import java.util.function.Consumer;
 
@@ -15,9 +15,9 @@ public class ErrorResponseHandler implements ResponseHandler<ErrorBody> {
         onErrorResponse = consumer;
     }
     @Override
-    public void handle(String json, Gson gson) {
+    public void handle(String json) {
         RequestEnvelope<ErrorBody> envelope =
-                gson.fromJson(
+                GsonProvider.getGsonProvider().fromJson(
                         json,
                         new TypeToken<RequestEnvelope<ErrorBody>>(){}.getType()
                 );

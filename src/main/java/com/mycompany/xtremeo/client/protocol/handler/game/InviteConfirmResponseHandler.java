@@ -1,10 +1,10 @@
 package com.mycompany.xtremeo.client.protocol.handler.game;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mycompany.xtremeo.client.model.game.InviteConfirmationBody;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 import com.mycompany.xtremeo.client.protocol.handler.ResponseHandler;
+import com.mycompany.xtremeo.client.util.GsonProvider;
 
 import java.util.function.Consumer;
 
@@ -18,8 +18,8 @@ public class InviteConfirmResponseHandler implements ResponseHandler<InviteConfi
 
 
     @Override
-    public void handle(String json, Gson gson) {
-        RequestEnvelope<InviteConfirmationBody> envelope = gson.fromJson(json,
+    public void handle(String json) {
+        RequestEnvelope<InviteConfirmationBody> envelope = GsonProvider.getGsonProvider().fromJson(json,
                 new TypeToken<RequestEnvelope<InviteConfirmationBody>>() {
                 }.getType());
         InviteConfirmationBody confirmedBody = envelope.getBody();

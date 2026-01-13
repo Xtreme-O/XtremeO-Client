@@ -1,10 +1,10 @@
 package com.mycompany.xtremeo.client.protocol.handler.auth;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mycompany.xtremeo.client.protocol.handler.ResponseHandler;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
 import com.mycompany.xtremeo.client.model.common.Player;
+import com.mycompany.xtremeo.client.util.GsonProvider;
 
 import java.util.function.Consumer;
 
@@ -17,9 +17,9 @@ public class LoginResponseHandler implements ResponseHandler<Player> {
     }
 
     @Override
-    public void handle(String json, Gson gson) {
+    public void handle(String json) {
         RequestEnvelope<Player> envelope =
-                gson.fromJson(
+                GsonProvider.getGsonProvider().fromJson(
                         json,
                         new TypeToken<RequestEnvelope<Player>>(){}.getType()
                 );

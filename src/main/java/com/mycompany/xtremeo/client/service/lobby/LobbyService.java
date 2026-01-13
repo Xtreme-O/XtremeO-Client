@@ -1,5 +1,11 @@
 package com.mycompany.xtremeo.client.service.lobby;
 
+import com.mycompany.xtremeo.client.enums.ActionType;
+import com.mycompany.xtremeo.client.model.lobby.LobbyBody;
+import com.mycompany.xtremeo.client.network.NetworkConfig;
+import com.mycompany.xtremeo.client.protocol.envelope.Header;
+import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
+import com.mycompany.xtremeo.client.service.SocketRequestSender;
 import com.mycompany.xtremeo.client.service.auth.LogoutService;
 
 import java.util.function.Consumer;
@@ -37,6 +43,12 @@ public class LobbyService {
 
     public MatchmakingService matchmaking() {
         return matchmakingService;
+    }
+
+    public void sendLoadLobbyRequest() {
+        Header header = new Header(NetworkConfig.PROTOCOL, ActionType.LOBBY.name());
+        RequestEnvelope<LobbyBody> request = new RequestEnvelope<>(header, null);
+        SocketRequestSender.getInstance().send(request);
     }
 
     public void setOnLogout(Consumer<Boolean> callback) {
