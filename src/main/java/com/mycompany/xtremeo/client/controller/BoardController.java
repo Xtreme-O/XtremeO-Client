@@ -1,8 +1,11 @@
 package com.mycompany.xtremeo.client.controller;
-
 import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.app.Navigator;
-import com.mycompany.xtremeo.client.model.game.*;
+import com.mycompany.xtremeo.client.model.game.GameHistoryEntry;
+import com.mycompany.xtremeo.client.model.game.GameMode;
+import com.mycompany.xtremeo.client.model.game.GameSession;
+import com.mycompany.xtremeo.client.model.game.InGamePlayer;
+import com.mycompany.xtremeo.client.model.game.Move;
 import com.mycompany.xtremeo.client.model.viewmodel.GameReplayDriver;
 import com.mycompany.xtremeo.client.model.viewmodel.GameViewModel;
 import com.mycompany.xtremeo.client.service.audio.AudioService;
@@ -17,11 +20,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.MediaView;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignP;
 
+/**
+ *
+ * @author wahid
+ */
 public class BoardController {
     @FXML
     private Label scoreX, scoreO;
@@ -30,18 +35,13 @@ public class BoardController {
     @FXML
     private HBox turnIndicatorContainer;
     @FXML
-    private VBox logContainer;
-    @FXML
     private GridPane gameGrid;
     @FXML
     private Button btnReset;
     @FXML
-    private Button btnHistory;
-    @FXML
     private Button btnBack;
-
     @FXML
-    private MediaView mediaView;
+    private BoardChatController chatPanelController;
 
     private GameViewModel viewModel;
     private GameReplayDriver replayDriver;
@@ -58,6 +58,7 @@ public class BoardController {
         viewModel = new GameViewModel(record);
         viewModel.setGameMode(selectedMode, difficulty, session);
         setup();
+        initChatPanel();
     }
 
 
@@ -69,9 +70,11 @@ public class BoardController {
     }
 
     public void initReplay(GameHistoryEntry history) {
+        this.selectedMode = GameMode.WITH_FRIEND;
         viewModel = new GameViewModel(history);
         replayDriver = new GameReplayDriver(viewModel, history);
         setup();
+        initChatPanel();
         setPlayIcon(false);
     }
 
@@ -87,7 +90,6 @@ public class BoardController {
         viewModel.setOnMoveMadeListener(this::onMoveMade);
         turnLabel.textProperty().bind(viewModel.statusMessageProperty());
 
-
         if (viewModel.isReplayMode()) {
             disableEntireBoard();
             replayDriver.isPlayingProperty().addListener((obs, wasPlaying, isPlaying) -> {
@@ -100,6 +102,16 @@ public class BoardController {
             scoreX.textProperty().bind(viewModel.playerXScoreProperty().asString());
             scoreO.textProperty().bind(viewModel.playerOScoreProperty().asString());
             UIUtils.setupPulseAnimation(turnIndicatorContainer);
+        }
+    }
+
+    private void initChatPanel() {
+        if (chatPanelController != null) {
+            chatPanelController.init(selectedMode, viewModel.getLocalPlayer(), viewModel.getSecondPlayer());
+            
+            if (selectedMode != GameMode.ONLINE_PLAYER) {
+                chatPanelController.addSystemMessage("Game Started!");
+            }
         }
     }
 
@@ -132,9 +144,9 @@ public class BoardController {
         btn.setText(symbol);
         btn.getStyleClass().add(symbol.equals("X") ? "filled-x" : "filled-o");
         btn.setDisable(true);
-        String positionName = com.mycompany.xtremeo.client.util.GamePosition.getPositionName(move.row(), move.col());
-        String logMessage = String.format("Player %s marked %s", symbol, positionName);
-        addLogCard(logMessage);
+
+        addLogEntry(move);
+
         if (viewModel.isGameOver()) {
             disableEntireBoard();
             if (viewModel.isGameWon()) {
@@ -144,29 +156,70 @@ public class BoardController {
         }
     }
 
+    void addLogEntry(Move move) {
+        if (selectedMode != GameMode.ONLINE_PLAYER && chatPanelController != null) {
+            String logMessage = move.player().name() + " placed " + move.player().symbol() 
+                    + " at [" + move.row() + "," + move.col() + "]";
+            chatPanelController.addLogEntry(move.player(), logMessage);
+        }
+    }
+
     private void onGameOver(InGamePlayer p1, InGamePlayer p2, InGamePlayer winner) {
         AudioService audioService = AudioService.getInstance();
-        VideoService videoService = VideoService.getInstance();
-        InGamePlayer localPlayer = viewModel.getLocalPlayer();
         if (winner == null) {
-            videoService.playVideo(mediaView, "draw_video.mp4");
             System.out.println("The game ended in a draw between " + p1.name() + " and " + p2.name());
         } else {
             if (selectedMode != GameMode.WITH_FRIEND) {
-                if (winner.symbol().equals(localPlayer.symbol())) {
+                VideoService videoService = VideoService.getInstance();
+                InGamePlayer localPlayer = viewModel.getLocalPlayer();
+                if (localPlayer != null && winner.symbol().equals(localPlayer.symbol())) {
                     System.out.println("you wins");
-                    videoService.playVideo(mediaView, "win_video.mp4");
+                    playWinVideo(videoService);
                     audioService.playSoundEffect(AudioFiles.WIN_SOUND);
                 } else {
                     System.out.println("u loses");
-                    videoService.playVideo(mediaView, "lose_video.mp4");
+                    playLoseVideo(videoService);
+                    audioService.playSoundEffect(AudioFiles.LOSE_SOUND);
                 }
+            } else {
+                audioService.playSoundEffect(AudioFiles.WIN_SOUND);
             }
-            else{audioService.playSoundEffect(AudioFiles.WIN_SOUND);}
-            System.out.println("Winner is: " + winner.name());
+            System.out.println("The winner is: " + winner.name());
         }
         disableEntireBoard();
         viewModel.saveRecording(winner);
+    }
+
+    private void playWinVideo(VideoService videoService) {
+        javafx.scene.media.MediaView mediaView = new javafx.scene.media.MediaView();
+        addMediaViewToScene(mediaView);
+        videoService.playVideo(mediaView, "win_video.mp4");
+    }
+
+    private void playLoseVideo(VideoService videoService) {
+        javafx.scene.media.MediaView mediaView = new javafx.scene.media.MediaView();
+        addMediaViewToScene(mediaView);
+        videoService.playVideo(mediaView, "lose_video.mp4");
+    }
+
+    private void addMediaViewToScene(javafx.scene.media.MediaView mediaView) {
+        if (gameGrid == null || gameGrid.getScene() == null) {
+            return;
+        }
+        
+        javafx.scene.Parent root = gameGrid.getScene().getRoot();
+        
+        // If root is already a StackPane, add MediaView to it
+        if (root instanceof javafx.scene.layout.StackPane stackPane) {
+            stackPane.getChildren().add(mediaView);
+            return;
+        }
+        
+        // Otherwise, wrap root in a StackPane and add MediaView
+        javafx.scene.layout.StackPane wrapper = new javafx.scene.layout.StackPane();
+        wrapper.getChildren().add(root);
+        wrapper.getChildren().add(mediaView);
+        gameGrid.getScene().setRoot(wrapper);
     }
 
     @FXML
@@ -227,7 +280,12 @@ public class BoardController {
     }
 
     private void clearBoard() {
-        logContainer.getChildren().clear();
+        if (chatPanelController != null) {
+            chatPanelController.clear();
+            if (selectedMode != GameMode.ONLINE_PLAYER) {
+                chatPanelController.addSystemMessage("New Game Started!");
+            }
+        }
         turnLabel.getStyleClass().remove("status-win");
         for (Button[] row : buttons) {
             for (Button btn : row) {
@@ -255,10 +313,6 @@ public class BoardController {
                 btn.setDisable(true);
             }
         }
-    }
-
-    private void addLogCard(String message) {
-        logContainer.getChildren().add(UIUtils.createLogCard(message));
     }
 
     private void handleHoverEnter(Button btn) {
