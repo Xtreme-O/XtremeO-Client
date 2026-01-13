@@ -85,11 +85,7 @@ public class BoardController {
         setupGrid();
         viewModel.setOnMoveMadeListener(this::onMoveMade);
         turnLabel.textProperty().bind(viewModel.statusMessageProperty());
-                viewModel.getGameLog().addListener((ListChangeListener<String>) c -> {
-            while (c.next())
-                if (c.wasAdded())
-                    c.getAddedSubList().forEach(this::addLogCard);
-        });
+
 
         if (viewModel.isReplayMode()) {
             disableEntireBoard();
@@ -129,7 +125,9 @@ public class BoardController {
         btn.setText(move.player().symbol());
         btn.getStyleClass().add(move.player().symbol().equals("X") ? "filled-x" : "filled-o");
         btn.setDisable(true);
-
+        String positionName = com.mycompany.xtremeo.client.util.GamePosition.getPositionName(move.row(), move.col());
+        String logMessage = String.format("Player %s marked %s", move.player().symbol(), positionName);
+        addLogCard(logMessage);
         if (viewModel.isGameOver()) {
             disableEntireBoard();
             if (viewModel.isGameWon()) {
