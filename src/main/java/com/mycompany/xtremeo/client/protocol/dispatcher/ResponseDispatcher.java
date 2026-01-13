@@ -7,6 +7,8 @@ import com.mycompany.xtremeo.client.protocol.handler.auth.RegisterResponseHandle
 import com.mycompany.xtremeo.client.protocol.handler.common.ErrorResponseHandler;
 import com.mycompany.xtremeo.client.protocol.handler.game.*;
 import com.mycompany.xtremeo.client.protocol.handler.lobby.LobbyResponseHandler;
+import com.mycompany.xtremeo.client.protocol.handler.lobby.PlayerConnectedResponseHandler;
+import com.mycompany.xtremeo.client.protocol.handler.lobby.PlayerDisconnectedResponseHandler;
 import com.mycompany.xtremeo.client.protocol.handler.message.GlobalMessageHandler;
 import com.mycompany.xtremeo.client.enums.ActionType;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
@@ -39,6 +41,9 @@ public class ResponseDispatcher {
         handlers.put(ActionType.SESSION_MESSAGE, new SessionMessageResponseHandler());
         handlers.put(ActionType.LOBBY, new LobbyResponseHandler());
         handlers.put(ActionType.PARTNER_DISCONNECTED, new PartnerDisconnectedResponseHandler());
+        handlers.put(ActionType.ACTIVE_PLAYER_CONNECTED, new PlayerConnectedResponseHandler());
+        handlers.put(ActionType.ACTIVE_PLAYER_DISCONNECTED, new PlayerDisconnectedResponseHandler());
+
     }
 
     public void dispatch(String json) {

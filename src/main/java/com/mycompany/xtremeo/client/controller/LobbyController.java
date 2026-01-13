@@ -5,6 +5,7 @@ import com.mycompany.xtremeo.client.controller.lobby.LobbyHeaderController;
 import com.mycompany.xtremeo.client.controller.lobby.LobbyPlayerListController;
 import com.mycompany.xtremeo.client.controller.lobby.LobbyProfileController;
 import com.mycompany.xtremeo.client.protocol.handler.lobby.LobbyResponseHandler;
+import com.mycompany.xtremeo.client.protocol.handler.lobby.PlayerConnectedResponseHandler;
 import com.mycompany.xtremeo.client.service.lobby.LobbyService;
 import com.mycompany.xtremeo.client.ui.dialog.HistoryDialog;
 import javafx.application.Platform;
@@ -30,6 +31,12 @@ public class LobbyController {
         setupHeaderCallbacks();
         setupPlayerListCallbacks();
         loadLobbyData();
+
+
+
+        PlayerConnectedResponseHandler.setOnPlayerConnected(playerScore -> {
+            System.out.println("Player connected"+playerScore.player().getUsername());
+        });
     }
 
     private void loadLobbyData() {
