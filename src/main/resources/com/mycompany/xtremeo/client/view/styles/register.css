@@ -1,0 +1,207 @@
+.root {
+    -fx-background-color: #1a1610;
+}
+
+.main-wrapper {
+    -fx-alignment: center;
+}
+
+.bg-decor-x, .bg-decor-o {
+    -fx-font-size: 150;
+    -fx-text-fill: rgba(255, 255, 255, 0.03);
+    -fx-font-weight: bold;
+}
+
+.btn-back {
+    -fx-background-color: transparent;
+    -fx-min-width: 44;
+    -fx-min-height: 44;
+    -fx-max-width: 44;
+    -fx-max-height: 44;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.btn-back:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 12;
+}
+
+.btn-back-icon {
+    -fx-icon-color: rgba(255, 255, 255, 0.5);
+    -fx-icon-size: 24;
+}
+
+.btn-back:hover .btn-back-icon {
+    -fx-icon-color: #f4af25;
+}
+
+.card {
+    -fx-background-color: #261f16;
+    -fx-background-radius: 40;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 20, 0, 0, 10);
+    -fx-max-width: 420;
+    -fx-min-width: 380;
+}
+
+.logo-circle {
+    -fx-background-color: #332a1e;
+    -fx-background-radius: 50;
+    -fx-pref-width: 80;
+    -fx-pref-height: 80;
+    -fx-min-width: 80;
+    -fx-min-height: 80;
+    -fx-max-width: 80;
+    -fx-max-height: 80;
+    -fx-alignment: center;
+}
+
+.logo-svg {
+    -fx-fill: #f4af25;
+    -fx-scale-x: 0.85;
+    -fx-scale-y: 0.85;
+}
+
+.title {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 28;
+    -fx-font-weight: bold;
+}
+
+.subtitle {
+    -fx-text-fill: #888888;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+}
+
+.input-label {
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.input-container {
+    -fx-alignment: center-left;
+}
+
+.input-icon {
+    -fx-icon-color: #888888;
+    -fx-icon-size: 20;
+}
+
+.input {
+    -fx-background-color: #332a1e;
+    -fx-background-radius: 25;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.3);
+    -fx-padding: 14 20 14 48;
+    -fx-font-size: 14;
+    -fx-pref-height: 50;
+    -fx-min-height: 50;
+}
+
+.input:focused {
+    -fx-background-color: #443a2e;
+}
+
+.primary-button {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 16;
+    -fx-text-fill: #181611;
+    -fx-cursor: hand;
+    -fx-background-color: #c78b1d, #f3ae30;
+    -fx-background-insets: 0, 0 0 5 0;
+    -fx-background-radius: 25;
+    -fx-padding: 10 30 14 30;
+}
+
+.primary-button:hover {
+    -fx-background-color: #c78b1d, #ffc24b;
+    -fx-translate-y: -2;
+}
+
+.primary-button:pressed {
+    -fx-translate-y: 0;
+    -fx-background-insets: 0, 4 0 1 0;
+    -fx-padding: 13 30 11 30;
+}
+
+.avatar-list {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+}
+
+.avatar-list .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
+}
+
+.avatar-list .scroll-bar:vertical {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+}
+
+.avatar-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 6;
+}
+
+.avatar-list .list-cell:selected {
+    -fx-background-color: rgba(244, 175, 37, 0.15);
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(244, 175, 37, 0.4), 8, 0.5, 0, 0);
+}
+
+.avatar {
+    -fx-cursor: hand;
+    -fx-background-color: #27231b;
+    -fx-background-radius: 50;
+    -fx-border-color: #544c3b;
+    -fx-border-radius: 50;
+    -fx-border-width: 1;
+    -fx-min-width: 56;
+    -fx-min-height: 56;
+    -fx-max-width: 56;
+    -fx-max-height: 56;
+    -fx-alignment: center;
+}
+
+.avatar:hover {
+    -fx-border-color: rgba(244, 175, 37, 0.5);
+}
+
+.avatar.selected {
+    -fx-background-color: #f4af25;
+    -fx-border-color: #f4af25;
+    -fx-effect: dropshadow(gaussian, #f4af25, 10, 0.3, 0, 0);
+}
+
+.footer-separator {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-pref-height: 1;
+    -fx-min-height: 1;
+    -fx-max-height: 1;
+    -fx-pref-width: 280;
+}
+
+.footer-text-flow {
+    -fx-text-alignment: center;
+}
+
+.footer-text {
+    -fx-fill: #888888;
+    -fx-font-size: 14;
+}
+
+.link {
+    -fx-text-fill: #f4af25;
+    -fx-font-weight: bold;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+
+.link:hover {
+    -fx-underline: true;
+}
