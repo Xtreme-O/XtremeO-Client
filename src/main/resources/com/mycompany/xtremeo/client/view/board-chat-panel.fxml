@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox fx:id="chatPanelRoot" styleClass="chat-sidebar" prefWidth="420"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mycompany.xtremeo.client.controller.BoardChatController"
+      stylesheets="@styles/lobby/lobby-chat.css">
+    
+    <HBox styleClass="chat-header" alignment="CENTER_LEFT">
+        <Label fx:id="chatTitle" styleClass="chat-title" text="Game Chat" />
+        <Region HBox.hgrow="ALWAYS" />
+        <HBox fx:id="liveIndicator" alignment="CENTER" spacing="5">
+            <Region styleClass="live-dot" />
+            <Label styleClass="live-text" text="Live" />
+        </HBox>
+    </HBox>
+    
+    <ScrollPane fx:id="chatScroll" styleClass="chat-scroll" fitToWidth="true" VBox.vgrow="ALWAYS"
+                hbarPolicy="NEVER" vbarPolicy="NEVER">
+        <VBox fx:id="messagesContainer" styleClass="chat-messages" spacing="20" />
+    </ScrollPane>
+    
+    <HBox fx:id="quickChatContainer" styleClass="quick-chat-container" spacing="8" alignment="CENTER_LEFT">
+        <Button styleClass="quick-chat-btn" text="Good Luck!" style="-fx-padding: 7 12; -fx-font-size: 11;" />
+        <Button styleClass="quick-chat-btn" text="GG WP" style="-fx-padding: 7 12; -fx-font-size: 11;" />
+        <Button styleClass="quick-chat-btn" text="One more?" style="-fx-padding: 7 12; -fx-font-size: 11;" />
+    </HBox>
+    
+    <VBox fx:id="inputContainer" styleClass="chat-input-container" style="-fx-padding: 16 20;">
+        <HBox styleClass="chat-input-wrapper" alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 6 8 6 16;">
+            <TextField fx:id="txtChatInput" styleClass="chat-input" promptText="Type a message..." HBox.hgrow="ALWAYS" 
+                       style="-fx-font-size: 14; -fx-padding: 12 0;" />
+            <Button fx:id="btnSend" onAction="#handleSend" styleClass="send-btn" style="-fx-min-width: 40; -fx-min-height: 40;">
+                <graphic><FontIcon iconLiteral="mdi2s-send" styleClass="send-icon" iconSize="16"/></graphic>
+            </Button>
+        </HBox>
+    </VBox>
+</VBox>

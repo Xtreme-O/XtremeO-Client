@@ -35,15 +35,19 @@ public class App extends Application {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .create();
-        ClientConnection connection = ClientConnection.getInstance();
-        ResponseDispatcher dispatcher = new ResponseDispatcher(gson);
-        connection.connect(NetworkConfig.SERVER_HOST, NetworkConfig.SERVER_PORT);
-        connection.startListening(
-                new DispatcherMessageListener(dispatcher)
-        );
+        try {
+            ClientConnection connection = ClientConnection.getInstance();
+            ResponseDispatcher dispatcher = new ResponseDispatcher(gson);
+            connection.connect(NetworkConfig.SERVER_HOST, NetworkConfig.SERVER_PORT);
+            connection.startListening(
+                    new DispatcherMessageListener(dispatcher)
+            );
+            System.out.println("Client connected and listening...");
+        }catch (Exception e){
+            System.err.println("Error while connecting");
+        }
 //        LoginService service = new LoginService(new SocketRequestSender(gson,connection));
 //        service.login("sobky","123");
-        System.out.println("Client connected and listening...");
     }
 
     public static void main(String[] args) {

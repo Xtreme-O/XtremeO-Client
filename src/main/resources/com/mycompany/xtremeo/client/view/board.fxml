@@ -82,16 +82,6 @@
     </center>
 
     <right>
-        <VBox prefWidth="380.0" spacing="24.0" styleClass="sidebar-log">
-            <padding><Insets bottom="32.0" left="24.0" right="24.0" top="32.0" /></padding>
-            <HBox alignment="CENTER_LEFT">
-                <Label styleClass="sidebar-title" text="Game Log" />
-                <Region HBox.hgrow="ALWAYS" />
-            </HBox>
-            <ScrollPane fitToWidth="true" styleClass="log-scroll-pane" VBox.vgrow="ALWAYS">
-                <VBox fx:id="logContainer" spacing="12.0" styleClass="log-vbox" />
-            </ScrollPane>
-            <Button fx:id="btnHistory" maxWidth="Infinity"  styleClass="btn-history" text="View Past Games" />
-        </VBox>
+        <fx:include fx:id="chatPanel" source="board-chat-panel.fxml"/>
     </right>
 </BorderPane>

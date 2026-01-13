@@ -119,7 +119,7 @@ public class MainMenuController {
 //        RotateTransition animation = showLoading();
 //        Navigator.setRootAsync(Screen.LOBBY.getName(), e -> hideLoading(animation));
     }
-
+    // TODO : WILL BE USED IN LOGIN AND REGISTER 
     private RotateTransition showLoading() {
         btnMultiplayer.setDisable(true);
         btnMultiplayer.getStyleClass().add("loading");

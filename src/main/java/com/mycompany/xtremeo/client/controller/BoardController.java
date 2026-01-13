@@ -12,14 +12,12 @@ import com.mycompany.xtremeo.client.service.audio.AudioService;
 import com.mycompany.xtremeo.client.util.AudioFiles;
 import com.mycompany.xtremeo.client.util.Screen;
 import com.mycompany.xtremeo.client.util.UIUtils;
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignP;
 
@@ -31,15 +29,13 @@ public class BoardController {
     @FXML
     private HBox turnIndicatorContainer;
     @FXML
-    private VBox logContainer;
-    @FXML
     private GridPane gameGrid;
     @FXML
     private Button btnReset;
     @FXML
-    private Button btnHistory;
-    @FXML
     private Button btnBack;
+    @FXML
+    private BoardChatController chatPanelController;
 
     private GameViewModel viewModel;
     private GameReplayDriver replayDriver;
@@ -56,6 +52,7 @@ public class BoardController {
         viewModel = new GameViewModel(record);
         viewModel.setGameMode(selectedMode, difficulty);
         setup();
+        initChatPanel();
     }
 
     public void init(GameMode mode, boolean record) {
@@ -63,9 +60,11 @@ public class BoardController {
     }
 
     public void initReplay(GameHistoryEntry history) {
+        this.selectedMode = GameMode.WITH_FRIEND;
         viewModel = new GameViewModel(history);
         replayDriver = new GameReplayDriver(viewModel, history);
         setup();
+        initChatPanel();
         setPlayIcon(false);
     }
 
@@ -80,11 +79,6 @@ public class BoardController {
         setupGrid();
         viewModel.setOnMoveMadeListener(this::onMoveMade);
         turnLabel.textProperty().bind(viewModel.statusMessageProperty());
-                viewModel.getGameLog().addListener((ListChangeListener<String>) c -> {
-            while (c.next())
-                if (c.wasAdded())
-                    c.getAddedSubList().forEach(this::addLogCard);
-        });
 
         if (viewModel.isReplayMode()) {
             disableEntireBoard();
@@ -98,6 +92,16 @@ public class BoardController {
             scoreX.textProperty().bind(viewModel.playerXScoreProperty().asString());
             scoreO.textProperty().bind(viewModel.playerOScoreProperty().asString());
             UIUtils.setupPulseAnimation(turnIndicatorContainer);
+        }
+    }
+
+    private void initChatPanel() {
+        if (chatPanelController != null) {
+            chatPanelController.init(selectedMode, viewModel.getLocalPlayer(), viewModel.getSecondPlayer());
+            
+            if (selectedMode != GameMode.ONLINE_PLAYER) {
+                chatPanelController.addSystemMessage("Game Started!");
+            }
         }
     }
 
@@ -125,12 +129,22 @@ public class BoardController {
         btn.getStyleClass().add(move.player().symbol().equals("X") ? "filled-x" : "filled-o");
         btn.setDisable(true);
 
+        addLogEntry(move);
+
         if (viewModel.isGameOver()) {
             disableEntireBoard();
             if (viewModel.isGameWon()) {
                 turnLabel.getStyleClass().add("status-win");
                 highlightWinningLine();
             }
+        }
+    }
+
+    void addLogEntry(Move move) {
+        if (selectedMode != GameMode.ONLINE_PLAYER && chatPanelController != null) {
+            String logMessage = move.player().name() + " placed " + move.player().symbol() 
+                    + " at [" + move.row() + "," + move.col() + "]";
+            chatPanelController.addLogEntry(move.player(), logMessage);
         }
     }
 
@@ -190,7 +204,12 @@ public class BoardController {
     }
 
     private void clearBoard() {
-        logContainer.getChildren().clear();
+        if (chatPanelController != null) {
+            chatPanelController.clear();
+            if (selectedMode != GameMode.ONLINE_PLAYER) {
+                chatPanelController.addSystemMessage("New Game Started!");
+            }
+        }
         turnLabel.getStyleClass().remove("status-win");
         for (Button[] row : buttons) {
             for (Button btn : row) {
@@ -218,10 +237,6 @@ public class BoardController {
                 btn.setDisable(true);
             }
         }
-    }
-
-    private void addLogCard(String message) {
-        logContainer.getChildren().add(UIUtils.createLogCard(message));
     }
 
     private void handleHoverEnter(Button btn) {
