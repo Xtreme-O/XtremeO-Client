@@ -1,7 +1,7 @@
 package com.mycompany.xtremeo.client.controller;
-
 import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.app.Navigator;
+import com.mycompany.xtremeo.client.controller.BoardChatController;
 import com.mycompany.xtremeo.client.model.game.GameHistoryEntry;
 import com.mycompany.xtremeo.client.model.game.GameMode;
 import com.mycompany.xtremeo.client.model.game.InGamePlayer;
@@ -9,22 +9,22 @@ import com.mycompany.xtremeo.client.model.game.Move;
 import com.mycompany.xtremeo.client.model.viewmodel.GameReplayDriver;
 import com.mycompany.xtremeo.client.model.viewmodel.GameViewModel;
 import com.mycompany.xtremeo.client.service.audio.AudioService;
-import com.mycompany.xtremeo.client.service.video.VideoService;
 import com.mycompany.xtremeo.client.util.AudioFiles;
 import com.mycompany.xtremeo.client.util.Screen;
 import com.mycompany.xtremeo.client.util.UIUtils;
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.MediaView;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignP;
 
+/**
+ *
+ * @author wahid
+ */
 public class BoardController {
     @FXML
     private Label scoreX, scoreO;
@@ -33,18 +33,13 @@ public class BoardController {
     @FXML
     private HBox turnIndicatorContainer;
     @FXML
-    private VBox logContainer;
-    @FXML
     private GridPane gameGrid;
     @FXML
     private Button btnReset;
     @FXML
-    private Button btnHistory;
-    @FXML
     private Button btnBack;
-
     @FXML
-    private MediaView mediaView;
+    private BoardChatController chatPanelController;
 
     private GameViewModel viewModel;
     private GameReplayDriver replayDriver;
@@ -61,6 +56,7 @@ public class BoardController {
         viewModel = new GameViewModel(record);
         viewModel.setGameMode(selectedMode, difficulty);
         setup();
+        initChatPanel();
     }
 
     public void init(GameMode mode, boolean record) {
@@ -68,9 +64,11 @@ public class BoardController {
     }
 
     public void initReplay(GameHistoryEntry history) {
+        this.selectedMode = GameMode.WITH_FRIEND;
         viewModel = new GameViewModel(history);
         replayDriver = new GameReplayDriver(viewModel, history);
         setup();
+        initChatPanel();
         setPlayIcon(false);
     }
 
@@ -86,7 +84,6 @@ public class BoardController {
         viewModel.setOnMoveMadeListener(this::onMoveMade);
         turnLabel.textProperty().bind(viewModel.statusMessageProperty());
 
-
         if (viewModel.isReplayMode()) {
             disableEntireBoard();
             replayDriver.isPlayingProperty().addListener((obs, wasPlaying, isPlaying) -> {
@@ -99,6 +96,16 @@ public class BoardController {
             scoreX.textProperty().bind(viewModel.playerXScoreProperty().asString());
             scoreO.textProperty().bind(viewModel.playerOScoreProperty().asString());
             UIUtils.setupPulseAnimation(turnIndicatorContainer);
+        }
+    }
+
+    private void initChatPanel() {
+        if (chatPanelController != null) {
+            chatPanelController.init(selectedMode, viewModel.getLocalPlayer(), viewModel.getSecondPlayer());
+            
+            if (selectedMode != GameMode.ONLINE_PLAYER) {
+                chatPanelController.addSystemMessage("Game Started!");
+            }
         }
     }
 
@@ -125,9 +132,9 @@ public class BoardController {
         btn.setText(move.player().symbol());
         btn.getStyleClass().add(move.player().symbol().equals("X") ? "filled-x" : "filled-o");
         btn.setDisable(true);
-        String positionName = com.mycompany.xtremeo.client.util.GamePosition.getPositionName(move.row(), move.col());
-        String logMessage = String.format("Player %s marked %s", move.player().symbol(), positionName);
-        addLogCard(logMessage);
+
+        addLogEntry(move);
+
         if (viewModel.isGameOver()) {
             disableEntireBoard();
             if (viewModel.isGameWon()) {
@@ -137,27 +144,21 @@ public class BoardController {
         }
     }
 
+    void addLogEntry(Move move) {
+        if (selectedMode != GameMode.ONLINE_PLAYER && chatPanelController != null) {
+            String logMessage = move.player().name() + " placed " + move.player().symbol() 
+                    + " at [" + move.row() + "," + move.col() + "]";
+            chatPanelController.addLogEntry(move.player(), logMessage);
+        }
+    }
+
     private void onGameOver(InGamePlayer p1, InGamePlayer p2, InGamePlayer winner) {
         AudioService audioService = AudioService.getInstance();
-        VideoService videoService = VideoService.getInstance();
-        InGamePlayer localPlayer = viewModel.getLocalPlayer();
         if (winner == null) {
-            videoService.playVideo(mediaView, "draw_video.mp4");
             System.out.println("The game ended in a draw between " + p1.name() + " and " + p2.name());
         } else {
-            if (selectedMode != GameMode.WITH_FRIEND) {
-                if (winner.symbol().equals(localPlayer.symbol())) {
-                    System.out.println("you wins");
-                    videoService.playVideo(mediaView, "win_video.mp4");
-                    audioService.playSoundEffect(AudioFiles.WIN_SOUND);
-                } else {
-                    System.out.println("u loses");
-                    videoService.playVideo(mediaView, "lose_video.mp4");
-                    // sound for losing
-                }
-            }
-            else{audioService.playSoundEffect(AudioFiles.WIN_SOUND);}
-            System.out.println("Winner is: " + winner.name());
+            audioService.playSoundEffect(AudioFiles.WIN_SOUND);
+            System.out.println("The winner is: " + winner.name());
         }
         disableEntireBoard();
         viewModel.saveRecording(winner);
@@ -207,7 +208,12 @@ public class BoardController {
     }
 
     private void clearBoard() {
-        logContainer.getChildren().clear();
+        if (chatPanelController != null) {
+            chatPanelController.clear();
+            if (selectedMode != GameMode.ONLINE_PLAYER) {
+                chatPanelController.addSystemMessage("New Game Started!");
+            }
+        }
         turnLabel.getStyleClass().remove("status-win");
         for (Button[] row : buttons) {
             for (Button btn : row) {
@@ -235,10 +241,6 @@ public class BoardController {
                 btn.setDisable(true);
             }
         }
-    }
-
-    private void addLogCard(String message) {
-        logContainer.getChildren().add(UIUtils.createLogCard(message));
     }
 
     private void handleHoverEnter(Button btn) {
