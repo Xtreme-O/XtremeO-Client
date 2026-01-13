@@ -6,6 +6,13 @@ package com.mycompany.xtremeo.client.controller;
 
 import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.model.game.GameMode;
+import com.mycompany.xtremeo.client.protocol.handler.auth.LoginResponseHandler;
+import com.mycompany.xtremeo.client.protocol.handler.auth.LogoutResponseHandler;
+import com.mycompany.xtremeo.client.protocol.handler.auth.RegisterResponseHandler;
+import com.mycompany.xtremeo.client.protocol.handler.common.ErrorResponseHandler;
+import com.mycompany.xtremeo.client.protocol.handler.game.*;
+import com.mycompany.xtremeo.client.protocol.handler.message.GlobalMessageHandler;
+import com.mycompany.xtremeo.client.protocol.handler.message.InGameMessageHandler;
 import com.mycompany.xtremeo.client.service.audio.AudioService;
 import com.mycompany.xtremeo.client.ui.dialog.DifficultyDialog;
 import com.mycompany.xtremeo.client.ui.dialog.HelpDialog;
@@ -41,6 +48,40 @@ public class MainMenuController {
     public void initialize() {
         audioService.startDefaultBackgroundMusic();   
         ComponentFactory.configureAudioToggleButton(btnSoundToggle, "icon-button-icon");
+        // test all responses
+        LoginResponseHandler.setOnLoginResponseConsumer((player) -> {
+            System.out.println("Login : " + player.getUsername());
+        });
+        LogoutResponseHandler.setOnLogoutResponseConsumer(body -> {
+            System.out.println("Logout : " + body.username());
+        });
+        RegisterResponseHandler.setOnRegisterResponseConsumer(player -> {
+            System.out.println("Register : " + player.getUsername());
+        });
+        ErrorResponseHandler.setOnErrorResponse(error -> {
+            System.out.println("Error : " + error.message());
+        });
+        InviteResponseHandler.setOnInviteResponseConsumer(invite -> {
+            System.out.println("Invite : " + invite.player1().getUsername() + " VS " + invite.player2().getUsername());
+        });
+        InviteConfirmResponseHandler.setOnInviteConfirmResponse(confirm -> {
+            System.out.println("Confirm from " + confirm.receiverId() + " to " + confirm.senderId());
+        });
+        InviteDeclinedResponseHandler.setOnInviteDeclinedResponse(declined -> {
+            System.out.println("Invite rejected by " + declined.receiverId());
+        });
+        GlobalMessageHandler.setOnMessageResponse(message -> {
+            System.out.println("Global Message : " + message.message());
+        });
+        InGameMessageHandler.setOnMessageResponse(message -> {
+            System.out.println("In Game Message : " + message.getMessage());
+        });
+        SessionMessageResponseHandler.setOnSessionMessageReceived(body -> {
+            System.out.println("Game State : " + body.state() + " with this move : " + body.move());
+        });
+        PartnerDisconnectedResponseHandler.setOnPartnerDisconnected(body -> {
+            System.out.println("Player " + body.playerId() + " Disconnected");
+        });
     }
 
     @FXML
@@ -68,8 +109,15 @@ public class MainMenuController {
     
     @FXML
     void handleMultiplayer(ActionEvent event) {
-        RotateTransition animation = showLoading();
-        Navigator.setRootAsync(Screen.LOBBY.getName(), e -> hideLoading(animation));
+        System.out.println("Starting Multiplayer...");
+        // Navigate to Login/Register screen
+
+
+        //Navigator.setRoot(Screen.REGISTER.getName());
+        Navigator.setRoot(Screen.LOGIN.getName());
+
+//        RotateTransition animation = showLoading();
+//        Navigator.setRootAsync(Screen.LOBBY.getName(), e -> hideLoading(animation));
     }
 
     private RotateTransition showLoading() {

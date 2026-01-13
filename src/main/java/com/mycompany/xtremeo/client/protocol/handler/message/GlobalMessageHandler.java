@@ -1,26 +1,30 @@
 package com.mycompany.xtremeo.client.protocol.handler.message;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mycompany.xtremeo.client.model.lobby.ChatMessageData;
 import com.mycompany.xtremeo.client.protocol.handler.ResponseHandler;
-import com.mycompany.xtremeo.client.model.common.MessageBody;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
-import javafx.application.Platform;
+import com.mycompany.xtremeo.client.util.GsonProvider;
 
-public class GlobalMessageHandler implements ResponseHandler<MessageBody> {
+import java.util.function.Consumer;
+// TODO Change MessageBody by ChatMessageData
+public class GlobalMessageHandler implements ResponseHandler<ChatMessageData> {
+
+    private static Consumer<ChatMessageData> onMessageResponse;
+
+    public static void setOnMessageResponse(Consumer<ChatMessageData> consumer){
+        onMessageResponse = consumer;
+    }
 
     @Override
-    public void handle(String json, Gson gson) {
-        RequestEnvelope<MessageBody> envelope =
-                gson.fromJson(
+    public void handle(String json) {
+        RequestEnvelope<ChatMessageData> envelope =
+                GsonProvider.getGsonProvider().fromJson(
                         json,
-                        new TypeToken<RequestEnvelope<MessageBody>>(){}.getType()
+                        new TypeToken<RequestEnvelope<ChatMessageData>>(){}.getType()
                 );
 
-        MessageBody body = envelope.getBody();
-        System.out.println("Created at: "+ body.getMessage());
-        Platform.runLater(() -> {
-            // update ui
-        });
+        ChatMessageData body = envelope.getBody();
+        onMessageResponse.accept(body);
     }
 }

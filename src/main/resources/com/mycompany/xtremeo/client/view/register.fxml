@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+           styleClass="root"
+           stylesheets="@styles/register.css"
+           fx:controller="com.mycompany.xtremeo.client.controller.RegisterController">
+
+    <Label styleClass="bg-decor-x" text="X" StackPane.alignment="TOP_LEFT" mouseTransparent="true">
+        <StackPane.margin><Insets left="20" top="20" /></StackPane.margin>
+    </Label>
+
+    <Label styleClass="bg-decor-o" text="O" StackPane.alignment="BOTTOM_RIGHT" mouseTransparent="true">
+        <StackPane.margin><Insets bottom="20" right="20" /></StackPane.margin>
+    </Label>
+
+    <Button fx:id="btnBack" mnemonicParsing="false" onAction="#onBack" styleClass="btn-back" StackPane.alignment="TOP_LEFT">
+        <StackPane.margin><Insets left="20" top="20" /></StackPane.margin>
+        <graphic>
+            <FontIcon iconLiteral="mdi2a-arrow-left" styleClass="btn-back-icon"/>
+        </graphic>
+    </Button>
+
+    <VBox alignment="CENTER" spacing="30" styleClass="main-wrapper" pickOnBounds="false">
+        <VBox alignment="CENTER" spacing="25" styleClass="card">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40" />
+            </padding>
+
+            <VBox alignment="CENTER" spacing="16">
+                <StackPane styleClass="logo-circle">
+                    <SVGPath content="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z"
+                             styleClass="logo-svg" />
+                </StackPane>
+
+                <VBox alignment="CENTER" spacing="4">
+                    <Label styleClass="title" text="Join the Arena" />
+                    <Label styleClass="subtitle" text="Create your profile and start playing." />
+                </VBox>
+            </VBox>
+
+            <VBox alignment="CENTER" spacing="20" styleClass="form">
+                <VBox spacing="8">
+                    <Label styleClass="input-label" text="Choose your Avatar" />
+                    <ListView fx:id="avatarListView" orientation="HORIZONTAL" styleClass="avatar-list" prefHeight="70" />
+                </VBox>
+
+                <VBox spacing="8">
+                    <Label styleClass="input-label" text="Username" />
+                    <StackPane styleClass="input-container">
+                        <TextField fx:id="username" promptText="Enter your username" styleClass="input" />
+                        <FontIcon iconLiteral="mdi2a-account" styleClass="input-icon" StackPane.alignment="CENTER_LEFT" mouseTransparent="true">
+                            <StackPane.margin><Insets left="16" /></StackPane.margin>
+                        </FontIcon>
+                    </StackPane>
+                </VBox>
+
+                <HBox spacing="16">
+                    <VBox spacing="8" HBox.hgrow="ALWAYS">
+                        <Label styleClass="input-label" text="Password" />
+                        <StackPane styleClass="input-container">
+                            <PasswordField fx:id="password" promptText="••••••••" styleClass="input" />
+                            <FontIcon iconLiteral="mdi2l-lock" styleClass="input-icon" StackPane.alignment="CENTER_LEFT" mouseTransparent="true">
+                                <StackPane.margin><Insets left="16" /></StackPane.margin>
+                            </FontIcon>
+                        </StackPane>
+                    </VBox>
+                    <VBox spacing="8" HBox.hgrow="ALWAYS">
+                        <Label styleClass="input-label" text="Confirm" />
+                        <StackPane styleClass="input-container">
+                            <PasswordField fx:id="confirmPassword" promptText="••••••••" styleClass="input" />
+                            <FontIcon iconLiteral="mdi2l-lock" styleClass="input-icon" StackPane.alignment="CENTER_LEFT" mouseTransparent="true">
+                                <StackPane.margin><Insets left="16" /></StackPane.margin>
+                            </FontIcon>
+                        </StackPane>
+                    </VBox>
+                </HBox>
+
+                <Button fx:id="startGame" text="START GAME" styleClass="primary-button" onAction="#onRegister" />
+            </VBox>
+
+            <Region styleClass="footer-separator" />
+
+            <VBox alignment="CENTER" spacing="10">
+                <TextFlow styleClass="footer-text-flow" textAlignment="CENTER">
+                    <Text styleClass="footer-text" text="Already a player? " />
+                    <Hyperlink fx:id="loginLink" text="Log In" styleClass="link" onAction="#onLogin" />
+                </TextFlow>
+            </VBox>
+        </VBox>
+    </VBox>
+</StackPane>
