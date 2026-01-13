@@ -1,10 +1,10 @@
 package com.mycompany.xtremeo.client.controller.lobby;
 
-import com.mycompany.xtremeo.client.data.DataProvider.LobbyPlayerData;
 import com.mycompany.xtremeo.client.model.common.Player;
+import com.mycompany.xtremeo.client.model.common.PlayerProfile;
+import com.mycompany.xtremeo.client.service.lobby.MatchmakingService;
 import com.mycompany.xtremeo.client.service.lobby.PlayerService;
 import com.mycompany.xtremeo.client.ui.LobbyComponentFactory;
-import com.mycompany.xtremeo.client.ui.dialog.ErrorDialog;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -26,6 +26,9 @@ public class LobbyPlayerListController {
             playerService.onlineCountProperty().asString().concat(" Players Online")
         );
 
+        playerService.getOnlinePlayers().addListener((javafx.collections.ListChangeListener<PlayerProfile>) change -> {
+            Platform.runLater(() -> refreshPlayerList(txtSearch.getText()));
+        });
         txtSearch.textProperty().addListener((obs, old, text) -> refreshPlayerList(text));
         
         Platform.runLater(() -> refreshPlayerList(""));
@@ -39,7 +42,7 @@ public class LobbyPlayerListController {
         int col = 0;
         int row = 0;
 
-        for (LobbyPlayerData lobbyPlayer : players) {
+        for (PlayerProfile lobbyPlayer : players) {
             VBox card = LobbyComponentFactory.createPlayerCard(lobbyPlayer, this::handleChallenge);
             playersGrid.add(card, col, row);
 
@@ -52,8 +55,6 @@ public class LobbyPlayerListController {
     }
 
     private void handleChallenge(Player player) {
-        ErrorDialog.show( 
-            "Connection Error", 
-            "Unable to challenge " + player.getUsername() + ". Server is not responding. Please try again later.");
+        MatchmakingService.getInstance().challengePlayer(player);
     }
 }

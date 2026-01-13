@@ -16,6 +16,10 @@ public class ErrorDialog {
         show(title, message, null);
     }
 
+    public static void showServerError(String message) {
+        show("Server Error", message, null);
+    }
+
     public static void show(String title, String message, Runnable onClose) {
         StackPane root = Navigator.getRoot();
         if (root == null) return;
@@ -34,6 +38,7 @@ public class ErrorDialog {
         messageLabel.getStyleClass().add("error-message");
         messageLabel.setWrapText(true);
         messageLabel.setMaxWidth(280);
+        messageLabel.setAlignment(Pos.CENTER);
 
         Button okButton = new Button("OK");
         okButton.getStyleClass().add("error-button");

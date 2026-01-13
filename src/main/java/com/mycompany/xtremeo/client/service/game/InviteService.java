@@ -6,7 +6,6 @@ import com.mycompany.xtremeo.client.model.game.InviteBody;
 import com.mycompany.xtremeo.client.model.game.InviteConfirmationBody;
 import com.mycompany.xtremeo.client.protocol.envelope.Header;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
-import com.mycompany.xtremeo.client.service.RequestSender;
 import com.mycompany.xtremeo.client.service.SocketRequestSender;
 
 public class InviteService {

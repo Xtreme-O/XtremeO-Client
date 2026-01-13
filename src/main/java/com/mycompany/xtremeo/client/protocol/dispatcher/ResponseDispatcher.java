@@ -31,14 +31,13 @@ public class ResponseDispatcher {
         handlers.put(ActionType.LOGIN, new LoginResponseHandler());
         handlers.put(ActionType.LOGOUT, new LogoutResponseHandler());
         handlers.put(ActionType.REGISTER, new RegisterResponseHandler());
-        handlers.put(ActionType.MOVE, new MoveResponseHandler());
+        handlers.put(ActionType.SESSION_MESSAGE, new MoveResponseHandler());
         handlers.put(ActionType.GLOBAL_MESSAGE, new GlobalMessageHandler());
         handlers.put(ActionType.IN_GAME_MESSAGE, new InGameMessageHandler());
         handlers.put(ActionType.ERROR, new ErrorResponseHandler());
         handlers.put(ActionType.INVITE, new InviteResponseHandler());
         handlers.put(ActionType.INVITE_CONFIRMED, new InviteConfirmResponseHandler());
         handlers.put(ActionType.INVITE_DECLINED, new InviteDeclinedResponseHandler());
-        handlers.put(ActionType.SESSION_MESSAGE, new SessionMessageResponseHandler());
         handlers.put(ActionType.LOBBY, new LobbyResponseHandler());
         handlers.put(ActionType.PARTNER_DISCONNECTED, new PartnerDisconnectedResponseHandler());
         handlers.put(ActionType.ACTIVE_PLAYER_CONNECTED, new PlayerConnectedResponseHandler());

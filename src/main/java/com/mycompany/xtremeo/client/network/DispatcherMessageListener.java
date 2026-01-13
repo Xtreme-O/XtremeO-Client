@@ -1,6 +1,10 @@
 package com.mycompany.xtremeo.client.network;
 
+import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.protocol.dispatcher.ResponseDispatcher;
+import com.mycompany.xtremeo.client.ui.dialog.ErrorDialog;
+import com.mycompany.xtremeo.client.util.Screen;
+import javafx.application.Platform;
 
 public class DispatcherMessageListener implements MessageListener {
 
@@ -17,7 +21,10 @@ public class DispatcherMessageListener implements MessageListener {
 
     @Override
     public void onDisconnect(Exception e) {
-        //TODO handle error dialog
+        Platform.runLater(() -> {
+            Navigator.setRoot(Screen.MAIN.getName());
+            ErrorDialog.showServerError("An unknown error occurred on the server");
+        });
         System.out.println("Disconnected from server");
     }
 }

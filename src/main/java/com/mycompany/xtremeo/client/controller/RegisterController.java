@@ -5,18 +5,12 @@
 package com.mycompany.xtremeo.client.controller;
 
 import com.mycompany.xtremeo.client.app.Navigator;
-import com.mycompany.xtremeo.client.model.auth.request.RegisterRequestBody;
-import com.mycompany.xtremeo.client.network.ClientConnection;
-import com.mycompany.xtremeo.client.protocol.envelope.Header;
-import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
-import com.mycompany.xtremeo.client.protocol.handler.auth.LoginResponseHandler;
 import com.mycompany.xtremeo.client.protocol.handler.auth.RegisterResponseHandler;
-import com.mycompany.xtremeo.client.service.SocketRequestSender;
 import com.mycompany.xtremeo.client.service.auth.RegisterService;
+import com.mycompany.xtremeo.client.service.lobby.PlayerService;
 import com.mycompany.xtremeo.client.ui.AvatarFactory;
 import com.mycompany.xtremeo.client.ui.dialog.ErrorDialog;
 import com.mycompany.xtremeo.client.util.Avatars;
-import com.mycompany.xtremeo.client.util.GsonProvider;
 import com.mycompany.xtremeo.client.util.Screen;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -56,6 +50,7 @@ public class RegisterController {
     private static void registerSuccess() {
         RegisterResponseHandler.setOnRegisterResponseConsumer(p->{
             Platform.runLater(()->{
+                PlayerService.getInstance().setCurrentPlayer(p);
                 Navigator.setRoot(Screen.LOBBY.getName());
             });
         });

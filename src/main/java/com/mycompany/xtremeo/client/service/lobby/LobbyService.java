@@ -59,7 +59,7 @@ public class LobbyService {
         System.out.println("Logging out...");
         matchmakingService.clear();
         boolean success = true;
-        LogoutService.getInstance().logout(playerService.getCurrentPlayer().getUsername());
+        LogoutService.getInstance().logout(playerService.getCurrentPlayer().player().getUsername());
         if (onLogout != null) {
             onLogout.accept(success);
         }

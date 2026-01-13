@@ -19,6 +19,7 @@ public class SocketRequestSender implements RequestSender {
     @Override
     public void send(RequestEnvelope<?> request) {
         String json = GsonProvider.getGsonProvider().toJson(request);
+        System.out.println(json);
         ClientConnection.getInstance().send(json);
     }
 }

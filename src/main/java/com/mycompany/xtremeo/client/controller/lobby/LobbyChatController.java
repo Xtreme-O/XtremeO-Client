@@ -1,9 +1,9 @@
 package com.mycompany.xtremeo.client.controller.lobby;
 
-import com.mycompany.xtremeo.client.data.DataProvider;
 import com.mycompany.xtremeo.client.model.lobby.ChatMessageData;
 import com.mycompany.xtremeo.client.protocol.handler.message.GlobalMessageHandler;
 import com.mycompany.xtremeo.client.service.lobby.ChatService;
+import com.mycompany.xtremeo.client.service.lobby.PlayerService;
 import com.mycompany.xtremeo.client.ui.AvatarFactory;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -66,7 +66,8 @@ public class LobbyChatController {
 
     private void addMessageToUI(ChatMessageData msg) {
         Platform.runLater(() -> {
-            HBox row = msg.sender().equals(DataProvider.getCurrentUser()) ?
+            var currentProfile = PlayerService.getInstance().getCurrentPlayer();
+            HBox row = msg.sender().equals(currentProfile.player()) ?
                     createSelfMessage(msg) : createOtherMessage(msg);
             messagesContainer.getChildren().add(row);
         });

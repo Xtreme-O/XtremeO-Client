@@ -2,18 +2,15 @@ package com.mycompany.xtremeo.client.controller;
 
 import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.app.Navigator;
-import com.mycompany.xtremeo.client.model.game.GameHistoryEntry;
-import com.mycompany.xtremeo.client.model.game.GameMode;
-import com.mycompany.xtremeo.client.model.game.InGamePlayer;
-import com.mycompany.xtremeo.client.model.game.Move;
+import com.mycompany.xtremeo.client.model.game.*;
 import com.mycompany.xtremeo.client.model.viewmodel.GameReplayDriver;
 import com.mycompany.xtremeo.client.model.viewmodel.GameViewModel;
 import com.mycompany.xtremeo.client.service.audio.AudioService;
+import com.mycompany.xtremeo.client.service.lobby.PlayerService;
 import com.mycompany.xtremeo.client.service.video.VideoService;
 import com.mycompany.xtremeo.client.util.AudioFiles;
 import com.mycompany.xtremeo.client.util.Screen;
 import com.mycompany.xtremeo.client.util.UIUtils;
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -56,15 +53,19 @@ public class BoardController {
     public void initialize() {
     }
 
-    public void init(GameMode mode, Difficulty difficulty, boolean record) {
+    public void init(GameMode mode, Difficulty difficulty, boolean record, GameSession session) {
         this.selectedMode = mode;
         viewModel = new GameViewModel(record);
-        viewModel.setGameMode(selectedMode, difficulty);
+        viewModel.setGameMode(selectedMode, difficulty, session);
         setup();
     }
 
-    public void init(GameMode mode, boolean record) {
-        init(mode, Difficulty.NONE, record);
+
+    public void init(GameMode mode, boolean record, GameSession session) {
+        init(mode, Difficulty.NONE, record, session);
+        if(selectedMode == GameMode.ONLINE_PLAYER) {
+            btnReset.setVisible(false);
+        }
     }
 
     public void initReplay(GameHistoryEntry history) {
@@ -108,7 +109,7 @@ public class BoardController {
                 int r = GridPane.getRowIndex(btn) == null ? 0 : GridPane.getRowIndex(btn);
                 int c = GridPane.getColumnIndex(btn) == null ? 0 : GridPane.getColumnIndex(btn);
                 buttons[r][c] = btn;
-                if (!viewModel.isReplayMode()) {
+                if (viewModel != null && !viewModel.isReplayMode()) {
                     btn.setOnMouseEntered(e -> handleHoverEnter(btn));
                     btn.setOnMouseExited(e -> handleHoverExit(btn));
                 }
@@ -121,12 +122,18 @@ public class BoardController {
         if (btn == null)
             return;
 
+        String symbol = move.player().symbol();
+        if (symbol == null) {
+            System.err.println("ERROR: Player symbol is null for move!");
+            return;
+        }
+
         btn.getStyleClass().remove("preview-symbol");
-        btn.setText(move.player().symbol());
-        btn.getStyleClass().add(move.player().symbol().equals("X") ? "filled-x" : "filled-o");
+        btn.setText(symbol);
+        btn.getStyleClass().add(symbol.equals("X") ? "filled-x" : "filled-o");
         btn.setDisable(true);
         String positionName = com.mycompany.xtremeo.client.util.GamePosition.getPositionName(move.row(), move.col());
-        String logMessage = String.format("Player %s marked %s", move.player().symbol(), positionName);
+        String logMessage = String.format("Player %s marked %s", symbol, positionName);
         addLogCard(logMessage);
         if (viewModel.isGameOver()) {
             disableEntireBoard();
@@ -153,7 +160,6 @@ public class BoardController {
                 } else {
                     System.out.println("u loses");
                     videoService.playVideo(mediaView, "lose_video.mp4");
-                    // sound for losing
                 }
             }
             else{audioService.playSoundEffect(AudioFiles.WIN_SOUND);}
@@ -165,6 +171,9 @@ public class BoardController {
 
     @FXML
     void handleCellClick(ActionEvent event) {
+        if (viewModel == null) {
+            return;
+        }
         if (viewModel.isReplayMode()) {
             return;
         }
@@ -182,23 +191,34 @@ public class BoardController {
 
     @FXML
     void handleBack(ActionEvent event) {
-        if (viewModel.isReplayMode()) {
+        if (viewModel != null && viewModel.isReplayMode() && replayDriver != null) {
             replayDriver.stopAutoPlay();
+        }
+        if(selectedMode == GameMode.ONLINE_PLAYER ||
+                PlayerService.getInstance().getCurrentPlayer() != null){
+            Navigator.setRoot(Screen.LOBBY.getName());
+            return;
         }
         Navigator.setRoot(Screen.MAIN.getName());
     }
 
     @FXML
     void handleReset(ActionEvent event) {
+        btnReset.setVisible(true);
+        if (viewModel == null) {
+            return;
+        }
         if (viewModel.isReplayMode()) {
-            if (replayDriver.isPlayingProperty().get()) {
+            if (replayDriver != null && replayDriver.isPlayingProperty().get()) {
                 replayDriver.stopAutoPlay();
             } else {
-                if (!replayDriver.hasNext()) {
-                    clearBoard();
-                    replayDriver.restart();
+                if (replayDriver != null) {
+                    if (!replayDriver.hasNext()) {
+                        clearBoard();
+                        replayDriver.restart();
+                    }
+                    replayDriver.startAutoPlay();
                 }
-                replayDriver.startAutoPlay();
             }
         } else {
             viewModel.resetBoard();
@@ -242,7 +262,8 @@ public class BoardController {
     }
 
     private void handleHoverEnter(Button btn) {
-        if (!btn.isDisable() && btn.getText().isEmpty()) {
+        String buttonText = btn.getText();
+        if (viewModel != null && !btn.isDisable() && (buttonText == null || buttonText.isEmpty())) {
             btn.setText(viewModel.getCurrentPlayerSymbol());
             btn.getStyleClass().add("preview-symbol");
         }

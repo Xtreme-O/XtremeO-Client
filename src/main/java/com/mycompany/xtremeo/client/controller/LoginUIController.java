@@ -7,6 +7,7 @@ package com.mycompany.xtremeo.client.controller;
 import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.protocol.handler.auth.LoginResponseHandler;
 import com.mycompany.xtremeo.client.service.auth.LoginService;
+import com.mycompany.xtremeo.client.service.lobby.PlayerService;
 import com.mycompany.xtremeo.client.util.Screen;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -33,6 +34,7 @@ public class LoginUIController {
     private static void loginSuccess() {
         LoginResponseHandler.setOnLoginResponseConsumer(p->{
             Platform.runLater(()->{
+                PlayerService.getInstance().setCurrentPlayer(p);
                 Navigator.setRoot(Screen.LOBBY.getName());
             });
         });

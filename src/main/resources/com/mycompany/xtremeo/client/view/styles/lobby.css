@@ -73,7 +73,7 @@
     -fx-border-width: 0 1 0 0;
 }
 
-.profile-card { -fx-padding: 20 18; }
+.profile-card { -fx-padding: 18 18; }
 
 .profile-avatar {
     -fx-background-color: transparent;
@@ -133,8 +133,23 @@
 .top-players-section {
     -fx-background-color: rgba(0, 0, 0, 0.2);
     -fx-background-radius: 14;
-    -fx-padding: 14;
+    -fx-padding: 14 20;
 }
+
+.top-players-list, .top-players-list .viewport {
+    -fx-background-color: transparent;
+}
+
+.top-players-list .scroll-bar:vertical {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+}
+
+.top-players-list .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
+}
+
 
 .section-title { -fx-text-fill: -text-muted; -fx-font-size: 12; -fx-font-weight: bold; }
 
@@ -144,12 +159,20 @@
     -fx-background-color: rgba(255, 255, 255, 0.03);
     -fx-background-radius: 10;
     -fx-alignment: center-left;
+    -fx-min-height: 40;
+    -fx-pref-height: 40;
+    -fx-max-height: 40;
 }
 .top-player-row:hover { -fx-background-color: rgba(255, 255, 255, 0.06); }
 
 .rank-number { -fx-text-fill: -primary; -fx-font-size: 14; -fx-font-weight: bold; -fx-min-width: 18; -fx-alignment: center; }
-.rank-number-silver { -fx-text-fill: #a8a8a8; }
-.rank-number-bronze { -fx-text-fill: #b87333; }
+.rank-number-gold {-fx-text-fill: #FFD700;}
+
+.rank-number-silver {-fx-text-fill: #C0C0C0;}
+
+.rank-number-bronze {-fx-text-fill: #CD7F32;}
+
+.rank-number-default {-fx-text-fill: #b0b0b0;}
 
 .top-player-avatar {
     -fx-background-color: transparent;
@@ -256,6 +279,14 @@
 
 .challenge-title { -fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold; }
 .challenge-from { -fx-text-fill: -primary; -fx-font-size: 13; }
+.challenge-countdown {
+    -fx-text-fill: rgba(255, 255, 255, 0.8);
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-background-radius: 8;
+    -fx-padding: 4 8;
+}
 
 .accept-btn {
     -fx-background-color: -primary;
