@@ -5,13 +5,10 @@
 package com.mycompany.xtremeo.client.controller;
 
 import com.mycompany.xtremeo.client.app.Navigator;
-import com.mycompany.xtremeo.client.model.auth.LoginRequestBody;
-import com.mycompany.xtremeo.client.network.ClientConnection;
-import com.mycompany.xtremeo.client.protocol.envelope.Header;
-import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
-import com.mycompany.xtremeo.client.service.auth.AuthService;
-import com.mycompany.xtremeo.client.service.auth.AuthServiceImpl;
+import com.mycompany.xtremeo.client.protocol.handler.auth.LoginResponseHandler;
+import com.mycompany.xtremeo.client.service.auth.LoginService;
 import com.mycompany.xtremeo.client.util.Screen;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -28,19 +25,26 @@ public class LoginUIController {
 
     @FXML
     private TextField usernameField;
+    @FXML
+    public void initialize() {
+        loginSuccess();
+    }
+
+    private static void loginSuccess() {
+        LoginResponseHandler.setOnLoginResponseConsumer(p->{
+            Platform.runLater(()->{
+                Navigator.setRoot(Screen.LOBBY.getName());
+            });
+        });
+    }
 
     @FXML
     void onClick(ActionEvent e) {
         String username = usernameField.getText();
         String password = passwordField.getText();
+        LoginService service = LoginService.getInstance();
+        service.login(username,password);
 
-        Header header = new Header("JSON", "LOGIN");
-        LoginRequestBody body = new LoginRequestBody(username, password);
-
-        RequestEnvelope<LoginRequestBody> req = new RequestEnvelope<>(header, body);
-
-        AuthService authservice = new AuthServiceImpl(new ClientConnection());
-        authservice.send(req);
     }
 
     @FXML

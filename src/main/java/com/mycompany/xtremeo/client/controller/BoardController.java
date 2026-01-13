@@ -9,6 +9,7 @@ import com.mycompany.xtremeo.client.model.game.Move;
 import com.mycompany.xtremeo.client.model.viewmodel.GameReplayDriver;
 import com.mycompany.xtremeo.client.model.viewmodel.GameViewModel;
 import com.mycompany.xtremeo.client.service.audio.AudioService;
+import com.mycompany.xtremeo.client.service.video.VideoService;
 import com.mycompany.xtremeo.client.util.AudioFiles;
 import com.mycompany.xtremeo.client.util.Screen;
 import com.mycompany.xtremeo.client.util.UIUtils;
@@ -20,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaView;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignP;
 
@@ -40,6 +42,9 @@ public class BoardController {
     private Button btnHistory;
     @FXML
     private Button btnBack;
+
+    @FXML
+    private MediaView mediaView;
 
     private GameViewModel viewModel;
     private GameReplayDriver replayDriver;
@@ -80,11 +85,7 @@ public class BoardController {
         setupGrid();
         viewModel.setOnMoveMadeListener(this::onMoveMade);
         turnLabel.textProperty().bind(viewModel.statusMessageProperty());
-                viewModel.getGameLog().addListener((ListChangeListener<String>) c -> {
-            while (c.next())
-                if (c.wasAdded())
-                    c.getAddedSubList().forEach(this::addLogCard);
-        });
+
 
         if (viewModel.isReplayMode()) {
             disableEntireBoard();
@@ -124,7 +125,9 @@ public class BoardController {
         btn.setText(move.player().symbol());
         btn.getStyleClass().add(move.player().symbol().equals("X") ? "filled-x" : "filled-o");
         btn.setDisable(true);
-
+        String positionName = com.mycompany.xtremeo.client.util.GamePosition.getPositionName(move.row(), move.col());
+        String logMessage = String.format("Player %s marked %s", move.player().symbol(), positionName);
+        addLogCard(logMessage);
         if (viewModel.isGameOver()) {
             disableEntireBoard();
             if (viewModel.isGameWon()) {
@@ -136,11 +139,25 @@ public class BoardController {
 
     private void onGameOver(InGamePlayer p1, InGamePlayer p2, InGamePlayer winner) {
         AudioService audioService = AudioService.getInstance();
+        VideoService videoService = VideoService.getInstance();
+        InGamePlayer localPlayer = viewModel.getLocalPlayer();
         if (winner == null) {
+            videoService.playVideo(mediaView, "draw_video.mp4");
             System.out.println("The game ended in a draw between " + p1.name() + " and " + p2.name());
         } else {
-            audioService.playSoundEffect(AudioFiles.WIN_SOUND);
-            System.out.println("The winner is: " + winner.name());
+            if (selectedMode != GameMode.WITH_FRIEND) {
+                if (winner.symbol().equals(localPlayer.symbol())) {
+                    System.out.println("you wins");
+                    videoService.playVideo(mediaView, "win_video.mp4");
+                    audioService.playSoundEffect(AudioFiles.WIN_SOUND);
+                } else {
+                    System.out.println("u loses");
+                    videoService.playVideo(mediaView, "lose_video.mp4");
+                    // sound for losing
+                }
+            }
+            else{audioService.playSoundEffect(AudioFiles.WIN_SOUND);}
+            System.out.println("Winner is: " + winner.name());
         }
         disableEntireBoard();
         viewModel.saveRecording(winner);

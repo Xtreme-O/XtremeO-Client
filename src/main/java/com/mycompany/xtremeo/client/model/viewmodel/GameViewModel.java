@@ -7,6 +7,7 @@ package com.mycompany.xtremeo.client.model.viewmodel;
 import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.game.GameEngine;
 import com.mycompany.xtremeo.client.game.GameOpponent;
+import com.mycompany.xtremeo.client.game.OnlineOpponent;
 import com.mycompany.xtremeo.client.game.TicTacToeCpuOpponent;
 import com.mycompany.xtremeo.client.model.game.*;
 import com.mycompany.xtremeo.client.model.viewmodel.listeners.OnGameOverListener;
@@ -87,7 +88,7 @@ public class GameViewModel {
         winningLine = null;
         currentPlayer = localPlayer;
         gameLog.clear();
-        
+
         if (isReplayMode) {
             statusMessage.set("Replay: Click or Play to start");
         } else {
@@ -110,7 +111,7 @@ public class GameViewModel {
                 break;
             case ONLINE_PLAYER:
                 this.secondPlayer = new InGamePlayer("Player 2", "O");
-                // this.opponent = new OnlineOpponent();
+                 this.opponent = OnlineOpponent.getInstance();
                 break;
             case WITH_FRIEND:
             default:
@@ -155,11 +156,11 @@ public class GameViewModel {
             }
         } else {
             currentPlayer = (playerWhoMoved.equals(localPlayer)) ? secondPlayer : localPlayer;
-            statusMessage.set(isReplayMode 
+            statusMessage.set(isReplayMode
                 ? "Move " + gameLog.size() + " - " + currentPlayer.name() + "'s Turn"
                 : currentPlayer.name() + "'s Turn");
         }
-        
+
         if (moveListener != null) {
             moveListener.onMoveMade(move);
         }
@@ -251,7 +252,7 @@ public class GameViewModel {
     public InGamePlayer getLocalPlayer() {
         return localPlayer;
     }
-    
+
     public InGamePlayer getSecondPlayer() {
         return secondPlayer;
     }
