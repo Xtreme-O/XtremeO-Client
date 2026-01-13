@@ -18,7 +18,13 @@ public class ClientConnection {
     private DataInputStream dis;
     private DataOutputStream dos;
     private volatile boolean running = false;
-
+    private ClientConnection(){}
+    private static ClientConnection connection;
+    public static ClientConnection getInstance(){
+        if(connection == null)
+            connection = new ClientConnection();
+        return connection;
+    }
     public void connect(String host, int port) {
         try {
             socket = new Socket(host, port);

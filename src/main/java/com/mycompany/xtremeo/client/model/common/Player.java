@@ -3,6 +3,7 @@ package com.mycompany.xtremeo.client.model.common;
 import com.mycompany.xtremeo.client.enums.PlayerStatus;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Player {
 
@@ -74,4 +75,30 @@ public class Player {
     public String toString() {
         return "PlayerDTO{" + "id=" + id + ", username=" + username + ", avatarUrl=" + avatarUrl + ", status=" + status + ", createdAt=" + createdAt + ", lastLogin=" + lastLogin + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Player other = (Player) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return Objects.equals(this.username, other.username);
+    }
+    
+    
 }
