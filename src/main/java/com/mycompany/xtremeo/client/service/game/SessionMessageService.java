@@ -35,4 +35,10 @@ public class SessionMessageService {
         RequestEnvelope<MessageBody> request = new RequestEnvelope<>(header, body);
         SocketRequestSender.getInstance().send(request);
     }
+
+    public void sendEndSessionMessage() {
+        Header header = new Header("JSON", ActionType.SESSION_ENDED.name());
+        RequestEnvelope<Void> request = new RequestEnvelope<>(header, null);
+        SocketRequestSender.getInstance().send(request);
+    }
 }

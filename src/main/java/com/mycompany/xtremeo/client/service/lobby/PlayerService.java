@@ -150,6 +150,7 @@ public class PlayerService {
     }
 
     public void clear() {
+        instance = null;
         currentPlayer = null;
     }
 

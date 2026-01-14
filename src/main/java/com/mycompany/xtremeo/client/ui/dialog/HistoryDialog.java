@@ -13,6 +13,10 @@ public class HistoryDialog {
     private static final String FXML_PATH = "/com/mycompany/xtremeo/client/view/history-dialog.fxml";
 
     public static void show(StackPane parent) {
+        show(parent, false, null);
+    }
+
+    public static void show(StackPane parent, boolean onlineGamesOnly, String username) {
         try {
             FXMLLoader loader = new FXMLLoader(HistoryDialog.class.getResource(FXML_PATH));
             VBox content = loader.load();
@@ -21,6 +25,7 @@ public class HistoryDialog {
             
             HistoryDialogController controller = loader.getController();
             controller.setDialog(dialog);
+            controller.setFilterMode(onlineGamesOnly, username);
             
             dialog.addContent(content);
             dialog.show();

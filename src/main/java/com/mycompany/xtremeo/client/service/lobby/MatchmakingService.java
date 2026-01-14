@@ -13,7 +13,6 @@ public class MatchmakingService {
     private static MatchmakingService instance;
     private Consumer<List<Player>> onPendingChallengesChanged;
     private final List<Player> pendingChallenges = new ArrayList<>();
-    private Runnable onMatchFound;
     private final InviteService inviteService = InviteService.getInstance();
 
     private MatchmakingService() {
@@ -41,9 +40,6 @@ public class MatchmakingService {
     }
 
 
-    public void setOnMatchFound(Runnable callback) {
-        this.onMatchFound = callback;
-    }
 
     public void setOnPendingChallengesChanged(Consumer<List<Player>> callback) {
         this.onPendingChallengesChanged = callback;
@@ -89,21 +85,11 @@ public class MatchmakingService {
 
     public void startMatchmaking() {
         System.out.println("Starting matchmaking...");
-        // TODO: Connect to matchmaking service
-
-        if (onMatchFound != null) {
-            // TODO: Call the callback to notify the controller that a match has been found
-            onMatchFound.run();
-        }
-    }
-
-    public void cancelMatchmaking() {
-        System.out.println("Matchmaking cancelled");
+        inviteService.boradcastInvite(PlayerService.getInstance().getCurrentPlayer().player().getId());
     }
 
     public void clear() {
-        onPendingChallengesChanged = null;
-        onMatchFound = null;
+        instance = null;
         pendingChallenges.clear();
     }
 }

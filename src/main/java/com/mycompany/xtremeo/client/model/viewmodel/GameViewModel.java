@@ -49,6 +49,7 @@ public class GameViewModel {
     private final GameRecorderService recorderService;
     private boolean isReplayMode = false;
     private Difficulty difficulty;
+    private GameMode gameMode;
 
     public GameViewModel(boolean isRecording) {
         if (isRecording) {
@@ -102,8 +103,8 @@ public class GameViewModel {
             if (currentPlayer != null) {
                 statusMessage.set(currentPlayer.name() + "'s Turn");
                 gameLog.add("New Game Started!");
-                if (recorderService != null && localPlayer != null && secondPlayer != null) {
-                    recorderService.startRecording(localPlayer, secondPlayer);
+                if (recorderService != null && localPlayer != null && secondPlayer != null && gameMode != null) {
+                    recorderService.startRecording(localPlayer, secondPlayer, gameMode);
                 }
             } else {
                 statusMessage.set("Waiting to start...");
@@ -112,6 +113,7 @@ public class GameViewModel {
     }
 
     public void setGameMode(GameMode mode, Difficulty difficulty, GameSession session) {
+        this.gameMode = mode;
         this.difficulty = difficulty;
         this.isGameOver = false;
         resetBoard();
@@ -152,7 +154,7 @@ public class GameViewModel {
         }
 
         if (recorderService != null) {
-            recorderService.startRecording(localPlayer, secondPlayer);
+            recorderService.startRecording(localPlayer, secondPlayer, gameMode);
         }
 
         // Request move if it's the opponent's turn
@@ -337,6 +339,12 @@ public class GameViewModel {
 
     public InGamePlayer getSecondPlayer() {
         return secondPlayer;
+    }
+
+    public void setPlayerUsername(String username) {
+        if (recorderService != null) {
+            recorderService.setPlayerUsername(username);
+        }
     }
 
 }

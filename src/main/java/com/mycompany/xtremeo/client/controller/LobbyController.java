@@ -54,6 +54,7 @@ public class LobbyController {
     }
 
     private void showHistoryDialog() {
-        HistoryDialog.show(lobbyRoot);
+        String username = PlayerService.getInstance().getUsername();
+        HistoryDialog.show(lobbyRoot, true, username);
     }
 }

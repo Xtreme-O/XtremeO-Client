@@ -39,6 +39,7 @@ public class ResponseDispatcher {
         handlers.put(ActionType.INVITE_CONFIRMED, new InviteConfirmResponseHandler());
         handlers.put(ActionType.INVITE_DECLINED, new InviteDeclinedResponseHandler());
         handlers.put(ActionType.LOBBY, new LobbyResponseHandler());
+        handlers.put(ActionType.SESSION_ENDED, new SessionEndHandler());
         handlers.put(ActionType.PARTNER_DISCONNECTED, new PartnerDisconnectedResponseHandler());
         handlers.put(ActionType.ACTIVE_PLAYER_CONNECTED, new PlayerConnectedResponseHandler());
         handlers.put(ActionType.ACTIVE_PLAYER_DISCONNECTED, new PlayerDisconnectedResponseHandler());

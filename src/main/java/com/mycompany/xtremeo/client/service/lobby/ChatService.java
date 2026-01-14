@@ -58,6 +58,7 @@ public class ChatService {
 
     public void clear() {
         messages.clear();
+        instance = null;
     }
 
 }

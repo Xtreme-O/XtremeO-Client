@@ -8,12 +8,16 @@ import com.mycompany.xtremeo.client.model.game.InGamePlayer;
 import com.mycompany.xtremeo.client.model.game.Move;
 import com.mycompany.xtremeo.client.model.viewmodel.GameReplayDriver;
 import com.mycompany.xtremeo.client.model.viewmodel.GameViewModel;
+import com.mycompany.xtremeo.client.protocol.handler.game.SessionEndHandler;
 import com.mycompany.xtremeo.client.service.audio.AudioService;
+import com.mycompany.xtremeo.client.service.game.SessionMessageService;
 import com.mycompany.xtremeo.client.service.lobby.PlayerService;
 import com.mycompany.xtremeo.client.service.video.VideoService;
+import com.mycompany.xtremeo.client.ui.dialog.ErrorDialog;
 import com.mycompany.xtremeo.client.util.AudioFiles;
 import com.mycompany.xtremeo.client.util.Screen;
 import com.mycompany.xtremeo.client.util.UIUtils;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -48,15 +52,28 @@ public class BoardController {
     private final Button[][] buttons = new Button[3][3];
 
     private GameMode selectedMode = GameMode.WITH_FRIEND;
+    private GameHistoryEntry replayHistoryEntry;
 
     @FXML
     public void initialize() {
+        SessionEndHandler.onSessionEnded(() -> {
+            Platform.runLater(()-> {
+                Navigator.setRoot(Screen.LOBBY.getName());
+                ErrorDialog.showServerError("One of the players has ended the session");
+
+            });
+        });
     }
 
     public void init(GameMode mode, Difficulty difficulty, boolean record, GameSession session) {
         this.selectedMode = mode;
-        viewModel = new GameViewModel(record);
+        boolean shouldRecord = record || (mode == GameMode.ONLINE_PLAYER);
+        viewModel = new GameViewModel(shouldRecord);
         viewModel.setGameMode(selectedMode, difficulty, session);
+        if (mode == GameMode.ONLINE_PLAYER) {
+            String username = PlayerService.getInstance().getUsername();
+            viewModel.setPlayerUsername(username);
+        }
         setup();
         initChatPanel();
     }
@@ -71,6 +88,7 @@ public class BoardController {
 
     public void initReplay(GameHistoryEntry history) {
         this.selectedMode = GameMode.WITH_FRIEND;
+        this.replayHistoryEntry = history;
         viewModel = new GameViewModel(history);
         replayDriver = new GameReplayDriver(viewModel, history);
         setup();
@@ -99,8 +117,39 @@ public class BoardController {
             scoreO.setText(viewModel.getSecondPlayer().name());
         } else {
             viewModel.setOnGameOverListener(this::onGameOver);
-            scoreX.textProperty().bind(viewModel.playerXScoreProperty().asString());
-            scoreO.textProperty().bind(viewModel.playerOScoreProperty().asString());
+            
+            if (selectedMode == GameMode.ONLINE_PLAYER) {
+                InGamePlayer localPlayer = viewModel.getLocalPlayer();
+                InGamePlayer secondPlayer = viewModel.getSecondPlayer();
+                
+                InGamePlayer xPlayer = null;
+                InGamePlayer oPlayer = null;
+                
+                if (localPlayer != null && "X".equals(localPlayer.symbol())) {
+                    xPlayer = localPlayer;
+                    oPlayer = secondPlayer;
+                } else if (localPlayer != null && "O".equals(localPlayer.symbol())) {
+                    xPlayer = secondPlayer;
+                    oPlayer = localPlayer;
+                } else if (secondPlayer != null && "X".equals(secondPlayer.symbol())) {
+                    xPlayer = secondPlayer;
+                    oPlayer = localPlayer;
+                } else if (secondPlayer != null && "O".equals(secondPlayer.symbol())) {
+                    xPlayer = localPlayer;
+                    oPlayer = secondPlayer;
+                }
+                
+                if (xPlayer != null) {
+                    scoreX.setText(xPlayer.name());
+                }
+                if (oPlayer != null) {
+                    scoreO.setText(oPlayer.name());
+                }
+            } else {
+                scoreX.textProperty().bind(viewModel.playerXScoreProperty().asString());
+                scoreO.textProperty().bind(viewModel.playerOScoreProperty().asString());
+            }
+            
             UIUtils.setupPulseAnimation(turnIndicatorContainer);
         }
     }
@@ -247,11 +296,25 @@ public class BoardController {
         if (viewModel != null && viewModel.isReplayMode() && replayDriver != null) {
             replayDriver.stopAutoPlay();
         }
-        if(selectedMode == GameMode.ONLINE_PLAYER ||
-                PlayerService.getInstance().getCurrentPlayer() != null){
-            Navigator.setRoot(Screen.LOBBY.getName());
+        
+        if (viewModel != null && viewModel.isReplayMode()) {
+            if (replayHistoryEntry != null && replayHistoryEntry.gameMode() == GameMode.ONLINE_PLAYER) {
+                Navigator.setRoot(Screen.LOBBY.getName());
+            } else {
+                Navigator.setRoot(Screen.MAIN.getName());
+            }
             return;
         }
+        
+        if (selectedMode == GameMode.ONLINE_PLAYER && PlayerService.getInstance().getCurrentPlayer() != null) {
+            if (!viewModel.isGameOver()) {
+                SessionMessageService.getInstance().sendEndSessionMessage();
+            } else {
+                Navigator.setRoot(Screen.LOBBY.getName());
+            }
+            return;
+        }
+        
         Navigator.setRoot(Screen.MAIN.getName());
     }
 

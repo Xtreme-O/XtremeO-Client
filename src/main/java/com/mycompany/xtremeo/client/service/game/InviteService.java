@@ -41,4 +41,11 @@ public class InviteService {
         RequestEnvelope<InviteConfirmationBody> request = new RequestEnvelope<>(header, body);
         SocketRequestSender.getInstance().send(request);
     }
+
+    public void boradcastInvite(int senderId) {
+        Header header = new Header("JSON", ActionType.INVITE_ALL.name());
+        InviteConfirmationBody body = new InviteConfirmationBody(senderId, 0);
+        RequestEnvelope<InviteConfirmationBody> request = new RequestEnvelope<>(header, body);
+        SocketRequestSender.getInstance().send(request);
+    }
 }

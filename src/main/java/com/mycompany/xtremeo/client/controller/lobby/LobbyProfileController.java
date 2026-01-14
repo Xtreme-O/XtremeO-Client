@@ -35,7 +35,6 @@ public class LobbyProfileController {
     private final MatchmakingService matchmakingService = MatchmakingService.getInstance();
     
     private PlayButtonStateManager buttonStateManager;
-    private boolean isMatchmaking = false;
 
 
     @FXML
@@ -84,24 +83,19 @@ public class LobbyProfileController {
         listTopPlayers.setStyle("-fx-background-color: transparent;");
     }
 
+    boolean isMatchmaking = false;
     @FXML
     private void handlePlayNow() {
-        if(isMatchmaking) {
-            cancelMatchmaking();
-        } else {
+        if(isMatchmaking){
             startMatchmaking();
+        }else{
+            buttonStateManager.setPlayNowState();
         }
-    }
-
-    private void cancelMatchmaking() {
-        matchmakingService.cancelMatchmaking();
-        buttonStateManager.setPlayNowState();
-        isMatchmaking = false;
+        isMatchmaking = !isMatchmaking;
     }
 
     private void startMatchmaking() {
         buttonStateManager.setMatchmakingState();
         matchmakingService.startMatchmaking();
-        isMatchmaking = true;
     }
 }

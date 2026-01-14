@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 
+import java.util.List;
+
 
 public class HistoryDialogController {
 
@@ -18,8 +20,9 @@ public class HistoryDialogController {
     @FXML private ListView<GameHistoryEntry> historyListView;
     GameFileService fileService;
 
-
     private ModalDialog dialog;
+    private boolean onlineGamesOnly = false;
+    private String playerUsername = null;
 
     @FXML
     public void initialize() {
@@ -27,12 +30,16 @@ public class HistoryDialogController {
         historyListView.setFocusTraversable(false);
         fileService = new GameFileService(new JsonFileHandler());
 
-
         Platform.runLater(this::loadSampleData);
     }
 
     public void setDialog(ModalDialog dialog) {
         this.dialog = dialog;
+    }
+
+    public void setFilterMode(boolean onlineGamesOnly, String username) {
+        this.onlineGamesOnly = onlineGamesOnly;
+        this.playerUsername = username;
     }
 
     @FXML
@@ -43,7 +50,14 @@ public class HistoryDialogController {
     }
 
     private void loadSampleData() {
-        var history = fileService.loadGames();
+        List<GameHistoryEntry> history;
+        
+        if (onlineGamesOnly && playerUsername != null) {
+            history = fileService.loadOnlineGames(playerUsername);
+        } else {
+            history = fileService.loadGames();
+        }
+        
         historyListView.getItems().clear();
         historyListView.getItems().addAll(history);
     }

@@ -12,5 +12,6 @@ public record GameHistoryEntry(
         InGamePlayer winner,
         LocalDateTime time,
         List<MoveEntry> moves,
-        Difficulty difficulty
+        Difficulty difficulty,
+        GameMode gameMode
 ) {}
