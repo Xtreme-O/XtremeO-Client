@@ -307,11 +307,7 @@ public class BoardController {
         }
         
         if (selectedMode == GameMode.ONLINE_PLAYER && PlayerService.getInstance().getCurrentPlayer() != null) {
-            if (!viewModel.isGameOver()) {
-                SessionMessageService.getInstance().sendEndSessionMessage();
-            } else {
-                Navigator.setRoot(Screen.LOBBY.getName());
-            }
+            SessionMessageService.getInstance().sendEndSessionMessage();
             return;
         }
         
