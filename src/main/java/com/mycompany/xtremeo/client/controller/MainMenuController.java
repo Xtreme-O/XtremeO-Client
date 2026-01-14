@@ -14,20 +14,15 @@ import com.mycompany.xtremeo.client.protocol.handler.game.*;
 import com.mycompany.xtremeo.client.protocol.handler.message.GlobalMessageHandler;
 import com.mycompany.xtremeo.client.protocol.handler.message.InGameMessageHandler;
 import com.mycompany.xtremeo.client.service.audio.AudioService;
-import com.mycompany.xtremeo.client.ui.dialog.DifficultyDialog;
-import com.mycompany.xtremeo.client.ui.dialog.HelpDialog;
-import com.mycompany.xtremeo.client.ui.dialog.HistoryDialog;
-import com.mycompany.xtremeo.client.ui.dialog.RecordGameDialog;
+import com.mycompany.xtremeo.client.ui.dialog.*;
 import com.mycompany.xtremeo.client.util.Screen;
 
 import com.mycompany.xtremeo.client.ui.ComponentFactory;
-import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Arc;
 
 /**
  * FXML Controller class
@@ -50,22 +45,20 @@ public class MainMenuController {
         ComponentFactory.configureAudioToggleButton(btnSoundToggle, "icon-button-icon");
         // test all responses
         LoginResponseHandler.setOnLoginResponseConsumer((player) -> {
-            System.out.println("Login : " + player.getUsername());
+            System.out.println("Login : " + player.player().getUsername());
         });
         LogoutResponseHandler.setOnLogoutResponseConsumer(body -> {
             System.out.println("Logout : " + body.username());
         });
         RegisterResponseHandler.setOnRegisterResponseConsumer(player -> {
-            System.out.println("Register : " + player.getUsername());
+            System.out.println("Register : " + player.player().getUsername());
         });
         ErrorResponseHandler.setOnErrorResponse(error -> {
+            Platform.runLater(() -> ErrorDialog.show("Server Error", error.message()));
             System.out.println("Error : " + error.message());
         });
         InviteResponseHandler.setOnInviteResponseConsumer(invite -> {
             System.out.println("Invite : " + invite.player1().getUsername() + " VS " + invite.player2().getUsername());
-        });
-        InviteConfirmResponseHandler.setOnInviteConfirmResponse(confirm -> {
-            System.out.println("Confirm from " + confirm.receiverId() + " to " + confirm.senderId());
         });
         InviteDeclinedResponseHandler.setOnInviteDeclinedResponse(declined -> {
             System.out.println("Invite rejected by " + declined.receiverId());
@@ -79,9 +72,6 @@ public class MainMenuController {
         SessionMessageResponseHandler.setOnSessionMessageReceived(body -> {
             System.out.println("Game State : " + body.state() + " with this move : " + body.move());
         });
-        PartnerDisconnectedResponseHandler.setOnPartnerDisconnected(body -> {
-            System.out.println("Player " + body.playerId() + " Disconnected");
-        });
     }
 
     @FXML
@@ -90,7 +80,7 @@ public class MainMenuController {
             RecordGameDialog.show(mainRoot, record -> {
                 BoardController controller = Navigator.setRoot(Screen.BOARD.getName());
                 if (controller != null) {
-                    controller.init(GameMode.WITH_CPU, difficulty, record);
+                    controller.init(GameMode.WITH_CPU, difficulty, record, null);
                 }
             });
         });
@@ -101,7 +91,7 @@ public class MainMenuController {
         RecordGameDialog.show(mainRoot, record -> {
             BoardController controller = Navigator.setRoot(Screen.BOARD.getName());
             if (controller != null) {
-                controller.init(GameMode.WITH_FRIEND, record);
+                controller.init(GameMode.WITH_FRIEND, record, null);
             }
         });
     }
@@ -120,26 +110,6 @@ public class MainMenuController {
 //        Navigator.setRootAsync(Screen.LOBBY.getName(), e -> hideLoading(animation));
     }
 
-    private RotateTransition showLoading() {
-        btnMultiplayer.setDisable(true);
-        btnMultiplayer.getStyleClass().add("loading");
-        btnMultiplayer.setText("CONNECTING...");
-
-        Arc spinner = ComponentFactory.createSpinner(16, Color.BLACK);
-        btnMultiplayer.setGraphic(spinner);
-
-        RotateTransition rotate = ComponentFactory.createSpinAnimation(spinner);
-        rotate.play();
-        return rotate;
-    }
-
-    private void hideLoading(RotateTransition animation) {
-        animation.stop();
-        btnMultiplayer.setGraphic(null);
-        btnMultiplayer.setText("Multiplayer");
-        btnMultiplayer.getStyleClass().remove("loading");
-        btnMultiplayer.setDisable(false);
-    }
 
     @FXML
     void handleHistory(ActionEvent event) {

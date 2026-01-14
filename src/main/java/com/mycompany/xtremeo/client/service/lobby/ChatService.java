@@ -19,8 +19,7 @@ public class ChatService {
     private Consumer<ChatMessageData> messageListener;
 
     private ChatService() {
-        currentPlayer = DataProvider.getCurrentUser();
-        loadData();
+        currentPlayer = PlayerService.getInstance().getCurrentPlayer().player();
     }
 
     public static ChatService getInstance() {
@@ -28,10 +27,6 @@ public class ChatService {
             instance = new ChatService();
         }
         return instance;
-    }
-
-    private void loadData() {
-        messages.setAll(DataProvider.getChatMessages());
     }
 
     public ObservableList<ChatMessageData> getMessages() {
@@ -45,8 +40,6 @@ public class ChatService {
         ChatMessageData msg = new ChatMessageData(currentPlayer, message.trim(), time);
         messages.add(msg);
 
-        // TODO: MUST BE SENT AND THE LISTENER WILL BE CALLED AFTER IT BROADCASTED
-        // TODO: DELETE THE FOLLOWING LINE OR HANDLE NOT TO BE ADDED TWICE
         messageListener.accept(msg);
         LobbyMessageService.getInstance().send(msg);
         System.out.println("Chat: " + message);
@@ -65,9 +58,7 @@ public class ChatService {
 
     public void clear() {
         messages.clear();
+        instance = null;
     }
 
-    public void reload() {
-        loadData();
-    }
 }

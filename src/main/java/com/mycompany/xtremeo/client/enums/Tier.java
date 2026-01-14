@@ -1,5 +1,6 @@
 package com.mycompany.xtremeo.client.enums;
 
+
 public enum Tier {
     BRONZE("Bronze", 0, 499),
     SILVER("Silver", 500, 999),

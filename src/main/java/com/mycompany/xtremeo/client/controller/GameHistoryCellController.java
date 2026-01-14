@@ -85,7 +85,11 @@ public class GameHistoryCellController extends ListCell<GameHistoryEntry> {
             }
         }
 
-        opponentLabel.setText(item.player2().name());
+        if (item.player2() != null) {
+            opponentLabel.setText(item.player2().name());
+        } else {
+            opponentLabel.setText("Unknown Player");
+        }
 
         if (item.difficulty() != null && item.difficulty() != Difficulty.NONE) {
             difficultyLabel.setText(formatDifficulty(item.difficulty()));

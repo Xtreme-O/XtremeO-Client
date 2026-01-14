@@ -99,6 +99,17 @@ public class Player {
         }
         return Objects.equals(this.username, other.username);
     }
-    
+
+
+    public static Player fromUsername(String username) {
+        return new Player(
+                0,
+                username,
+                null,
+                PlayerStatus.ONLINE,
+                null,
+                null
+        );
+    }
     
 }

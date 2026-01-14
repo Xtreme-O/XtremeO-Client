@@ -4,6 +4,8 @@
  */
 package com.mycompany.xtremeo.client.network;
 
+import com.mycompany.xtremeo.client.protocol.dispatcher.ResponseDispatcher;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -21,17 +23,24 @@ public class ClientConnection {
     private ClientConnection(){}
     private static ClientConnection connection;
     public static ClientConnection getInstance(){
-        if(connection == null)
+        if(connection == null) {
             connection = new ClientConnection();
+            ResponseDispatcher dispatcher = new ResponseDispatcher();
+            connection.connect(NetworkConfig.SERVER_HOST, NetworkConfig.SERVER_PORT);
+            connection.startListening(
+                    new DispatcherMessageListener(dispatcher)
+            );
+        }
         return connection;
     }
+
     public void connect(String host, int port) {
         try {
             socket = new Socket(host, port);
-            System.out.println("Connected to server");
             dis = new DataInputStream(socket.getInputStream());
             dos = new DataOutputStream(socket.getOutputStream());
             running = true;
+            System.out.println("Connected to server");
         } catch (IOException e) {
             throw new RuntimeException("Unable to connect", e);
         }
@@ -48,6 +57,8 @@ public class ClientConnection {
                     listener.onMessage(msg);
                 }
             } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
                 if (running) {
                     listener.onDisconnect(e);
                 }
@@ -68,11 +79,17 @@ public class ClientConnection {
         }
     }
 
+    public static boolean isConnected() {
+        return connection != null;
+    }
+
     public void disconnect() {
         running = false;
         try {
-            if (socket != null) socket.close();
+            if (socket != null)
+                socket.close();
         } catch (IOException ignored) {}
+        connection = null;
     }
 }
 

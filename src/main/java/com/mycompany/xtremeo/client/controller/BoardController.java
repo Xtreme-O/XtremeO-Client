@@ -1,30 +1,36 @@
 package com.mycompany.xtremeo.client.controller;
-
 import com.mycompany.xtremeo.client.ai.Difficulty;
 import com.mycompany.xtremeo.client.app.Navigator;
 import com.mycompany.xtremeo.client.model.game.GameHistoryEntry;
 import com.mycompany.xtremeo.client.model.game.GameMode;
+import com.mycompany.xtremeo.client.model.game.GameSession;
 import com.mycompany.xtremeo.client.model.game.InGamePlayer;
 import com.mycompany.xtremeo.client.model.game.Move;
 import com.mycompany.xtremeo.client.model.viewmodel.GameReplayDriver;
 import com.mycompany.xtremeo.client.model.viewmodel.GameViewModel;
+import com.mycompany.xtremeo.client.protocol.handler.game.SessionEndHandler;
 import com.mycompany.xtremeo.client.service.audio.AudioService;
+import com.mycompany.xtremeo.client.service.game.SessionMessageService;
+import com.mycompany.xtremeo.client.service.lobby.PlayerService;
 import com.mycompany.xtremeo.client.service.video.VideoService;
+import com.mycompany.xtremeo.client.ui.dialog.ErrorDialog;
 import com.mycompany.xtremeo.client.util.AudioFiles;
 import com.mycompany.xtremeo.client.util.Screen;
 import com.mycompany.xtremeo.client.util.UIUtils;
-import javafx.collections.ListChangeListener;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.MediaView;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignP;
 
+/**
+ *
+ * @author wahid
+ */
 public class BoardController {
     @FXML
     private Label scoreX, scoreO;
@@ -33,44 +39,60 @@ public class BoardController {
     @FXML
     private HBox turnIndicatorContainer;
     @FXML
-    private VBox logContainer;
-    @FXML
     private GridPane gameGrid;
     @FXML
     private Button btnReset;
     @FXML
-    private Button btnHistory;
-    @FXML
     private Button btnBack;
-
     @FXML
-    private MediaView mediaView;
+    private BoardChatController chatPanelController;
 
     private GameViewModel viewModel;
     private GameReplayDriver replayDriver;
     private final Button[][] buttons = new Button[3][3];
 
     private GameMode selectedMode = GameMode.WITH_FRIEND;
+    private GameHistoryEntry replayHistoryEntry;
 
     @FXML
     public void initialize() {
+        SessionEndHandler.onSessionEnded(() -> {
+            Platform.runLater(()-> {
+                Navigator.setRoot(Screen.LOBBY.getName());
+                ErrorDialog.showServerError("One of the players has ended the session");
+
+            });
+        });
     }
 
-    public void init(GameMode mode, Difficulty difficulty, boolean record) {
+    public void init(GameMode mode, Difficulty difficulty, boolean record, GameSession session) {
         this.selectedMode = mode;
-        viewModel = new GameViewModel(record);
-        viewModel.setGameMode(selectedMode, difficulty);
+        boolean shouldRecord = record || (mode == GameMode.ONLINE_PLAYER);
+        viewModel = new GameViewModel(shouldRecord);
+        viewModel.setGameMode(selectedMode, difficulty, session);
+        if (mode == GameMode.ONLINE_PLAYER) {
+            String username = PlayerService.getInstance().getUsername();
+            viewModel.setPlayerUsername(username);
+        }
         setup();
+        initChatPanel();
     }
 
-    public void init(GameMode mode, boolean record) {
-        init(mode, Difficulty.NONE, record);
+
+    public void init(GameMode mode, boolean record, GameSession session) {
+        init(mode, Difficulty.NONE, record, session);
+        if(selectedMode == GameMode.ONLINE_PLAYER) {
+            btnReset.setVisible(false);
+        }
     }
 
     public void initReplay(GameHistoryEntry history) {
+        this.selectedMode = GameMode.WITH_FRIEND;
+        this.replayHistoryEntry = history;
         viewModel = new GameViewModel(history);
         replayDriver = new GameReplayDriver(viewModel, history);
         setup();
+        initChatPanel();
         setPlayIcon(false);
     }
 
@@ -86,7 +108,6 @@ public class BoardController {
         viewModel.setOnMoveMadeListener(this::onMoveMade);
         turnLabel.textProperty().bind(viewModel.statusMessageProperty());
 
-
         if (viewModel.isReplayMode()) {
             disableEntireBoard();
             replayDriver.isPlayingProperty().addListener((obs, wasPlaying, isPlaying) -> {
@@ -96,9 +117,50 @@ public class BoardController {
             scoreO.setText(viewModel.getSecondPlayer().name());
         } else {
             viewModel.setOnGameOverListener(this::onGameOver);
-            scoreX.textProperty().bind(viewModel.playerXScoreProperty().asString());
-            scoreO.textProperty().bind(viewModel.playerOScoreProperty().asString());
+            
+            if (selectedMode == GameMode.ONLINE_PLAYER) {
+                InGamePlayer localPlayer = viewModel.getLocalPlayer();
+                InGamePlayer secondPlayer = viewModel.getSecondPlayer();
+                
+                InGamePlayer xPlayer = null;
+                InGamePlayer oPlayer = null;
+                
+                if (localPlayer != null && "X".equals(localPlayer.symbol())) {
+                    xPlayer = localPlayer;
+                    oPlayer = secondPlayer;
+                } else if (localPlayer != null && "O".equals(localPlayer.symbol())) {
+                    xPlayer = secondPlayer;
+                    oPlayer = localPlayer;
+                } else if (secondPlayer != null && "X".equals(secondPlayer.symbol())) {
+                    xPlayer = secondPlayer;
+                    oPlayer = localPlayer;
+                } else if (secondPlayer != null && "O".equals(secondPlayer.symbol())) {
+                    xPlayer = localPlayer;
+                    oPlayer = secondPlayer;
+                }
+                
+                if (xPlayer != null) {
+                    scoreX.setText(xPlayer.name());
+                }
+                if (oPlayer != null) {
+                    scoreO.setText(oPlayer.name());
+                }
+            } else {
+                scoreX.textProperty().bind(viewModel.playerXScoreProperty().asString());
+                scoreO.textProperty().bind(viewModel.playerOScoreProperty().asString());
+            }
+            
             UIUtils.setupPulseAnimation(turnIndicatorContainer);
+        }
+    }
+
+    private void initChatPanel() {
+        if (chatPanelController != null) {
+            chatPanelController.init(selectedMode, viewModel.getLocalPlayer(), viewModel.getSecondPlayer());
+            
+            if (selectedMode != GameMode.ONLINE_PLAYER) {
+                chatPanelController.addSystemMessage("Game Started!");
+            }
         }
     }
 
@@ -108,7 +170,7 @@ public class BoardController {
                 int r = GridPane.getRowIndex(btn) == null ? 0 : GridPane.getRowIndex(btn);
                 int c = GridPane.getColumnIndex(btn) == null ? 0 : GridPane.getColumnIndex(btn);
                 buttons[r][c] = btn;
-                if (!viewModel.isReplayMode()) {
+                if (viewModel != null && !viewModel.isReplayMode()) {
                     btn.setOnMouseEntered(e -> handleHoverEnter(btn));
                     btn.setOnMouseExited(e -> handleHoverExit(btn));
                 }
@@ -121,13 +183,19 @@ public class BoardController {
         if (btn == null)
             return;
 
+        String symbol = move.player().symbol();
+        if (symbol == null) {
+            System.err.println("ERROR: Player symbol is null for move!");
+            return;
+        }
+
         btn.getStyleClass().remove("preview-symbol");
-        btn.setText(move.player().symbol());
-        btn.getStyleClass().add(move.player().symbol().equals("X") ? "filled-x" : "filled-o");
+        btn.setText(symbol);
+        btn.getStyleClass().add(symbol.equals("X") ? "filled-x" : "filled-o");
         btn.setDisable(true);
-        String positionName = com.mycompany.xtremeo.client.util.GamePosition.getPositionName(move.row(), move.col());
-        String logMessage = String.format("Player %s marked %s", move.player().symbol(), positionName);
-        addLogCard(logMessage);
+
+        addLogEntry(move);
+
         if (viewModel.isGameOver()) {
             disableEntireBoard();
             if (viewModel.isGameWon()) {
@@ -137,34 +205,77 @@ public class BoardController {
         }
     }
 
+    void addLogEntry(Move move) {
+        if (selectedMode != GameMode.ONLINE_PLAYER && chatPanelController != null) {
+            String logMessage = move.player().name() + " placed " + move.player().symbol() 
+                    + " at [" + move.row() + "," + move.col() + "]";
+            chatPanelController.addLogEntry(move.player(), logMessage);
+        }
+    }
+
     private void onGameOver(InGamePlayer p1, InGamePlayer p2, InGamePlayer winner) {
         AudioService audioService = AudioService.getInstance();
-        VideoService videoService = VideoService.getInstance();
-        InGamePlayer localPlayer = viewModel.getLocalPlayer();
         if (winner == null) {
-            videoService.playVideo(mediaView, "draw_video.mp4");
             System.out.println("The game ended in a draw between " + p1.name() + " and " + p2.name());
         } else {
             if (selectedMode != GameMode.WITH_FRIEND) {
-                if (winner.symbol().equals(localPlayer.symbol())) {
+                VideoService videoService = VideoService.getInstance();
+                InGamePlayer localPlayer = viewModel.getLocalPlayer();
+                if (localPlayer != null && winner.symbol().equals(localPlayer.symbol())) {
                     System.out.println("you wins");
-                    videoService.playVideo(mediaView, "win_video.mp4");
+                    playWinVideo(videoService);
                     audioService.playSoundEffect(AudioFiles.WIN_SOUND);
                 } else {
                     System.out.println("u loses");
-                    videoService.playVideo(mediaView, "lose_video.mp4");
-                    // sound for losing
+                    playLoseVideo(videoService);
+                    audioService.playSoundEffect(AudioFiles.LOSE_SOUND);
                 }
+            } else {
+                audioService.playSoundEffect(AudioFiles.WIN_SOUND);
             }
-            else{audioService.playSoundEffect(AudioFiles.WIN_SOUND);}
-            System.out.println("Winner is: " + winner.name());
+            System.out.println("The winner is: " + winner.name());
         }
         disableEntireBoard();
         viewModel.saveRecording(winner);
     }
 
+    private void playWinVideo(VideoService videoService) {
+        javafx.scene.media.MediaView mediaView = new javafx.scene.media.MediaView();
+        addMediaViewToScene(mediaView);
+        videoService.playVideo(mediaView, "win_video.mp4");
+    }
+
+    private void playLoseVideo(VideoService videoService) {
+        javafx.scene.media.MediaView mediaView = new javafx.scene.media.MediaView();
+        addMediaViewToScene(mediaView);
+        videoService.playVideo(mediaView, "lose_video.mp4");
+    }
+
+    private void addMediaViewToScene(javafx.scene.media.MediaView mediaView) {
+        if (gameGrid == null || gameGrid.getScene() == null) {
+            return;
+        }
+        
+        javafx.scene.Parent root = gameGrid.getScene().getRoot();
+        
+        // If root is already a StackPane, add MediaView to it
+        if (root instanceof javafx.scene.layout.StackPane stackPane) {
+            stackPane.getChildren().add(mediaView);
+            return;
+        }
+        
+        // Otherwise, wrap root in a StackPane and add MediaView
+        javafx.scene.layout.StackPane wrapper = new javafx.scene.layout.StackPane();
+        wrapper.getChildren().add(root);
+        wrapper.getChildren().add(mediaView);
+        gameGrid.getScene().setRoot(wrapper);
+    }
+
     @FXML
     void handleCellClick(ActionEvent event) {
+        if (viewModel == null) {
+            return;
+        }
         if (viewModel.isReplayMode()) {
             return;
         }
@@ -182,23 +293,48 @@ public class BoardController {
 
     @FXML
     void handleBack(ActionEvent event) {
-        if (viewModel.isReplayMode()) {
+        if (viewModel != null && viewModel.isReplayMode() && replayDriver != null) {
             replayDriver.stopAutoPlay();
         }
+        
+        if (viewModel != null && viewModel.isReplayMode()) {
+            if (replayHistoryEntry != null && replayHistoryEntry.gameMode() == GameMode.ONLINE_PLAYER) {
+                Navigator.setRoot(Screen.LOBBY.getName());
+            } else {
+                Navigator.setRoot(Screen.MAIN.getName());
+            }
+            return;
+        }
+        
+        if (selectedMode == GameMode.ONLINE_PLAYER && PlayerService.getInstance().getCurrentPlayer() != null) {
+            if (!viewModel.isGameOver()) {
+                SessionMessageService.getInstance().sendEndSessionMessage();
+            } else {
+                Navigator.setRoot(Screen.LOBBY.getName());
+            }
+            return;
+        }
+        
         Navigator.setRoot(Screen.MAIN.getName());
     }
 
     @FXML
     void handleReset(ActionEvent event) {
+        btnReset.setVisible(true);
+        if (viewModel == null) {
+            return;
+        }
         if (viewModel.isReplayMode()) {
-            if (replayDriver.isPlayingProperty().get()) {
+            if (replayDriver != null && replayDriver.isPlayingProperty().get()) {
                 replayDriver.stopAutoPlay();
             } else {
-                if (!replayDriver.hasNext()) {
-                    clearBoard();
-                    replayDriver.restart();
+                if (replayDriver != null) {
+                    if (!replayDriver.hasNext()) {
+                        clearBoard();
+                        replayDriver.restart();
+                    }
+                    replayDriver.startAutoPlay();
                 }
-                replayDriver.startAutoPlay();
             }
         } else {
             viewModel.resetBoard();
@@ -207,7 +343,12 @@ public class BoardController {
     }
 
     private void clearBoard() {
-        logContainer.getChildren().clear();
+        if (chatPanelController != null) {
+            chatPanelController.clear();
+            if (selectedMode != GameMode.ONLINE_PLAYER) {
+                chatPanelController.addSystemMessage("New Game Started!");
+            }
+        }
         turnLabel.getStyleClass().remove("status-win");
         for (Button[] row : buttons) {
             for (Button btn : row) {
@@ -237,12 +378,9 @@ public class BoardController {
         }
     }
 
-    private void addLogCard(String message) {
-        logContainer.getChildren().add(UIUtils.createLogCard(message));
-    }
-
     private void handleHoverEnter(Button btn) {
-        if (!btn.isDisable() && btn.getText().isEmpty()) {
+        String buttonText = btn.getText();
+        if (viewModel != null && !btn.isDisable() && (buttonText == null || buttonText.isEmpty())) {
             btn.setText(viewModel.getCurrentPlayerSymbol());
             btn.getStyleClass().add("preview-symbol");
         }

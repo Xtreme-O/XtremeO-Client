@@ -1,6 +1,6 @@
 package com.mycompany.xtremeo.client.controller.lobby;
 
-import com.mycompany.xtremeo.client.model.lobby.TopPlayerData;
+import com.mycompany.xtremeo.client.model.common.PlayerProfile;
 import com.mycompany.xtremeo.client.service.lobby.MatchmakingService;
 import com.mycompany.xtremeo.client.service.lobby.PlayerService;
 import com.mycompany.xtremeo.client.ui.AvatarFactory;
@@ -25,7 +25,7 @@ public class LobbyProfileController {
     @FXML private Label lblLosses;
     @FXML private Label lblWinRate;
 
-    @FXML private ListView<TopPlayerData> listTopPlayers;
+    @FXML private ListView<PlayerProfile> listTopPlayers;
     @FXML private Button btnPlayNow;
     @FXML private HBox btnPlayNowContent;
     @FXML private FontIcon iconPlayNow;
@@ -35,7 +35,6 @@ public class LobbyProfileController {
     private final MatchmakingService matchmakingService = MatchmakingService.getInstance();
     
     private PlayButtonStateManager buttonStateManager;
-    private boolean isMatchmaking = false;
 
 
     @FXML
@@ -61,10 +60,10 @@ public class LobbyProfileController {
     }
 
     private void loadAvatar() {
-        String avatarUrl = playerService.getAvatarUrl();
-        if (avatarUrl != null && !avatarUrl.isEmpty() && avatarContainer != null) {
+        if (avatarContainer != null) {
+            String avatarUrl = playerService.getAvatarUrl();
             ImageView avatar = AvatarFactory.create(avatarUrl, 68);
-            avatarContainer.getChildren().add(0, avatar);
+            avatarContainer.getChildren().addFirst(avatar);
         }
     }
 
@@ -84,24 +83,19 @@ public class LobbyProfileController {
         listTopPlayers.setStyle("-fx-background-color: transparent;");
     }
 
+    boolean isMatchmaking = false;
     @FXML
     private void handlePlayNow() {
-        if(isMatchmaking) {
-            cancelMatchmaking();
-        } else {
+        if(isMatchmaking){
             startMatchmaking();
+        }else{
+            buttonStateManager.setPlayNowState();
         }
-    }
-
-    private void cancelMatchmaking() {
-        matchmakingService.cancelMatchmaking();
-        buttonStateManager.setPlayNowState();
-        isMatchmaking = false;
+        isMatchmaking = !isMatchmaking;
     }
 
     private void startMatchmaking() {
         buttonStateManager.setMatchmakingState();
         matchmakingService.startMatchmaking();
-        isMatchmaking = true;
     }
 }

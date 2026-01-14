@@ -5,6 +5,7 @@
 package com.mycompany.xtremeo.client.model.viewmodel;
 
 import com.mycompany.xtremeo.client.ai.Difficulty;
+import com.mycompany.xtremeo.client.enums.GameState;
 import com.mycompany.xtremeo.client.game.GameEngine;
 import com.mycompany.xtremeo.client.game.GameOpponent;
 import com.mycompany.xtremeo.client.game.OnlineOpponent;
@@ -12,6 +13,7 @@ import com.mycompany.xtremeo.client.game.TicTacToeCpuOpponent;
 import com.mycompany.xtremeo.client.model.game.*;
 import com.mycompany.xtremeo.client.model.viewmodel.listeners.OnGameOverListener;
 import com.mycompany.xtremeo.client.model.viewmodel.listeners.OnMoveMadeListener;
+import com.mycompany.xtremeo.client.service.game.SessionMessageService;
 import com.mycompany.xtremeo.client.service.recording.GameRecorderService;
 
 import javafx.beans.property.IntegerProperty;
@@ -28,7 +30,7 @@ public class GameViewModel {
     private OnMoveMadeListener moveListener;
     private OnGameOverListener gameOverListener;
 
-    private final InGamePlayer localPlayer;
+    private InGamePlayer localPlayer;
     private InGamePlayer secondPlayer;
     private InGamePlayer currentPlayer;
 
@@ -47,16 +49,14 @@ public class GameViewModel {
     private final GameRecorderService recorderService;
     private boolean isReplayMode = false;
     private Difficulty difficulty;
+    private GameMode gameMode;
 
     public GameViewModel(boolean isRecording) {
-        this.localPlayer = new InGamePlayer("Player 1", "X");
-        this.secondPlayer = new InGamePlayer("Player 2", "O");
         if (isRecording) {
             this.recorderService = new GameRecorderService();
         } else {
             this.recorderService = null;
         }
-        currentPlayer = localPlayer;
         resetBoard();
     }
 
@@ -86,96 +86,180 @@ public class GameViewModel {
         }
         isGameOver = false;
         winningLine = null;
-        currentPlayer = localPlayer;
+
+        if (localPlayer != null && localPlayer.symbol() != null && localPlayer.symbol().equals("X")) {
+            currentPlayer = localPlayer;
+        } else if (secondPlayer != null && secondPlayer.symbol() != null && secondPlayer.symbol().equals("X")) {
+            currentPlayer = secondPlayer;
+        } else {
+            currentPlayer = localPlayer;
+        }
+
         gameLog.clear();
 
         if (isReplayMode) {
             statusMessage.set("Replay: Click or Play to start");
         } else {
-            statusMessage.set(currentPlayer.name() + "'s Turn ");
-            gameLog.add("New Game Started!");
-            if (recorderService != null) {
-                recorderService.startRecording(localPlayer, secondPlayer);
+            if (currentPlayer != null) {
+                statusMessage.set(currentPlayer.name() + "'s Turn");
+                gameLog.add("New Game Started!");
+                if (recorderService != null && localPlayer != null && secondPlayer != null && gameMode != null) {
+                    recorderService.startRecording(localPlayer, secondPlayer, gameMode);
+                }
+            } else {
+                statusMessage.set("Waiting to start...");
             }
         }
     }
 
-    public void setGameMode(GameMode mode, Difficulty difficulty) {
+    public void setGameMode(GameMode mode, Difficulty difficulty, GameSession session) {
+        this.gameMode = mode;
         this.difficulty = difficulty;
         this.isGameOver = false;
         resetBoard();
         switch (mode) {
             case WITH_CPU:
-                this.secondPlayer = new InGamePlayer("CPU", "O");
+                localPlayer = InGamePlayer.localOfflinePlayer();
+                this.secondPlayer = InGamePlayer.cpuPlayer();
                 this.opponent = new TicTacToeCpuOpponent(difficulty, localPlayer, secondPlayer);
                 break;
             case ONLINE_PLAYER:
-                this.secondPlayer = new InGamePlayer("Player 2", "O");
-                 this.opponent = OnlineOpponent.getInstance();
+                this.localPlayer = session.getLocalPlayer();
+                this.secondPlayer = session.getOpponentPlayer();
+                this.opponent = session.getOpponent();
+                if (this.opponent instanceof OnlineOpponent) {
+                    ((OnlineOpponent) this.opponent).setOpponentPlayer(this.secondPlayer);
+                }
                 break;
             case WITH_FRIEND:
             default:
-                this.secondPlayer = new InGamePlayer("Player 2", "O");
+                this.localPlayer = InGamePlayer.localOfflinePlayer();
+                this.secondPlayer = InGamePlayer.opponentOfflinePlayer();
                 this.opponent = null;
                 break;
         }
-        if (recorderService != null) {
-            recorderService.startRecording(localPlayer, secondPlayer);
+
+        if (localPlayer != null && localPlayer.symbol() != null && localPlayer.symbol().equals("X")) {
+            currentPlayer = localPlayer;
+        } else if (secondPlayer != null && secondPlayer.symbol() != null && secondPlayer.symbol().equals("X")) {
+            currentPlayer = secondPlayer;
+        } else {
+            currentPlayer = localPlayer;
         }
+
+        if (currentPlayer != localPlayer) {
+            statusMessage.set(currentPlayer.name() + "'s Turn");
+        }else{
+            statusMessage.set("Your Turn");
+        }
+
+        if (recorderService != null) {
+            recorderService.startRecording(localPlayer, secondPlayer, gameMode);
+        }
+
+        // Request move if it's the opponent's turn
+        requestMove();
     }
 
     public void makeMove(Move move) {
+        System.out.println("makeMove called with: " + move);
         int row = move.row();
         int col = move.col();
         InGamePlayer playerWhoMoved = move.player();
-        if (isGameOver || !board[row][col].isEmpty())
+        if (isGameOver || board[row][col] == null || !board[row][col].isEmpty()) {
+            System.err.println("makeMove returning early - isGameOver: " + isGameOver + ", board[" + row + "][" + col + "] = " + board[row][col]);
             return;
+        }
 
         if (!isReplayMode && recorderService != null) {
             recorderService.recordMove(move);
         }
 
-        board[row][col] = playerWhoMoved.symbol();
+        String symbol = playerWhoMoved.symbol();
+        if (symbol == null) {
+            System.err.println("ERROR: Player symbol is null in makeMove!");
+            return;
+        }
+
+        board[row][col] = symbol;
         gameLog.addFirst(
-                playerWhoMoved.name() + " placed " + playerWhoMoved.symbol() + " at [" + row + "," + col + "]");
+                playerWhoMoved.name() + " placed " + symbol + " at [" + row + "," + col + "]");
 
         winningLine = engine.getWinningLine(board, row, col);
+        GameState gameState;
 
         if (winningLine != null) {
             isGameOver = true;
-            statusMessage.set(playerWhoMoved.name() + " Wins!");
+            gameState = GameState.WIN;
+            if(playerWhoMoved == localPlayer) {
+                statusMessage.set("You Wins");
+            }else{
+                statusMessage.set(playerWhoMoved.name() + " Wins!");
+
+            }
             updateScore(playerWhoMoved.symbol());
             if (!isReplayMode && gameOverListener != null) {
                 gameOverListener.onGameOver(localPlayer, secondPlayer, playerWhoMoved);
             }
         } else if (engine.isBoardFull(board)) {
             isGameOver = true;
+            gameState = GameState.DRAW;
             statusMessage.set("It's a Draw!");
             if (!isReplayMode && gameOverListener != null) {
                 gameOverListener.onGameOver(localPlayer, secondPlayer, null);
             }
         } else {
+            gameState = GameState.IN_PROGRESS;
             currentPlayer = (playerWhoMoved.equals(localPlayer)) ? secondPlayer : localPlayer;
-            statusMessage.set(isReplayMode
-                ? "Move " + gameLog.size() + " - " + currentPlayer.name() + "'s Turn"
-                : currentPlayer.name() + "'s Turn");
+            if(isReplayMode) {
+                statusMessage.set("Move " + gameLog.size() + " - " + currentPlayer.name() + "'s Turn");
+            }else{
+                if(currentPlayer == localPlayer) {
+                    statusMessage.set("Your Turn");
+
+
+                }else{
+                    statusMessage.set( currentPlayer.name() + "'s Turn");
+
+                }
+            }
+        }
+
+        if (opponent instanceof OnlineOpponent && playerWhoMoved.equals(localPlayer)) {
+            SessionMessageService.getInstance().sendMove(getSessionMove(move), gameState);
         }
 
         if (moveListener != null) {
+            System.out.println("Calling moveListener.onMoveMade");
             moveListener.onMoveMade(move);
+        } else {
+            System.err.println("WARNING: moveListener is null!");
         }
 
         requestMove();
+        System.out.println("makeMove completed successfully");
+    }
+
+    public SessionMove getSessionMove(Move move) {
+        return new SessionMove(
+                new GamePlayerResponse(
+                        move.player().name(),
+                        move.player().symbol()),
+                        move.row(), move.col());
     }
 
     public void requestMove() {
+        System.out.println("requestMove called - isReplayMode: " + isReplayMode + ", isGameOver: " + isGameOver + ", opponent: " + opponent + ", isCurrentPlayer: " + isCurrentPlayer());
         if (!isReplayMode && !isGameOver && opponent != null) {
-            if(!isCurrentPlayer()) {
+            if (!isCurrentPlayer()) {
+                System.out.println("Registering callback for opponent move...");
                 new Thread(() -> {
                     opponent.requestMove(board, (movement) -> {
                         javafx.application.Platform.runLater(() -> makeMove(movement));
                     });
                 }).start();
+            } else {
+                System.out.println("Skipping requestMove - it's current player's turn");
             }
         }
     }
@@ -255,6 +339,12 @@ public class GameViewModel {
 
     public InGamePlayer getSecondPlayer() {
         return secondPlayer;
+    }
+
+    public void setPlayerUsername(String username) {
+        if (recorderService != null) {
+            recorderService.setPlayerUsername(username);
+        }
     }
 
 }

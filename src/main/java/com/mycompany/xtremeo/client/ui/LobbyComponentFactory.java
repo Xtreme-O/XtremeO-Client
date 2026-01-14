@@ -1,7 +1,7 @@
 package com.mycompany.xtremeo.client.ui;
 
-import com.mycompany.xtremeo.client.data.DataProvider.LobbyPlayerData;
 import com.mycompany.xtremeo.client.model.common.Player;
+import com.mycompany.xtremeo.client.model.common.PlayerProfile;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,7 +18,7 @@ public final class LobbyComponentFactory {
 
     private LobbyComponentFactory() {}
 
-    public static VBox createPlayerCard(LobbyPlayerData lobbyPlayer, Consumer<Player> onChallenge) {
+    public static VBox createPlayerCard(PlayerProfile lobbyPlayer, Consumer<Player> onChallenge) {
         VBox card = new VBox(12);
         card.getStyleClass().add("player-card");
         if (lobbyPlayer.isInGame()) {
@@ -32,7 +32,7 @@ public final class LobbyComponentFactory {
         return card;
     }
 
-    private static HBox createPlayerCardTop(LobbyPlayerData lobbyPlayer) {
+    private static HBox createPlayerCardTop(PlayerProfile lobbyPlayer) {
         Player player = lobbyPlayer.player();
 
         ImageView avatar = AvatarFactory.create(player.getAvatarUrl(), 42);
@@ -56,9 +56,9 @@ public final class LobbyComponentFactory {
             badge.setAlignment(Pos.CENTER);
             topRow.getChildren().addAll(avatar, nameBox, badge);
         } else {
-            Label winsLabel = new Label("W " + lobbyPlayer.wins());
+            Label winsLabel = new Label("W " + lobbyPlayer.score().wins());
             winsLabel.getStyleClass().add("player-wins");
-            Label lossesLabel = new Label("L " + lobbyPlayer.losses());
+            Label lossesLabel = new Label("L " + lobbyPlayer.score().losses());
             lossesLabel.getStyleClass().add("player-losses");
             VBox statsBox = new VBox(3, winsLabel, lossesLabel);
             statsBox.setAlignment(Pos.CENTER_RIGHT);
@@ -68,7 +68,7 @@ public final class LobbyComponentFactory {
         return topRow;
     }
 
-    private static Button createPlayerCardButton(LobbyPlayerData lobbyPlayer, Consumer<Player> onChallenge) {
+    private static Button createPlayerCardButton(PlayerProfile lobbyPlayer, Consumer<Player> onChallenge) {
         Button btn = new Button();
         btn.setMaxWidth(Double.MAX_VALUE);
 

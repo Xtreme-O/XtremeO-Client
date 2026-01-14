@@ -6,7 +6,6 @@ import com.mycompany.xtremeo.client.model.game.InviteBody;
 import com.mycompany.xtremeo.client.model.game.InviteConfirmationBody;
 import com.mycompany.xtremeo.client.protocol.envelope.Header;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
-import com.mycompany.xtremeo.client.service.RequestSender;
 import com.mycompany.xtremeo.client.service.SocketRequestSender;
 
 public class InviteService {
@@ -39,6 +38,13 @@ public class InviteService {
     public void declinedInvite(int senderId, int receiverID) {
         Header header = new Header("JSON", ActionType.INVITE_DECLINED.name());
         InviteConfirmationBody body = new InviteConfirmationBody(senderId, receiverID);
+        RequestEnvelope<InviteConfirmationBody> request = new RequestEnvelope<>(header, body);
+        SocketRequestSender.getInstance().send(request);
+    }
+
+    public void boradcastInvite(int senderId) {
+        Header header = new Header("JSON", ActionType.INVITE_ALL.name());
+        InviteConfirmationBody body = new InviteConfirmationBody(senderId, 0);
         RequestEnvelope<InviteConfirmationBody> request = new RequestEnvelope<>(header, body);
         SocketRequestSender.getInstance().send(request);
     }

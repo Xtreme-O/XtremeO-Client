@@ -1,7 +1,7 @@
 package com.mycompany.xtremeo.client.ui;
 
-import com.mycompany.xtremeo.client.model.lobby.TopPlayerData;
 
+import com.mycompany.xtremeo.client.model.common.PlayerProfile;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
@@ -10,10 +10,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 
 
-public class TopPlayerListCell extends ListCell<TopPlayerData> {
+public class TopPlayerListCell extends ListCell<PlayerProfile> {
     
     private final HBox row;
     private final Label rankLabel;
@@ -68,28 +67,28 @@ public class TopPlayerListCell extends ListCell<TopPlayerData> {
     }
 
     @Override
-    protected void updateItem(TopPlayerData player, boolean empty) {
-        super.updateItem(player, empty);
+    protected void updateItem(PlayerProfile profile, boolean empty) {
+        super.updateItem(profile, empty);
 
-        if (empty || player == null) {
+        if (empty || profile == null) {
             setGraphic(null);
         } else {
-            int rank = player.rank();
+            int rank = getIndex() + 1;
             rankLabel.setText(String.valueOf(rank));
-            
             rankLabel.getStyleClass().clear();
+
             rankLabel.getStyleClass().add("rank-number");
-            
-            if (rank == 2) {
-                rankLabel.getStyleClass().add("rank-number-silver");
-            } else if (rank == 3) {
-                rankLabel.getStyleClass().add("rank-number-bronze");
+            switch (rank) {
+                case 1 -> rankLabel.getStyleClass().add("rank-number-gold");
+                case 2 -> rankLabel.getStyleClass().add("rank-number-silver");
+                case 3 -> rankLabel.getStyleClass().add("rank-number-bronze");
+                default -> rankLabel.getStyleClass().add("rank-number-default");
             }
 
-            AvatarFactory.setup(avatarImage, player.avatarUrl(), 24);
+            AvatarFactory.setup(avatarImage, profile.player().getAvatarUrl(), 24);
 
-            nameLabel.setText(player.name());
-            xpLabel.setText(String.valueOf(player.score()));
+            nameLabel.setText(profile.player().getUsername());
+            xpLabel.setText(String.valueOf(profile.elo()));
 
             setGraphic(row);
         }

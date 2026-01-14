@@ -4,7 +4,6 @@ import com.mycompany.xtremeo.client.enums.ActionType;
 import com.mycompany.xtremeo.client.model.auth.request.RegisterRequestBody;
 import com.mycompany.xtremeo.client.protocol.envelope.Header;
 import com.mycompany.xtremeo.client.protocol.envelope.RequestEnvelope;
-import com.mycompany.xtremeo.client.service.RequestSender;
 import com.mycompany.xtremeo.client.service.SocketRequestSender;
 
 public class RegisterService implements AuthService<RegisterRequestBody> {

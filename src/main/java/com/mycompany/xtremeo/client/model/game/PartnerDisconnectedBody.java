@@ -1,3 +1,3 @@
 package com.mycompany.xtremeo.client.model.game;
 
-public record PartnerDisconnectedBody(int playerId) { }
+public record PartnerDisconnectedBody(String message) { }

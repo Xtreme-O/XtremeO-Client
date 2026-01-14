@@ -5,8 +5,8 @@ import com.mycompany.xtremeo.client.controller.lobby.LobbyHeaderController;
 import com.mycompany.xtremeo.client.controller.lobby.LobbyPlayerListController;
 import com.mycompany.xtremeo.client.controller.lobby.LobbyProfileController;
 import com.mycompany.xtremeo.client.protocol.handler.lobby.LobbyResponseHandler;
-import com.mycompany.xtremeo.client.protocol.handler.lobby.PlayerConnectedResponseHandler;
 import com.mycompany.xtremeo.client.service.lobby.LobbyService;
+import com.mycompany.xtremeo.client.service.lobby.PlayerService;
 import com.mycompany.xtremeo.client.ui.dialog.HistoryDialog;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -31,24 +31,16 @@ public class LobbyController {
         setupHeaderCallbacks();
         setupPlayerListCallbacks();
         loadLobbyData();
-
-
-
-        PlayerConnectedResponseHandler.setOnPlayerConnected(playerScore -> {
-            System.out.println("Player connected"+playerScore.player().getUsername());
-        });
     }
 
     private void loadLobbyData() {
         LobbyResponseHandler.setOnLobbyLoad(body -> {
             Platform.runLater(() -> {
-                System.out.println("Active Players :)");
-                body.activeUsers().forEach(System.out::println);
-
-                System.out.println("Top Players :)");
-                body.playersScores().forEach(System.out::println);
+                PlayerService.getInstance().loadData(body);
             });
         });
+
+
     }
 
     private void setupHeaderCallbacks() {
@@ -62,6 +54,7 @@ public class LobbyController {
     }
 
     private void showHistoryDialog() {
-        HistoryDialog.show(lobbyRoot);
+        String username = PlayerService.getInstance().getUsername();
+        HistoryDialog.show(lobbyRoot, true, username);
     }
 }

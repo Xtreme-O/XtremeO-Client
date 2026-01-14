@@ -1,6 +1,7 @@
 package com.mycompany.xtremeo.client.service.recording;
 
 import com.mycompany.xtremeo.client.model.game.GameHistoryEntry;
+import com.mycompany.xtremeo.client.model.game.GameMode;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,8 +28,24 @@ public class GameFileService {
     }
 
     public void saveGame(GameHistoryEntry entry) {
+        saveGame(entry, null);
+    }
+
+    public void saveGame(GameHistoryEntry entry, String username) {
+        File targetFolder = folder;
+        
+        if (username != null && !username.isEmpty() && entry.gameMode() == GameMode.ONLINE_PLAYER) {
+            targetFolder = new File(folder, username);
+            if (!targetFolder.exists()) {
+                boolean created = targetFolder.mkdirs();
+                if (!created) {
+                    throw new RuntimeException("Failed to create player folder: " + targetFolder.getAbsolutePath());
+                }
+            }
+        }
+        
         String filename = generateFilename(entry);
-        File file = new File(folder, filename);
+        File file = new File(targetFolder, filename);
 
         try {
             fileHandler.save(entry, file);
@@ -62,6 +79,39 @@ public class GameFileService {
         for (File file : files) {
             try {
                 games.add(loadGame(file.getName()));
+            } catch (RuntimeException e) {
+                System.err.println("Failed to load game from file: " + file.getName() + " - " + e.getMessage());
+            }
+        }
+
+        return games.stream()
+                .sorted(Comparator.comparing(GameHistoryEntry::time).reversed())
+                .toList();
+    }
+
+    public List<GameHistoryEntry> loadOnlineGames(String username) {
+        List<GameHistoryEntry> games = new ArrayList<>();
+
+        if (username == null || username.isEmpty()) {
+            return games;
+        }
+
+        File playerFolder = new File(folder, username);
+        if (!playerFolder.exists() || !playerFolder.isDirectory()) {
+            return games;
+        }
+
+        File[] files = playerFolder.listFiles((dir, name) -> name.endsWith(".json"));
+        if (files == null) return games;
+
+        for (File file : files) {
+            try {
+                GameHistoryEntry entry = fileHandler.load(file, GameHistoryEntry.class);
+                if (entry.gameMode() == GameMode.ONLINE_PLAYER) {
+                    games.add(entry);
+                }
+            } catch (IOException e) {
+                System.err.println("Failed to load game from file: " + file.getName() + " - " + e.getMessage());
             } catch (RuntimeException e) {
                 System.err.println("Failed to load game from file: " + file.getName() + " - " + e.getMessage());
             }
