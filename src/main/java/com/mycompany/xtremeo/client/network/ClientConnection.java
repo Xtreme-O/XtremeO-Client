@@ -57,7 +57,6 @@ public class ClientConnection {
                     listener.onMessage(msg);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
                 System.out.println(e.getMessage());
                 if (running) {
                     listener.onDisconnect(e);

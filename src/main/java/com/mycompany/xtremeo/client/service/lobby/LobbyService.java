@@ -62,6 +62,11 @@ public class LobbyService {
         if (onLogout != null) {
             onLogout.accept(success);
         }
+        clear();
+    }
+
+    void clear() {
+        instance = null;
         matchmakingService.clear();
     }
 

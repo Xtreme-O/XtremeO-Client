@@ -34,6 +34,7 @@ public class LoginUIController {
     private static void loginSuccess() {
         LoginResponseHandler.setOnLoginResponseConsumer(p->{
             Platform.runLater(()->{
+                System.out.println(p.player().getUsername());
                 PlayerService.getInstance().setCurrentPlayer(p);
                 Navigator.setRoot(Screen.LOBBY.getName());
             });
