@@ -63,8 +63,14 @@ public class RegisterController {
             ErrorDialog.show("Registration error", "Passwords don't match !");
             return;
         }
-        RegisterService service = RegisterService.getInstance();
-        service.register(username, password, avatarUrl);
+        try {
+            RegisterService service = RegisterService.getInstance();
+            service.register(username, password, avatarUrl);
+        }catch (Exception e) {
+            ErrorDialog.showServerError("Couldn't Connect to the server");
+        }
+
+
     }
 
     private boolean validatePassword(String password) {
