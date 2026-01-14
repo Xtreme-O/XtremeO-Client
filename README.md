@@ -1,18 +1,6 @@
 # XtremeO Client
 
 A modern, feature-rich Tic-Tac-Toe game client built with JavaFX. Play locally with friends, challenge AI opponents, or compete online in multiplayer matches. XtremeO offers game recording, replay functionality, chat features, and an immersive gaming experience with audio and video effects.
-## Images
-![WhatsApp Image 2026-01-14 at 04 34 09 (1)](https://github.com/user-attachments/assets/cf510669-cef7-4b9a-beec-c6a11d0670cb)
-![WhatsApp Image 2026-01-14 at 04 35 48](https://github.com/user-attachments/assets/42b6547b-2c47-49ba-b64d-c18d050f4880)
-![WhatsApp Image 2026-01-14 at 04 36 19](https://github.com/user-attachments/assets/0931d41a-8e62-4676-a421-21a2ce96a485)
-![WhatsApp Image 2026-01-14 at 04 34 09 (2)](https://github.com/user-attachments/assets/09d1e0da-cbc9-438c-97f3-fa08b48e2f8e)
-![WhatsApp Image 2026-01-14 at 04 34 09 (3)](https://github.com/user-attachments/assets/8b54faa5-a267-4f8c-9b0d-6788d8f1156c)
-![WhatsApp Image 2026-01-14 at 04 34 09 (4)](https://github.com/user-attachments/assets/3b675298-6f2d-45e3-8473-ce56a595bdd2)
-![WhatsApp Image 2026-01-14 at 04 34 09 (5)](https://github.com/user-attachments/assets/89d389c7-abb6-4cee-a271-3237af1566dc)
-![WhatsApp Image 2026-01-14 at 04 34 09 (6)](https://github.com/user-attachments/assets/aae80083-877b-4463-811d-030b8985ca83)
-![WhatsApp Image 2026-01-14 at 04 34 09](https://github.com/user-attachments/assets/6961dcac-4fde-4dfe-a6d3-8d28b254eb31)
-
-
 
 ## Features
 
@@ -33,6 +21,20 @@ A modern, feature-rich Tic-Tac-Toe game client built with JavaFX. Play locally w
 - **Score Tracking** - Track wins, losses, and draws with leaderboards
 - **Audio System** - Background music and sound effects for game events
 - **Video Animations** - Win/lose video animations for enhanced gameplay experience
+
+
+## Images
+![WhatsApp Image 2026-01-14 at 04 34 09 (1)](https://github.com/user-attachments/assets/cf510669-cef7-4b9a-beec-c6a11d0670cb)
+![WhatsApp Image 2026-01-14 at 04 35 48](https://github.com/user-attachments/assets/42b6547b-2c47-49ba-b64d-c18d050f4880)
+![WhatsApp Image 2026-01-14 at 04 36 19](https://github.com/user-attachments/assets/0931d41a-8e62-4676-a421-21a2ce96a485)
+![WhatsApp Image 2026-01-14 at 04 34 09 (2)](https://github.com/user-attachments/assets/09d1e0da-cbc9-438c-97f3-fa08b48e2f8e)
+![WhatsApp Image 2026-01-14 at 04 34 09](https://github.com/user-attachments/assets/6961dcac-4fde-4dfe-a6d3-8d28b254eb31)
+![WhatsApp Image 2026-01-14 at 04 34 09 (3)](https://github.com/user-attachments/assets/8b54faa5-a267-4f8c-9b0d-6788d8f1156c)
+![WhatsApp Image 2026-01-14 at 04 34 09 (4)](https://github.com/user-attachments/assets/3b675298-6f2d-45e3-8473-ce56a595bdd2)
+![WhatsApp Image 2026-01-14 at 04 34 09 (5)](https://github.com/user-attachments/assets/89d389c7-abb6-4cee-a271-3237af1566dc)
+![WhatsApp Image 2026-01-14 at 04 34 09 (6)](https://github.com/user-attachments/assets/aae80083-877b-4463-811d-030b8985ca83)
+
+
 
 ## Prerequisites
 
@@ -265,12 +267,10 @@ This project was developed by:
 - **Abdullah Elsobky**
 - **Ali Abdulkareem**
 
-
 ## License
 
-[Add license information if applicable]
+This project is part of an educational assignment.
 
 ## Contributing
 
-[Add contribution guidelines if applicable]
-
+This is a team project. For contributions, please coordinate with the team members listed above.
