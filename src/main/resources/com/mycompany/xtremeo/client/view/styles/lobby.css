@@ -1,0 +1,358 @@
+.root {
+    -primary: #f4af25;
+    -bg-dark: #221c10;
+    -surface-dark: #2d261a;
+    -surface-highlight: #3a3222;
+    -text-muted: #888888;
+    -text-dim: #555555;
+    -success: #2ecc71;
+    -danger: #e74c3c;
+}
+
+.lobby-container { -fx-background-color: -bg-dark; }
+
+.lobby-header {
+    -fx-background-color: -bg-dark;
+    -fx-border-color: -surface-highlight;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 14 36;
+}
+
+.logo-container {
+    -fx-background-color: rgba(244, 175, 37, 0.1);
+    -fx-background-radius: 8;
+    -fx-padding: 6;
+    -fx-pref-width: 38;
+    -fx-pref-height: 38;
+}
+
+.logo-x-dim { -fx-icon-color: rgba(244, 175, 37, 0.3); -fx-icon-size: 10; }
+.logo-x-bright { -fx-icon-color: -primary; -fx-icon-size: 10; }
+.logo-o-dim { -fx-icon-color: rgba(255, 255, 255, 0.2); -fx-icon-size: 10; }
+.header-title { -fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold; }
+
+.header-icon-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+    -fx-min-width: 44; -fx-min-height: 44;
+    -fx-padding: 0; -fx-cursor: hand;
+}
+.header-icon-btn:hover { -fx-background-color: rgba(255, 255, 255, 0.08); }
+.header-icon { -fx-icon-color: -text-muted; -fx-icon-size: 24; }
+.header-icon-btn:hover .header-icon { -fx-icon-color: white; }
+
+.notification-badge {
+    -fx-background-color: -primary;
+    -fx-background-radius: 50;
+    -fx-min-width: 10; -fx-min-height: 10;
+    -fx-max-width: 10; -fx-max-height: 10;
+}
+
+.logout-btn {
+    -fx-background-color: rgba(231, 76, 60, 0.12);
+    -fx-background-radius: 10;
+    -fx-padding: 10 20; -fx-cursor: hand;
+}
+.logout-btn:hover { -fx-background-color: rgba(231, 76, 60, 0.2); }
+.logout-icon { -fx-icon-color: -danger; -fx-icon-size: 18; }
+.logout-text { -fx-text-fill: -danger; -fx-font-size: 14; -fx-font-weight: bold; }
+
+.btn-back {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+    -fx-min-width: 44; -fx-min-height: 44;
+    -fx-padding: 0; -fx-cursor: hand;
+}
+.btn-back:hover { -fx-background-color: rgba(255, 255, 255, 0.05); }
+.btn-back-icon { -fx-icon-color: rgba(255, 255, 255, 0.4); -fx-icon-size: 24; }
+.btn-back:hover .btn-back-icon { -fx-icon-color: -primary; }
+
+.profile-sidebar {
+    -fx-background-color: -surface-dark;
+    -fx-border-color: -surface-highlight;
+    -fx-border-width: 0 1 0 0;
+}
+
+.profile-card { -fx-padding: 18 18; }
+
+.profile-avatar {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50;
+    -fx-min-width: 72; -fx-min-height: 72;
+    -fx-max-width: 72; -fx-max-height: 72;
+}
+
+.online-indicator {
+    -fx-background-color: -success;
+    -fx-background-radius: 50;
+    -fx-border-color: -surface-dark;
+    -fx-border-width: 3; -fx-border-radius: 50;
+    -fx-min-width: 18; -fx-min-height: 18;
+    -fx-max-width: 18; -fx-max-height: 18;
+}
+
+.profile-username { -fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; }
+
+.profile-tier-box {
+    -fx-background-color: rgba(244, 175, 37, 0.1);
+    -fx-background-radius: 16;
+    -fx-padding: 6 14;
+}
+.profile-tier { -fx-text-fill: -primary; -fx-font-size: 12; -fx-font-weight: bold; }
+.tier-icon { -fx-icon-color: -primary; -fx-icon-size: 14; }
+
+.stats-row { -fx-spacing: 20; }
+.stat-item { -fx-alignment: center; -fx-spacing: 3; }
+.stat-value { -fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: bold; }
+.stat-value-accent { -fx-text-fill: -primary; -fx-font-size: 20; -fx-font-weight: bold; }
+.stat-label { -fx-text-fill: -text-dim; -fx-font-size: 10; }
+
+.play-now-btn {
+    -fx-background-color: -primary;
+    -fx-background-radius: 12;
+    -fx-padding: 12 20; -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(244, 175, 37, 0.3), 12, 0, 0, 0);
+}
+.play-now-btn:hover { -fx-background-color: #ffbe3b; -fx-background-radius: 12; }
+.play-now-icon { -fx-icon-color: #181611; -fx-icon-size: 16; }
+.play-now-label { -fx-text-fill: #181611; -fx-font-size: 14; -fx-font-weight: bold; }
+
+.play-now-btn-matchmaking {
+    -fx-background-color: -surface-highlight;
+    -fx-background-radius: 12;
+    -fx-padding: 12 20; -fx-cursor: hand;
+    -fx-border-color: -primary;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+.play-now-btn-matchmaking:hover {
+    -fx-background-color: #443a2e;
+    -fx-border-color: #ffbe3b;
+}
+
+.top-players-section {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-background-radius: 14;
+    -fx-padding: 14 20;
+}
+
+.top-players-list, .top-players-list .viewport {
+    -fx-background-color: transparent;
+}
+
+.top-players-list .scroll-bar:vertical {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+}
+
+.top-players-list .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
+}
+
+
+.section-title { -fx-text-fill: -text-muted; -fx-font-size: 12; -fx-font-weight: bold; }
+
+.top-player-row {
+    -fx-spacing: 10;
+    -fx-padding: 8 12;
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-radius: 10;
+    -fx-alignment: center-left;
+    -fx-min-height: 40;
+    -fx-pref-height: 40;
+    -fx-max-height: 40;
+}
+.top-player-row:hover { -fx-background-color: rgba(255, 255, 255, 0.06); }
+
+.rank-number { -fx-text-fill: -primary; -fx-font-size: 14; -fx-font-weight: bold; -fx-min-width: 18; -fx-alignment: center; }
+.rank-number-gold {-fx-text-fill: #FFD700;}
+
+.rank-number-silver {-fx-text-fill: #C0C0C0;}
+
+.rank-number-bronze {-fx-text-fill: #CD7F32;}
+
+.rank-number-default {-fx-text-fill: #b0b0b0;}
+
+.top-player-avatar {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50;
+    -fx-min-width: 26; -fx-min-height: 26;
+    -fx-max-width: 26; -fx-max-height: 26;
+}
+.top-player-name { -fx-text-fill: white; -fx-font-size: 12; -fx-font-weight: bold; -fx-max-width: 120; }
+.top-player-xp { -fx-text-fill: -primary; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 55; -fx-alignment: center-left; }
+
+.player-list-container { -fx-padding: 20 24; }
+.lobby-title { -fx-text-fill: white; -fx-font-size: 24; -fx-font-weight: bold; }
+
+.online-indicator-dot {
+    -fx-background-color: -success;
+    -fx-background-radius: 50;
+    -fx-min-width: 10; -fx-min-height: 10;
+    -fx-max-width: 10; -fx-max-height: 10;
+}
+.online-count { -fx-text-fill: -text-muted; -fx-font-size: 14; }
+
+.search-container {
+    -fx-background-color: -surface-dark;
+    -fx-background-radius: 6;
+    -fx-padding: 2 8;
+    -fx-max-height: 28;
+}
+.search-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(136, 136, 136, 0.4);
+    -fx-font-size: 11;
+    -fx-padding: 0;
+    -fx-pref-width: 130;
+    -fx-pref-height: 22;
+    -fx-min-height: 22;
+    -fx-max-height: 22;
+}
+.search-icon { -fx-icon-color: -text-dim; -fx-icon-size: 12; }
+
+.players-scroll, .players-scroll .viewport { -fx-background-color: transparent; -fx-background: transparent; }
+.players-scroll .scroll-bar:vertical { -fx-background-color: transparent; -fx-pref-width: 6; }
+.players-scroll .scroll-bar:vertical .track { -fx-background-color: rgba(255,255,255,0.02); -fx-background-radius: 3; }
+.players-scroll .scroll-bar:vertical .thumb { -fx-background-color: rgba(255,255,255,0.08); -fx-background-radius: 3; }
+.players-scroll .scroll-bar:vertical .increment-button, .players-scroll .scroll-bar:vertical .decrement-button { -fx-padding: 0; -fx-pref-height: 0; }
+.players-scroll .scroll-bar:vertical .increment-arrow, .players-scroll .scroll-bar:vertical .decrement-arrow { -fx-padding: 0; -fx-shape: ""; }
+.players-scroll .scroll-bar:horizontal { -fx-pref-height: 0; -fx-opacity: 0; }
+
+.player-card {
+    -fx-background-color: -surface-dark;
+    -fx-background-radius: 14;
+    -fx-padding: 14;
+    -fx-border-color: transparent;
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+    -fx-min-height: 130;
+    -fx-max-height: 130;
+    -fx-pref-height: 130;
+}
+.player-card:hover { -fx-background-color: #352e1f; -fx-border-color: rgba(244,175,37,0.15); }
+
+.player-avatar { -fx-background-radius: 50; -fx-min-width: 44; -fx-min-height: 44; -fx-max-width: 44; -fx-max-height: 44; }
+.player-name { -fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold; }
+.player-tier { -fx-text-fill: -text-dim; -fx-font-size: 11; }
+.player-wins { -fx-text-fill: -success; -fx-font-size: 13; -fx-font-weight: bold; }
+.player-losses { -fx-text-fill: -danger; -fx-font-size: 11; }
+
+.challenge-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(244,175,37,0.4);
+    -fx-border-radius: 10;
+    -fx-text-fill: -primary;
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+    -fx-padding: 10 0;
+    -fx-cursor: hand;
+}
+.challenge-btn:hover { -fx-background-color: -primary; -fx-background-radius: 10; -fx-border-color: -primary; -fx-text-fill: #181611; }
+
+.challenge-banner {
+    -fx-background-color: linear-gradient(to right, #3a3222, #2d261a);
+    -fx-background-radius: 14;
+    -fx-padding: 14 20;
+    -fx-border-color: rgba(244, 175, 37, 0.3);
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+}
+
+.challenge-icon-container {
+    -fx-background-color: rgba(244, 175, 37, 0.15);
+    -fx-background-radius: 10;
+    -fx-min-width: 40; -fx-min-height: 40;
+    -fx-max-width: 40; -fx-max-height: 40;
+}
+.challenge-icon { -fx-icon-color: -primary; -fx-icon-size: 20; }
+
+.challenger-avatar {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50;
+    -fx-min-width: 44; -fx-min-height: 44;
+    -fx-max-width: 44; -fx-max-height: 44;
+}
+
+.challenge-title { -fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold; }
+.challenge-from { -fx-text-fill: -primary; -fx-font-size: 13; }
+.challenge-countdown {
+    -fx-text-fill: rgba(255, 255, 255, 0.8);
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-background-radius: 8;
+    -fx-padding: 4 8;
+}
+
+.accept-btn {
+    -fx-background-color: -primary;
+    -fx-background-radius: 10;
+    -fx-text-fill: #181611;
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
+    -fx-padding: 10 24;
+    -fx-cursor: hand;
+}
+.accept-btn:hover { -fx-background-color: #ffbe3b; -fx-background-radius: 10; }
+
+.decline-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-radius: 10;
+    -fx-text-fill: rgba(255, 255, 255, 0.7);
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+}
+.decline-btn:hover { -fx-background-color: rgba(255, 255, 255, 0.05); -fx-background-radius: 10; -fx-text-fill: white; }
+
+/* Banner Container */
+.banner-container {
+    -fx-padding: 0;
+}
+
+.player-card-ingame { -fx-opacity: 0.5; }
+.ingame-badge { -fx-background-color: rgba(241,196,15,0.12); -fx-background-radius: 8; -fx-padding: 6 12; }
+.ingame-text { -fx-text-fill: #f1c40f; -fx-font-size: 11; -fx-font-weight: bold; }
+.spectate-btn { -fx-background-color: transparent; -fx-background-radius: 12; -fx-border-color: rgba(255,255,255,0.08); -fx-border-radius: 12; -fx-text-fill: rgba(255,255,255,0.25); -fx-font-size: 14; -fx-padding: 12 0; }
+
+.chat-sidebar {
+    -fx-background-color: -surface-dark;
+    -fx-border-color: -surface-highlight;
+    -fx-border-width: 0 0 0 1;
+    -fx-pref-width: 320;
+}
+
+.chat-header { -fx-background-color: rgba(0,0,0,0.2); -fx-padding: 16 20; }
+.chat-title { -fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; }
+.live-dot { -fx-background-color: -success; -fx-background-radius: 50; -fx-min-width: 8; -fx-min-height: 8; -fx-max-width: 8; -fx-max-height: 8; }
+.live-text { -fx-text-fill: -success; -fx-font-size: 12; }
+
+.chat-messages { -fx-padding: 16 20; }
+.chat-scroll, .chat-scroll .viewport { -fx-background-color: transparent; -fx-background: transparent; }
+.chat-scroll .scroll-bar { -fx-opacity: 0; -fx-pref-width: 0; -fx-pref-height: 0; }
+
+.message-avatar { -fx-background-color: rgba(255,255,255,0.06); -fx-background-radius: 50; -fx-min-width: 38; -fx-min-height: 38; -fx-max-width: 38; -fx-max-height: 38; }
+.message-sender { -fx-text-fill: white; -fx-font-size: 13; -fx-font-weight: bold; }
+.message-time { -fx-text-fill: -text-dim; -fx-font-size: 11; }
+.message-bubble { -fx-background-color: rgba(255,255,255,0.04); -fx-background-radius: 4 16 16 16; -fx-padding: 12 16; }
+.message-text { -fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 14; }
+.message-bubble-self { -fx-background-color: rgba(244,175,37,0.1); -fx-background-radius: 16 4 16 16; -fx-padding: 12 16; }
+.message-text-self { -fx-text-fill: -primary; -fx-font-size: 14; }
+
+.quick-chat-container { -fx-padding: 12 20; -fx-background-color: rgba(0,0,0,0.12); }
+.quick-chat-btn { -fx-background-color: rgba(255,255,255,0.04); -fx-background-radius: 8; -fx-text-fill: -text-muted; -fx-font-size: 12; -fx-padding: 8 14; -fx-cursor: hand; }
+.quick-chat-btn:hover { -fx-background-color: rgba(244,175,37,0.1); -fx-background-radius: 8; -fx-text-fill: -primary; }
+
+.chat-input-container { -fx-background-color: rgba(0,0,0,0.2); -fx-padding: 16 20; }
+.chat-input-wrapper { -fx-background-color: -bg-dark; -fx-background-radius: 12; -fx-padding: 6 8 6 18; }
+.chat-input { -fx-background-color: transparent; -fx-text-fill: white; -fx-prompt-text-fill: rgba(136,136,136,0.3); -fx-font-size: 14; -fx-padding: 10 0; }
+.send-btn { -fx-background-color: -primary; -fx-background-radius: 10; -fx-min-width: 40; -fx-min-height: 40; -fx-padding: 0; -fx-cursor: hand; }
+.send-btn:hover { -fx-background-color: #ffbe3b; -fx-background-radius: 10; }
+.send-icon { -fx-icon-color: #181611; -fx-icon-size: 18; }

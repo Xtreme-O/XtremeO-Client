@@ -1,0 +1,90 @@
+/* ========================================
+   LOBBY HEADER STYLES
+   ======================================== */
+
+.lobby-header {
+    -fx-background-color: -bg-dark;
+    -fx-border-color: -surface-highlight;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 10 28;
+}
+
+.logo-container {
+    -fx-background-color: rgba(244, 175, 37, 0.1);
+    -fx-background-radius: 6;
+    -fx-padding: 4 5;
+    -fx-pref-width: 32;
+    -fx-pref-height: 32;
+}
+
+.logo-x-dim { -fx-icon-color: rgba(244, 175, 37, 0.3); -fx-icon-size: 8; }
+.logo-x-bright { -fx-icon-color: #f4af25; -fx-icon-size: 8; }
+.logo-o-dim { -fx-icon-color: rgba(255, 255, 255, 0.2); -fx-icon-size: 8; }
+
+.header-title {
+    -fx-text-fill: white;
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
+
+.header-icon-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.header-icon-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+}
+
+.header-icon {
+    -fx-icon-color: #888888;
+    -fx-icon-size: 20;
+}
+
+.header-icon-btn:hover .header-icon {
+    -fx-icon-color: white;
+}
+
+.notification-badge {
+    -fx-background-color: #f4af25;
+    -fx-background-radius: 50;
+    -fx-min-width: 7;
+    -fx-min-height: 7;
+    -fx-max-width: 7;
+    -fx-max-height: 7;
+}
+
+.logout-btn {
+    -fx-background-color: rgba(231, 76, 60, 0.12);
+    -fx-background-radius: 8;
+    -fx-padding: 6 14;
+    -fx-cursor: hand;
+}
+
+.logout-btn:hover {
+    -fx-background-color: rgba(231, 76, 60, 0.2);
+}
+
+.logout-icon { -fx-icon-color: #e74c3c; -fx-icon-size: 16; }
+.logout-text { -fx-text-fill: #e74c3c; -fx-font-size: 12; -fx-font-weight: bold; }
+
+.btn-back {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.btn-back:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn-back-icon { -fx-icon-color: rgba(255, 255, 255, 0.4); -fx-icon-size: 20; }
+.btn-back:hover .btn-back-icon { -fx-icon-color: #f4af25; }
+

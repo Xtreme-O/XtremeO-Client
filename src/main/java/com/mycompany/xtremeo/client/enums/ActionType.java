@@ -1,0 +1,22 @@
+package com.mycompany.xtremeo.client.enums;
+
+public enum ActionType {
+    REGISTER,
+    LOGIN,
+    LOGOUT,
+    MOVE,
+    GLOBAL_MESSAGE,
+    IN_GAME_MESSAGE,
+    ERROR,
+    UNKNOWN,
+    INVITE,
+    INVITE_CONFIRMED,
+    INVITE_DECLINED,
+    PARTNER_DISCONNECTED,
+    SESSION_MESSAGE,
+    SESSION_ENDED,
+    LOBBY,
+    ACTIVE_PLAYER_DISCONNECTED,
+    ACTIVE_PLAYER_CONNECTED,
+    INVITE_ALL
+}
