@@ -57,12 +57,12 @@ public class LobbyService {
 
     public void logout() {
         System.out.println("Logging out...");
-        matchmakingService.clear();
         boolean success = true;
         LogoutService.getInstance().logout(playerService.getCurrentPlayer().player().getUsername());
         if (onLogout != null) {
             onLogout.accept(success);
         }
+        matchmakingService.clear();
     }
 
 

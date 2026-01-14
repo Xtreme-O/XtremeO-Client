@@ -90,6 +90,8 @@ public class MatchmakingService {
 
     public void clear() {
         instance = null;
+        PlayerService.getInstance().clear();
+        ChatService.getInstance().clear();
         pendingChallenges.clear();
     }
 }
