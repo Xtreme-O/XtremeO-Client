@@ -117,14 +117,14 @@ public class BoardController {
             scoreO.setText(viewModel.getSecondPlayer().name());
         } else {
             viewModel.setOnGameOverListener(this::onGameOver);
-            
+
             if (selectedMode == GameMode.ONLINE_PLAYER) {
                 InGamePlayer localPlayer = viewModel.getLocalPlayer();
                 InGamePlayer secondPlayer = viewModel.getSecondPlayer();
-                
+
                 InGamePlayer xPlayer = null;
                 InGamePlayer oPlayer = null;
-                
+
                 if (localPlayer != null && "X".equals(localPlayer.symbol())) {
                     xPlayer = localPlayer;
                     oPlayer = secondPlayer;
@@ -138,7 +138,7 @@ public class BoardController {
                     xPlayer = localPlayer;
                     oPlayer = secondPlayer;
                 }
-                
+
                 if (xPlayer != null) {
                     scoreX.setText(xPlayer.name());
                 }
@@ -149,7 +149,7 @@ public class BoardController {
                 scoreX.textProperty().bind(viewModel.playerXScoreProperty().asString());
                 scoreO.textProperty().bind(viewModel.playerOScoreProperty().asString());
             }
-            
+
             UIUtils.setupPulseAnimation(turnIndicatorContainer);
         }
     }
@@ -157,7 +157,7 @@ public class BoardController {
     private void initChatPanel() {
         if (chatPanelController != null) {
             chatPanelController.init(selectedMode, viewModel.getLocalPlayer(), viewModel.getSecondPlayer());
-            
+
             if (selectedMode != GameMode.ONLINE_PLAYER) {
                 chatPanelController.addSystemMessage("Game Started!");
             }
@@ -207,7 +207,7 @@ public class BoardController {
 
     void addLogEntry(Move move) {
         if (selectedMode != GameMode.ONLINE_PLAYER && chatPanelController != null) {
-            String logMessage = move.player().name() + " placed " + move.player().symbol() 
+            String logMessage = move.player().name() + " placed " + move.player().symbol()
                     + " at [" + move.row() + "," + move.col() + "]";
             chatPanelController.addLogEntry(move.player(), logMessage);
         }
@@ -219,15 +219,14 @@ public class BoardController {
             System.out.println("The game ended in a draw between " + p1.name() + " and " + p2.name());
         } else {
             if (selectedMode != GameMode.WITH_FRIEND) {
-                VideoService videoService = VideoService.getInstance();
                 InGamePlayer localPlayer = viewModel.getLocalPlayer();
                 if (localPlayer != null && winner.symbol().equals(localPlayer.symbol())) {
                     System.out.println("you wins");
-                    playWinVideo(videoService);
+                    playWinVideo();
                     audioService.playSoundEffect(AudioFiles.WIN_SOUND);
                 } else {
                     System.out.println("u loses");
-                    playLoseVideo(videoService);
+                    playLoseVideo();
                     audioService.playSoundEffect(AudioFiles.LOSE_SOUND);
                 }
             } else {
@@ -239,31 +238,30 @@ public class BoardController {
         viewModel.saveRecording(winner);
     }
 
-    private void playWinVideo(VideoService videoService) {
+    private void playWinVideo() {
         javafx.scene.media.MediaView mediaView = new javafx.scene.media.MediaView();
         addMediaViewToScene(mediaView);
-        videoService.playVideo(mediaView, "win_video.mp4");
-    }
+        VideoService.getInstance().playVideo("win_video.mp4", "You Won!");    }
 
-    private void playLoseVideo(VideoService videoService) {
+    private void playLoseVideo() {
         javafx.scene.media.MediaView mediaView = new javafx.scene.media.MediaView();
         addMediaViewToScene(mediaView);
-        videoService.playVideo(mediaView, "lose_video.mp4");
+        VideoService.getInstance().playVideo("draw_video.mp4", "It's a Draw!");
     }
 
     private void addMediaViewToScene(javafx.scene.media.MediaView mediaView) {
         if (gameGrid == null || gameGrid.getScene() == null) {
             return;
         }
-        
+
         javafx.scene.Parent root = gameGrid.getScene().getRoot();
-        
+
         // If root is already a StackPane, add MediaView to it
         if (root instanceof javafx.scene.layout.StackPane stackPane) {
             stackPane.getChildren().add(mediaView);
             return;
         }
-        
+
         // Otherwise, wrap root in a StackPane and add MediaView
         javafx.scene.layout.StackPane wrapper = new javafx.scene.layout.StackPane();
         wrapper.getChildren().add(root);
@@ -296,7 +294,7 @@ public class BoardController {
         if (viewModel != null && viewModel.isReplayMode() && replayDriver != null) {
             replayDriver.stopAutoPlay();
         }
-        
+
         if (viewModel != null && viewModel.isReplayMode()) {
             if (replayHistoryEntry != null && replayHistoryEntry.gameMode() == GameMode.ONLINE_PLAYER) {
                 Navigator.setRoot(Screen.LOBBY.getName());
@@ -305,12 +303,12 @@ public class BoardController {
             }
             return;
         }
-        
+
         if (selectedMode == GameMode.ONLINE_PLAYER && PlayerService.getInstance().getCurrentPlayer() != null) {
             SessionMessageService.getInstance().sendEndSessionMessage();
             return;
         }
-        
+
         Navigator.setRoot(Screen.MAIN.getName());
     }
 
